@@ -1,0 +1,14 @@
+ADS7953 0～5V 独立工程
+======================
+
+量程配置：Range 2，Auto-2 进入命令 16'h3C40
+电压换算：sample_mv = round(sample_code * 5000 / 4096)
+
+Quartus 工程：ads7953_16ch.qpf
+SRAM 下载文件：output_files/ads7953_16ch.sof
+EPCS64 烧录文件：output_file.jic
+Windows 上位机：host/dist/ADS7953_0-5V.exe
+
+仿真命令（在本目录执行）：
+    vsim -c -do "do sim/run.do; quit -f"
+

@@ -1,0 +1,110 @@
+ADS7953 SignalTap II 硬件调试说明
+================================
+
+一、已经完成的配置
+
+SignalTap 文件：signaltap/ads7953_debug.stp
+采样时钟：clk，上升沿，默认 50 MHz
+采样深度：4096 点，覆盖约 81.92 us
+触发条件：trig_internal 为高电平
+触发位置：Pre，保留少量触发前数据，主要记录触发后的完整扫描
+工程绑定：ads7953_16ch.qsf 已启用 SignalTap，并引用上述 STP 文件
+
+trig_internal 由串口接收命令产生：FPGA 在收到 ASCII 字符 T（0x54）且 ADC 空闲时，
+产生一个 clk 周期宽的脉冲并启动一轮扫描。
+4096 点足以观察一次约 40 us 的 CH0～CH15 扫描及其前后的空闲状态。
+
+二、捕获的信号
+
+触发与板级接口：
+
+    trig_internal 串口命令产生的单次扫描触发
+    uart_rxd      上位机发送到FPGA的串口数据，PIN_P16
+    uart_txd      FPGA返回到上位机的串口数据，PIN_P20
+    uart_packet_busy  返回数据帧正在组织或发送
+    adc_cs_n      ADS7953 片选，低有效
+    adc_sclk      ADS7953 串行时钟
+    adc_sdi       FPGA 发给 ADS7953 的命令数据
+    adc_sdo       ADS7953 返回的数据
+
+控制状态：
+
+    ready         可以接受新触发
+    busy          一轮扫描正在执行
+    sample_valid  当前通道结果有效，单 clk 脉冲
+    scan_done     16 路全部完成，单 clk 脉冲
+    debug_state   状态机状态：0 上电等待、1 空闲、2 帧开始、3 SPI 移位、4 帧间隔
+
+采样数据：
+
+    sample_channel          当前有效通道号 0～15
+    sample_code             当前通道 12 位原始 ADC 码
+    sample_mv               当前通道换算后的整数毫伏值
+    debug_expected_channel  模块期望收到的下一个通道号
+    debug_tx_word           当前发送的 16 位命令
+    debug_rx_shift          当前接收的 16 位返回字
+
+推荐显示进制：
+
+    sample_channel、debug_expected_channel、debug_state：Unsigned
+    sample_mv：Unsigned
+    sample_code、debug_tx_word、debug_rx_shift：Hexadecimal
+    其他单比特信号：Binary
+
+三、上板操作步骤
+
+1. 用 Quartus 打开 ads7953_16ch.qpf，然后执行 Processing -> Start Compilation。
+2. 确认编译消息包含：
+
+       Successfully connected in-system debug instance "auto_signaltap_0"
+
+3. 打开 Tools -> SignalTap II Logic Analyzer。
+4. 如果没有自动载入，打开 signaltap/ads7953_debug.stp。
+5. 在 Hardware 中选择 USB-Blaster，在 Device 中选择目标 EP4CE40。
+6. SOF 应指向 output_files/ads7953_16ch.sof；先把该 SOF 下载到 FPGA。
+7. 点击 Run Analysis（播放/运行按钮）让 SignalTap 进入等待触发状态。
+8. 在上位机中连接串口，然后点击“触发一次采集”。
+9. 捕获完成后查看波形。如果要重复采集，重新点击 Run Analysis，再点击一次触发按钮。
+
+四、正常波形应该是什么样
+
+1. 触发前 ready=1、busy=0、adc_cs_n=1、adc_sclk=0。
+2. trig_internal 脉冲经过采集内核的同步后，ready 变为 0，busy 变为 1。
+3. debug_tx_word 首先为 93C0，下一帧为 3C40，随后保持 0000。
+4. adc_cs_n 每次拉低期间应有 16 个完整 adc_sclk 周期。
+5. 配置和流水线帧结束后，sample_valid 应出现 16 次。
+6. 每次 sample_valid=1 时，sample_channel 应从 0 连续增加到 15。
+7. sample_code 是实际 ADC 原始码；sample_mv 是按 5.000 V 满量程换算的毫伏值。
+8. CH15 完成后 scan_done 脉冲一个 clk，随后 busy=0、ready=1。
+
+五、常见异常定位
+
+一直没有触发：
+    检查 SignalTap 是否已经 Run Analysis、rst_n 是否释放、50 MHz clk 是否正常，以及
+    捕获条件是否仍为 trig_internal=1，并确认上位机已连接正确 COM 口且使用 115200 8N1。
+
+busy 一直为 0：
+    FPGA 没有产生或识别到内部触发，优先检查复位和 50 MHz clk。
+
+有 SPI 时钟但没有 sample_valid：
+    查看 debug_rx_shift[15:12]。如果通道号没有出现 0～15，检查 SDO 接线、SPI 边沿、
+    ADS7953 供电和配置字。
+
+sample_code 全为 0、FFF 或随机变化：
+    检查 MXO 是否连接 AINP、REFP/REFM 参考电压、AINM/AGND、模拟输入范围及信号源
+    阻抗。纯数字 SPI 正常并不能保证模拟采样链路正确。
+
+通道号正确但 sample_mv 不合理：
+    先看 sample_code。换算默认假设 VREF=2.500 V 且 Range 2；如果硬件参考或量程不同，
+    必须同步修改 FPGA 换算参数。
+
+六、资源说明
+
+当前配置以“完整观察一次扫描”为优先，捕获 80 位、深度 4096。它会占用较多片内
+RAM，但已在 EP4CE40F23C8 上完成布局布线。如果以后需要给其他逻辑腾出 RAM，可以把
+采样深度降到 2048，或减少 debug_tx_word/debug_rx_shift/sample_mv 等捕获信号。
+
+七、串口触发
+
+串口参数为 115200、8N1。上位机发送 0x54 后产生 trig_internal；扫描期间或串口数据
+帧仍在发送期间收到的新命令不会排队。完整协议见“串口上位机说明.txt”。

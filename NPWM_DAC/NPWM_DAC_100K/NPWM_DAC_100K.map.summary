@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Sun Sep 20 09:58:37 2026
+Quartus II 64-Bit Version : 13.1.0 Build 162 10/23/2013 SJ Full Version
+Revision Name : NPWM_DAC_100K
+Top-level Entity Name : npwm_dac_100k
+Family : Cyclone IV E
+Total logic elements : 40
+    Total combinational functions : 35
+    Dedicated logic registers : 23
+Total registers : 23
+Total pins : 12
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

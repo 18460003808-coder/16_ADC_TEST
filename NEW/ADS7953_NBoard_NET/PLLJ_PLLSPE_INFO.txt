@@ -1,0 +1,5 @@
+PLL_Name	ads7953_Nboard_NET_top:u_core|gmii_pll_125m:u_gmii_pll|altpll:u_altpll|altpll_7392:auto_generated|pll1
+PLLJITTER	35
+PLLSPEmax	84
+PLLSPEmin	-53
+

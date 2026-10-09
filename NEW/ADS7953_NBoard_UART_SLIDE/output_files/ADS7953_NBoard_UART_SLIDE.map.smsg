@@ -1,0 +1,1 @@
+Info (10281): Verilog HDL Declaration information at ads7953_Nboard_uart_bridge.v(35): object "RX_CHECKSUM" differs only in case from object "rx_checksum" in the same scope

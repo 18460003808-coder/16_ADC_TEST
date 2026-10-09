@@ -1,0 +1,3 @@
+`ifndef ADS7953_BOARD_COUNT
+`define ADS7953_BOARD_COUNT 1
+`endif

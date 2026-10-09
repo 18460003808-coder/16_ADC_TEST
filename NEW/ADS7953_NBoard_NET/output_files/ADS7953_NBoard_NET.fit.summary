@@ -1,0 +1,16 @@
+Fitter Status : Successful - Sun Sep 27 16:28:54 2026
+Quartus II 64-Bit Version : 13.1.0 Build 162 10/23/2013 SJ Full Version
+Revision Name : ADS7953_NBoard_NET
+Top-level Entity Name : ads7953_Nboard_NET_hw_top
+Family : Cyclone IV E
+Device : EP4CE30F23C8
+Timing Models : Final
+Total logic elements : 2,379 / 28,848 ( 8 % )
+    Total combinational functions : 1,793 / 28,848 ( 6 % )
+    Dedicated logic registers : 1,523 / 28,848 ( 5 % )
+Total registers : 1523
+Total pins : 50 / 329 ( 15 % )
+Total virtual pins : 0
+Total memory bits : 720 / 608,256 ( < 1 % )
+Embedded Multiplier 9-bit elements : 0 / 132 ( 0 % )
+Total PLLs : 1 / 4 ( 25 % )

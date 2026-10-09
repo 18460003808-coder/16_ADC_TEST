@@ -1,0 +1,62 @@
+m255
+K3
+13
+cModel Technology
+Z0 dD:\altera\13.1
+vads7953_2board_top
+!i10b 1
+!s100 [dS8JzX`mC:Z?LRCHz?XP0
+Iz;DIc:cgjGh]BNlDHT8z21
+VAf>M:n>UXIf[PkCWLYW9Z1
+Z1 dE:\Share\16_ADC_TEST\ADS7953_20Board_SharedSPI\fpga_2board\sim
+w1788943789
+8E:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/rtl/ads7953_2board_top.v
+FE:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/rtl/ads7953_2board_top.v
+L0 3
+Z2 OV;L;10.1d;51
+r1
+!s85 0
+31
+!s108 1788949606.417000
+!s107 E:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/rtl/ads7953_2board_top.v|
+!s90 -reportprogress|300|-work|work|E:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/rtl/ads7953_2board_top.v|
+!s101 -O0
+Z3 o-work work -O0
+vads7953_model
+Z4 IJzKUfU2AUlW1iUe@JUFKT2
+Z5 V0FzfAJjXDG]hj48a3X5eL2
+R1
+Z6 w1788943921
+Z7 8E:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/sim/tb_ads7953_2board.v
+Z8 FE:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/sim/tb_ads7953_2board.v
+L0 3
+R2
+r1
+31
+Z9 !s108 1788949606.351000
+Z10 !s107 E:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/sim/tb_ads7953_2board.v|
+Z11 !s90 -reportprogress|300|-work|work|E:/Share/16_ADC_TEST/ADS7953_20Board_SharedSPI/fpga_2board/sim/tb_ads7953_2board.v|
+R3
+!i10b 1
+Z12 !s100 ?AMP23PJhUNcfHz`m^Q<<2
+!s85 0
+!s101 -O0
+vtb_ads7953_2board
+Z13 IZ9HjC6Pa9:=eIb:VcPCeZ2
+Z14 VAbAY[iVZaaa0>ebPVn9?=3
+R1
+R6
+R7
+R8
+L0 67
+R2
+r1
+31
+R9
+R10
+R11
+R3
+!i10b 1
+Z15 !s100 SNWTP:7h;Ri@TN^<RNm5G1
+!s85 0
+!s101 -O0

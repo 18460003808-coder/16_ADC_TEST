@@ -1,0 +1,10 @@
+/db/
+/incremental_db/
+/work/
+/modelsim.ini
+/transcript
+/vsim.wlf
+/host/build/
+/host/__pycache__/
+/output_files/*
+!/output_files/ads7953_20board.sof

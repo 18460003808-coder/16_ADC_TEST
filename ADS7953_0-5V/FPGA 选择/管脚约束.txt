@@ -1,0 +1,10 @@
+CS# -- PIN_K19
+SCLK -- PIN_M19
+SDI -- PIN_K21
+SDO -- PIN_K22
+sysclk -- PIN_G1
+rst_n -- PIN_E4
+
+uart_rxd -- PIN_P16
+uart_txd -- PIN_P20
+

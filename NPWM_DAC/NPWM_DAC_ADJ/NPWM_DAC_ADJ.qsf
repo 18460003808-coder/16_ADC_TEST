@@ -1,0 +1,18 @@
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE6E22C8
+set_global_assignment -name TOP_LEVEL_ENTITY npwm_dac_adjustable
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
+set_global_assignment -name LAST_QUARTUS_VERSION 13.1
+set_global_assignment -name VERILOG_FILE rtl/npwm_dac_adjustable.v
+set_global_assignment -name SDC_FILE NPWM_DAC_ADJ.sdc
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+
+set_location_assignment PIN_23 -to sysclk
+set_location_assignment PIN_91 -to rst_n
+set_location_assignment PIN_90 -to rst_pwm_n
+set_location_assignment PIN_89 -to trig
+set_location_assignment PIN_72 -to pwm_out
+
+# period_count and pwm_duty are intended for connection to internal logic.
+# No physical pins are assigned to these buses.
+

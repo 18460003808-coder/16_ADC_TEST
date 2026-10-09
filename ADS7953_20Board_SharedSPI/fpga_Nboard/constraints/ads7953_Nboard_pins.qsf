@@ -1,0 +1,46 @@
+# System clock, reset and USB-UART
+set_location_assignment PIN_G1  -to clk
+set_location_assignment PIN_E4  -to rst_n
+set_location_assignment PIN_P16 -to uart_rxd
+set_location_assignment PIN_P20 -to uart_txd
+
+# J11 independent board selects
+set_location_assignment PIN_B21 -to adc_cs_n[0]
+set_location_assignment PIN_C20 -to adc_cs_n[1]
+set_location_assignment PIN_C22 -to adc_cs_n[2]
+set_location_assignment PIN_D21 -to adc_cs_n[3]
+set_location_assignment PIN_E21 -to adc_cs_n[4]
+set_location_assignment PIN_F17 -to adc_cs_n[5]
+set_location_assignment PIN_F20 -to adc_cs_n[6]
+set_location_assignment PIN_F22 -to adc_cs_n[7]
+set_location_assignment PIN_G18 -to adc_cs_n[8]
+set_location_assignment PIN_H18 -to adc_cs_n[9]
+set_location_assignment PIN_H20 -to adc_cs_n[10]
+set_location_assignment PIN_H22 -to adc_cs_n[11]
+set_location_assignment PIN_J18 -to adc_cs_n[12]
+set_location_assignment PIN_J22 -to adc_cs_n[13]
+set_location_assignment PIN_K18 -to adc_cs_n[14]
+set_location_assignment PIN_K21 -to adc_cs_n[15]
+set_location_assignment PIN_L21 -to adc_cs_n[16]
+set_location_assignment PIN_M19 -to adc_cs_n[17]
+set_location_assignment PIN_M21 -to adc_cs_n[18]
+set_location_assignment PIN_M22 -to adc_cs_n[19]
+
+# J11 shared SPI bus
+set_location_assignment PIN_G17 -to adc_sdo
+set_location_assignment PIN_H19 -to adc_sdi
+set_location_assignment PIN_J17 -to adc_sclk
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rst_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_rxd
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_txd
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_cs_n[*]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdo
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdi
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sclk
+
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to uart_txd
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_cs_n[*]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_sdi
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_sclk

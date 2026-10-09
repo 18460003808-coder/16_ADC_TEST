@@ -1,0 +1,20 @@
+# Device and top-level pin fragment for EP4CE40F23C8.
+# Rename the ports here if the reader is wrapped by another top-level module.
+set_global_assignment -name DEVICE EP4CE40F23C8
+set_location_assignment PIN_K19 -to adc_cs_n
+set_location_assignment PIN_M19 -to adc_sclk
+set_location_assignment PIN_K21 -to adc_sdi
+set_location_assignment PIN_K22 -to adc_sdo
+set_location_assignment PIN_G1  -to clk
+set_location_assignment PIN_E4  -to rst_n
+set_location_assignment PIN_P16 -to uart_rxd
+set_location_assignment PIN_P20 -to uart_txd
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_cs_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdi
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdo
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rst_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_rxd
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_txd

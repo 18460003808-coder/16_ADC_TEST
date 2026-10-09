@@ -1,0 +1,5 @@
+PLL_Name	gmii_pll_125m:u_pll|altpll:u_altpll|altpll_7392:auto_generated|pll1
+PLLJITTER	35
+PLLSPEmax	84
+PLLSPEmin	-53
+

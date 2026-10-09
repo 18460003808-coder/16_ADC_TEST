@@ -1,0 +1,113 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 0.728
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Setup 'clk_50m'
+Slack : 2.588
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Setup 'gmii_rx_clk'
+Slack : 2.697
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'clk_50m'
+Slack : 0.444
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 0.451
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'gmii_rx_clk'
+Slack : 0.485
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'gmii_rx_clk'
+Slack : 3.594
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 3.691
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk_50m'
+Slack : 9.621
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 1.227
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'gmii_rx_clk'
+Slack : 3.008
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'clk_50m'
+Slack : 3.911
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'clk_50m'
+Slack : 0.396
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 0.399
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'gmii_rx_clk'
+Slack : 0.430
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'gmii_rx_clk'
+Slack : 3.450
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 3.696
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk_50m'
+Slack : 9.618
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 5.083
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'gmii_rx_clk'
+Slack : 5.780
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'clk_50m'
+Slack : 12.568
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'clk_50m'
+Slack : 0.185
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 0.185
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'gmii_rx_clk'
+Slack : 0.201
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'gmii_rx_clk'
+Slack : 3.142
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'u_pll|u_altpll|auto_generated|pll1|clk[0]'
+Slack : 3.754
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk_50m'
+Slack : 9.208
+TNS   : 0.000
+
+------------------------------------------------------------

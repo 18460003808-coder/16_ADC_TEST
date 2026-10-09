@@ -1,0 +1,7 @@
+sim/work/
+sim/transcript
+sim/vsim.wlf
+sim/modelsim.ini
+db/
+incremental_db/
+output_files/

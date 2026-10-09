@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Wed Sep 09 17:38:22 2026
+Quartus II 64-Bit Version : 13.1.0 Build 162 10/23/2013 SJ Full Version
+Revision Name : ads7953_16ch
+Top-level Entity Name : ads7953_top
+Family : Cyclone IV E
+Total logic elements : 2,389
+    Total combinational functions : 1,457
+    Dedicated logic registers : 1,648
+Total registers : 1648
+Total pins : 8
+Total virtual pins : 77
+Total memory bits : 339,968
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

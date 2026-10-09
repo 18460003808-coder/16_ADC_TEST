@@ -1,0 +1,185 @@
+ADS7953 16 路采集仿真信号说明
+==============================
+
+一、怎样运行仿真
+
+在 E:/Share/16_ADC_TEST 目录启动 ModelSim，在 Transcript 输入：
+
+    do sim/run.do
+
+脚本会编译 rtl/ads7953_top.v、rtl/ads7953_16ch_reader.v 和测试平台，自动加入
+本文所述信号并运行三次串口命令触发扫描。正常结束应显示：
+
+    Scan 1 complete: CH0=100, CH15=10f, samples=16
+    Scan 2 complete: CH0=200, CH15=20f, samples=16
+    Scan 3 complete: CH0=300, CH15=30f, samples=16
+    PASS: 3 UART-triggered scans and data packets passed.
+
+二、Clock / control 分组
+
+1. clk
+   FPGA 系统时钟，仿真中为 50 MHz，周期 20 ns。模块中的状态机、SPI 分频、数据
+   缓存和输出脉冲都在 clk 上升沿工作。
+
+2. rst_n
+   低电平有效复位。仿真开始时保持为 0，100 ns 后拉高。复位时 CS# 为高、SCLK
+   为低，模块处于上电等待状态。
+
+3. trig_internal
+   UART 接收器识别 ASCII 字符 T（0x54）后产生的一轮采集启动脉冲，宽度为一个 clk
+   周期。脉冲进入采集内核的两级同步器后才启动扫描，因此到 CS# 拉低之间有数个 clk
+   延迟。硬件为115200 baud；仿真为缩短时间使用5 Mbaud。
+
+4. uart_rxd
+   PC到FPGA的串口线。测试平台按8N1、低位先发的格式发送0x54，空闲状态为高电平。
+
+5. uart_txd
+   FPGA到PC的串口线。每轮扫描结束后发送A5、5A、20、32字节采样数据和1字节校验。
+
+6. uart_packet_busy
+   FPGA正在组织或发送结果帧时为1。该信号为1期间，新触发命令不会被接受。
+
+7. ready
+   模块可以接受新触发时为 1。复位释放后，模块先等待约 2 us，再把 ready 拉高。
+   接收到有效 trig 后 ready 变为 0；本轮扫描完成后重新变为 1。
+
+8. busy
+   采集进行标志。接受 trig 后置 1，包括配置帧、流水线丢弃帧和 16 个有效数据帧；
+   CH15 保存完成后置 0。正常情况下 ready 与 busy 互为相反状态。
+
+9. scan_done
+   一轮完整扫描完成脉冲，只保持一个 clk 周期。它为 1 时，adc_codes 中 CH0～CH15
+   已经全部更新，可以由后级逻辑一次性读取。
+
+10. dut/u_ads7953_reader/state
+   采集模块状态机：
+
+       0 = ST_POWERUP  上电等待
+       1 = ST_IDLE     等待 trig
+       2 = ST_START    准备新 SPI 帧并拉低 CS#
+       3 = ST_SHIFT    发送和接收 16 个串行位
+       4 = ST_GAP      帧间 CS# 高电平间隔
+
+11. dut/u_ads7953_reader/discard_count
+   配置与流水线帧计数。触发后先发送 Auto-2 配置和进入模式命令；这些阶段返回的
+   数据不是本轮完整 CH0 扫描结果，因此不写入 adc_codes。数值到 3 后才允许收集。
+
+12. dut/u_ads7953_reader/collecting
+   找到本轮第一个有效 CH0 后变为 1，表示已经与 ADC 返回的通道序列同步。若返回
+   通道号不连续，模块等待新的 CH0 重新同步。
+
+13. dut/u_ads7953_reader/expected_channel
+    当前期望收到的通道号。开始收集后应依次显示 1、2、3……15。收到对应通道后
+    才把低 12 位转换码写入该通道的缓存位置。
+
+三、ADS7953 SPI 分组
+
+1. cs_n
+   ADS7953 片选，低电平有效。每个低电平区间是一帧，一帧固定包含 16 个 SCLK。
+   CS# 的下降沿同时开始一次采样和转换。两帧之间保持高电平，让 ADC 完成总线释放
+   和下一次采样前的安静时间。
+
+2. sclk
+   ADC 串行时钟。系统时钟为 50 MHz、目标值设为 10 MHz，但为了使用整数分频并
+   保证不超过目标值，实际频率约为 8.33 MHz，周期约 120 ns。CS# 为高时保持为 0。
+
+3. sdi
+   FPGA 发给 ADS7953 的配置数据，MSB 先发送。ADS7953 在 SCLK 上升沿采样该信号。
+   每轮主要发送三类字：
+
+       93C0：设置 Auto-2 扫描的末通道为 CH15
+       3C40：进入 Auto-2、从 CH0 重启、选择 0～5 V 量程
+       0000：保持当前模式并继续递增通道
+
+4. sdo
+   ADS7953 发给 FPGA 的串行数据，MSB 先返回。ADS7953 在 SCLK 下降沿更新数据，
+   FPGA 在下一个上升沿采样。完整 16 位返回字格式为：
+
+       [15:12] 通道号
+       [11:0]  12 位 ADC 转换码
+
+5. dut/u_ads7953_reader/tx_word
+   当前 SPI 帧准备发送的完整 16 位字。观察该信号比逐位查看 sdi 更容易确认命令。
+   每次触发后应看到 93C0、3C40，随后连续为 0000。
+
+6. dut/u_ads7953_reader/rx_shift
+   FPGA 的 16 位串行接收移位寄存器。每个 SCLK 上升沿移入一个 sdo 位；一帧结束
+   时组成“通道号 + ADC 码”。移位过程中数值逐位变化属于正常现象。
+
+7. response
+   仅存在于测试平台中的模拟 ADS7953 返回字。它代表下一帧要从 sdo 移出的完整
+   16 位数据，不是实际 FPGA 顶层信号。
+
+8. mosi_shift
+   仅存在于测试平台中的 ADC 模型接收寄存器，用来把 sdi 串行位重新组成 16 位命令。
+   一帧结束时可用它检查 ADC 模型是否正确收到 93C0、3C40 或 0000。
+
+四、Sample stream 分组
+
+1. sample_valid
+   单通道结果有效脉冲，保持一个 clk 周期。每轮完整扫描应出现 16 次。只有它为 1
+   时，sample_channel、sample_code 和 sample_mv 才表示一个新样本。
+
+2. sample_channel
+   当前有效样本所属通道，范围 0～15。每次触发都应看到：
+
+       0, 1, 2, 3, ... , 14, 15
+
+3. sample_code
+   当前通道的 12 位原始 ADC 码。仿真为了容易辨认，三轮分别产生：
+
+       第 1 轮：100～10F
+       第 2 轮：200～20F
+       第 3 轮：300～30F
+
+   这些是十六进制测试数据，并不代表测试平台真的求解了模拟电路电压。
+
+4. sample_mv
+   根据 2.500 V 参考电压和 Range 2 把 sample_code 换算后的整数毫伏值：
+
+       sample_mv = round(sample_code * 5000 / 4096)
+
+   例如 12'h800 对应约 1250 mV。sample_mv 与 sample_valid 同时有效。
+
+五、All channel codes 分组
+
+1. adc_codes
+   保存一整轮 16 路原始结果的 192 位缓存，每通道占 12 位，映射关系是：
+
+       adc_codes[ 11:  0] = CH0
+       adc_codes[ 23: 12] = CH1
+       ...
+       adc_codes[191:180] = CH15
+
+   新触发被接受时缓存先清零，然后随着 sample_valid 逐通道写入。scan_done 为 1 时
+   16 路均有效。三次扫描的值不同，因此可以直接观察第二、第三轮是否覆盖上一轮。
+
+2. model_base
+   测试平台生成模拟 ADC 数据时使用的基值。三次触发时依次变为 100、200、300，
+   各通道返回 model_base + 通道号。它不是实际硬件信号。
+
+3. sample_events
+   测试平台累计统计 sample_valid 的次数。三轮结束时应为 48。每轮结束时与触发前
+   的差值必须为 16，否则测试会报告错误。
+
+六、一次触发的完整波形顺序
+
+1. ready=1、busy=0，模块等待 uart_rxd 收到 0x54。
+2. 命令接收完成后 trig_internal 脉冲一个 clk；经同步后 ready=0、busy=1。
+3. 第一帧 tx_word=93C0，配置 Auto-2 最后通道为 15。
+4. 第二帧 tx_word=3C40，进入 Auto-2、选择 0～5 V 量程并让序列从 CH0 开始。
+5. 后续 tx_word=0000。模块先丢弃配置和流水线阶段的数据。
+6. 返回字高四位第一次确认 CH0 后，collecting=1、sample_valid 脉冲一次。
+7. sample_channel 从 0 依次增加到 15；每个通道结果写入 adc_codes 对应的 12 位。
+8. CH15 写入后，经过帧间间隔，busy=0、ready=1，同时 scan_done 脉冲一个 clk。
+9. FPGA通过 uart_txd发送36字节结果帧；测试平台校验帧头、16路数据和XOR校验。
+10. 测试平台再次发送0x54后重复上述过程；新数据覆盖旧的 adc_codes。
+
+七、看波形时最重要的检查点
+
+1. 每个 cs_n 低电平期间必须恰好有 16 个 sclk 周期。
+2. sdi 命令顺序应是 93C0、3C40、0000……。
+3. 收集阶段返回字高四位必须按 0～F 递增。
+4. 每轮 sample_valid 必须恰好出现 16 次。
+5. sample_channel=15 的数据写入后才允许出现 scan_done。
+6. scan_done 之后 adc_codes 的 16 个通道都应属于当前轮，而不是上一轮残留数据。

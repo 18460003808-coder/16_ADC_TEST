@@ -1,0 +1,27 @@
+# FPGA board clock, reset and USB-UART
+set_location_assignment PIN_G1  -to clk
+set_location_assignment PIN_E4  -to rst_n
+set_location_assignment PIN_P16 -to uart_rxd
+set_location_assignment PIN_P20 -to uart_txd
+
+# J11: two-board validation wiring
+set_location_assignment PIN_B21 -to adc_cs_n[0]
+set_location_assignment PIN_C20 -to adc_cs_n[1]
+set_location_assignment PIN_G17 -to adc_sdo
+set_location_assignment PIN_H19 -to adc_sdi
+set_location_assignment PIN_J17 -to adc_sclk
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rst_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_rxd
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_txd
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_cs_n[*]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdo
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdi
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sclk
+
+# Keep the slow default slew rate to reduce ringing on the shared bus.
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to uart_txd
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_cs_n[*]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_sdi
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_sclk

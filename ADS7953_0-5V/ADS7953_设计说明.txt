@@ -1,0 +1,141 @@
+ADS7953 16 路 FPGA 采集设计说明
+================================
+
+一、交付内容
+
+1. ads7953_16ch.qpf、ads7953_16ch.qsf
+   Quartus 13.1 工程入口与工程设置，顶层为 ads7953_top。
+2. rtl/ads7953_top.v
+   板级顶层，连接 clk、rst_n、4 根 ADC SPI 线和板载 USB 串口；串口命令触发扫描，
+   采样结果保留为内部节点供 SignalTap、串口发送或后续逻辑连接。
+3. rtl/ads7953_16ch_reader.v
+   Verilog-2001 采集模块。trig 上升沿启动一次 CH0～CH15 完整扫描。
+4. sim/tb_ads7953_16ch_reader.v
+   自检测试平台，模拟 ADS7953 的串行输出和 Auto-2 通道轮询。
+5. constraints/adc_pins.qsf
+   根据“FPGA 选择/管脚约束.txt”整理的 Quartus 管脚约束片段。
+6. constraints/adc_timing.sdc
+   50 MHz 系统时钟约束；若实际频率不同必须同步修改。
+7. sim/run.do
+   ModelSim 一键编译、加载测试平台、添加关键波形并运行到自检结束。
+8. 仿真信号说明.txt
+   逐项解释 ModelSim 波形中的控制、SPI、采样、缓存和测试模型信号。
+9. signaltap/ads7953_debug.stp、SignalTap硬件调试说明.txt
+   已绑定工程的 SignalTap II 配置，以及上板下载、触发和故障定位步骤。
+10. rtl/uart_8n1.v、rtl/ads7953_uart_bridge.v
+    115200 8N1 串口收发、触发命令识别和16路数据组帧。
+11. host/ads7953_serial_gui.py、串口上位机说明.txt
+    Python图形上位机与串口协议、安装和使用说明。
+
+二、为什么采用 Auto-2 模式
+
+需求是固定读取全部 16 路，Auto-2 只需把“最后通道”配置成 15，器件就会从
+CH0 按升序扫描到 CH15 并循环。相比手动模式每帧指定下一通道，Auto-2 命令
+更少；相比 Auto-1 的两帧通道位图编程，Auto-2 只需一帧设置扫描深度。
+[来源: chip reference/ads7953.pdf, 8.4.6 Operating in Auto-2 Mode, p.38-41,
+ Table 5、Table 6]
+
+发送命令：
+- 16'h93C0：DI15..12=1001，选择 Auto-2 编程寄存器；DI9..6=1111，末通道为 15。
+- 16'h3C40：DI15..12=0011，进入 Auto-2；DI11=1 允许更新；DI10=1 从 CH0 重启；
+  DI6=1 选择 0～2×VREF 量程；DI5=0 正常工作；DI4=0 让 SDO 高 4 位输出通道号。
+- 16'h0000：保持当前模式并让通道计数器继续递增。
+[来源: chip reference/ads7953.pdf, 8.4.6 Operating in Auto-2 Mode, p.40-41,
+ Table 5、Table 6；8.4.7 Continued Operation in a Selected Mode, p.41, Table 7]
+
+三、SPI 时序为什么这样写
+
+每次 CS# 拉低开始一帧和一次采样/转换，一帧必须包含 16 个 SCLK。ADS7953 在
+SCLK 下降沿更新 SDO，FPGA 在随后的上升沿采样；ADS7953 则在 SCLK 上升沿采样
+SDI。返回字高 4 位是通道地址，低 12 位是转换码，且 MSB 先传。
+[来源: chip reference/ads7953.pdf, 7.9 Timing Requirements, p.17-18,
+ Figure 1、Figure 2；8.1 Overview, p.28]
+
+数据手册允许最高 20 MHz SCLK。本实现默认 CLK_HZ=50 MHz、目标 SCLK_HZ=10 MHz，
+使用向上取整分频，因此实际 SCLK 约为 8.33 MHz，不会超过设定上限。帧间 CS# 保持
+高电平约 100 ns，为 CS 高脉宽和总线安静时间留出裕量。
+[来源: chip reference/ads7953.pdf, 7.9 Timing Requirements, p.17]
+
+模式切换和多路复用器采样存在跨帧流水关系。进入 Auto-2 后，芯片先切换到 CH0，
+下一帧才得到完整 CH0 结果。因此代码丢弃配置阶段的返回数据，等返回通道号确认为
+CH0 后才开始存储，并检查 CH0～CH15 是否严格连续；异常时只在新的 CH0 处重新同步。
+[来源: chip reference/ads7953.pdf, 8.4.6 Operating in Auto-2 Mode, p.38-39,
+ Figure 55、Figure 56]
+
+四、输出数据怎样使用
+
+- sample_valid=1 时，sample_channel、sample_code、sample_mv 同时有效一个 clk 周期。
+- sample_code 是 12 位原始 ADC 码。
+- sample_mv 是按 2.500 V 参考、Range 2 换算并四舍五入的毫伏值：
+      sample_mv = round(sample_code * 5000 / 4096)
+- adc_codes[通道号*12 +: 12] 保存本次扫描的 16 路原始码。
+- scan_done 拉高一个 clk 周期时，adc_codes 中 16 路数据已经全部更新。
+- ready=1 才接受新的 trig；busy=1 表示扫描正在进行。板级顶层把 trig 接到内部分频脉冲。
+
+ADS7953 为 12 位直二进制输出。Range 2 满量程是 2×VREF，1 LSB=2×VREF/4096；
+本原理图给 REFP 接入 +2.5V、+VA 接入 +5V，所以采用 5000 mV 进行换算。
+[来源: chip reference/ads7953.pdf, 8.5.1 Digital Output, p.41, Table 8；
+ 电路原理图.pdf, p.1]
+
+五、上电与触发
+
+复位释放后模块先等待约 2 us，再置 ready=1。手册给出的器件上电时间为 1 us，且
+上电或复位后的第一笔转换无效；本实现随后还会丢弃配置/流水帧，所以不会把第一笔
+无效数据写入通道缓存。
+[来源: chip reference/ads7953.pdf, 7.6 Electrical Characteristics, p.13]
+
+板级顶层的 UART 接收器在收到 ASCII 字符 T（0x54）且 ADC 和发送器均空闲时，产生
+一个 clk 周期宽的 trig_internal。采集内核仍对 trig 做两级同步和上升沿检测；若命令
+出现在 busy=1 或上一帧串口数据尚未发送完期间，该触发不会排队。扫描完成后发送包含
+16路原始码和 XOR 校验的固定数据帧，详细格式见“串口上位机说明.txt”。
+
+六、原理图核对结果和必须处理的问题
+
+1. U1 是 ADS7953SBDBTR（38 引脚 TSSOP）；+VA 接 +5V，+VBD 接 +3.3V，REFP 接
+   +2.5V，16 个模拟输入均已引出，数字 SPI 线上串有 33 欧姆电阻。
+   [来源: 电路原理图.pdf, p.1]
+2. 原理图图面显示 MXO（7 脚）和 AINP（8 脚）分别引出，但没有看见两者短接或外接
+   缓冲器。ADS7953 的多路复用器输出必须通过 MXO 回到 AINP；最简单做法是将两者
+   短接。若 PCB 实际也未连接，AINP 会悬空，任何 FPGA 代码都无法获得正确电压。
+   [来源: 电路原理图.pdf, p.1；chip reference/ads7953.pdf,
+   9.1.1 Analog Input, p.46, Figure 60]
+3. 数据手册建议 MXO 直接接 AINP 时，各通道源阻抗不大于 50 欧姆；高源阻抗会造成
+   通道切换后的建立误差。传感器阻抗较高时，应加缓冲器或按手册评估输入电容。
+   [来源: chip reference/ads7953.pdf, 9.1.1 Analog Input, p.46-47]
+4. 手册要求 REFP 与 REFM 之间靠近芯片放置 10 uF 陶瓷去耦；当前图面未见该电容。
+   C1 是 +VA 电源去耦，不能替代参考端去耦。建议补充 10 uF，并确认 REFM 连接 AGND。
+   [来源: chip reference/ads7953.pdf, 8.3.1 Reference, p.29；电路原理图.pdf, p.1]
+
+七、集成步骤
+
+1. 直接用 Quartus 打开 ads7953_16ch.qpf；工程已包含 HDL、QSF 和 SDC。
+2. 若修改顶层端口名，相应修改 constraints/adc_pins.qsf 中的 -to 名称。
+3. 确认实际 sysclk 是否确为 50 MHz；否则同步修改顶层 CLK_HZ 参数和 SDC 周期。
+   若修改串口速率，应同步修改顶层 UART_BAUD 和上位机 BAUD_RATE。
+4. 确认板上 MXO-AINP、REFM、2.5V 参考与 3.3V VBD 接线后再上电测试。
+5. 用 SignalTap 观察 adc_cs_n、adc_sclk、sample_valid、sample_channel、sample_code、
+   trig_internal、scan_done；每次串口触发后应看到通道号从 0 连续到 15。
+
+八、尚需用户确认的参数
+
+- PIN_G1 的实际 sysclk 频率；当前按 50 MHz。
+- 串口波特率是否需要调整；当前为 115200、8N1。
+- 模拟输入是否确实为 0～5 V；当前使用 Range 2，CMD_AUTO2_ENTER 的 DI6=1，
+  毫伏换算满量程为 5000 mV。
+
+九、ModelSim 仿真方法
+
+在工程根目录 E:/Share/16_ADC_TEST 启动 ModelSim，然后在 Transcript 输入：
+
+    do sim/run.do
+
+脚本会自动创建 work 库，编译板级顶层、UART、采集内核和测试平台，加载波形并运行。
+测试平台通过 uart_rxd 连续发送 3 次 0x54 命令，并逐字节接收和校验 FPGA 返回帧；为
+缩短仿真时间，仿真专用 UART_BAUD 为 5 Mbaud，硬件参数仍为 115200。每轮返回不同
+数据，以检查串口触发、缓存覆盖、16个样本、scan_done 和数据帧校验。
+结束时应显示：
+
+    PASS: 3 UART-triggered scans and data packets passed.
+
+三轮测试分别使用 CHn -> 12'h100+n、12'h200+n、12'h300+n 作为模拟 ADC 码；
+sample_channel 每轮都应从 0 连续递增到 15。

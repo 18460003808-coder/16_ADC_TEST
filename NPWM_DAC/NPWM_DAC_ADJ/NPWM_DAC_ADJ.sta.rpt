@@ -1,0 +1,1827 @@
+TimeQuest Timing Analyzer report for NPWM_DAC_ADJ
+Sun Sep 20 09:15:28 2026
+Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. TimeQuest Timing Analyzer Summary
+  3. Parallel Compilation
+  4. SDC File List
+  5. Clocks
+  6. Slow 1200mV 85C Model Fmax Summary
+  7. Timing Closure Recommendations
+  8. Slow 1200mV 85C Model Setup Summary
+  9. Slow 1200mV 85C Model Hold Summary
+ 10. Slow 1200mV 85C Model Recovery Summary
+ 11. Slow 1200mV 85C Model Removal Summary
+ 12. Slow 1200mV 85C Model Minimum Pulse Width Summary
+ 13. Slow 1200mV 85C Model Setup: 'sysclk'
+ 14. Slow 1200mV 85C Model Hold: 'sysclk'
+ 15. Slow 1200mV 85C Model Minimum Pulse Width: 'sysclk'
+ 16. Setup Times
+ 17. Hold Times
+ 18. Clock to Output Times
+ 19. Minimum Clock to Output Times
+ 20. Slow 1200mV 85C Model Metastability Report
+ 21. Slow 1200mV 0C Model Fmax Summary
+ 22. Slow 1200mV 0C Model Setup Summary
+ 23. Slow 1200mV 0C Model Hold Summary
+ 24. Slow 1200mV 0C Model Recovery Summary
+ 25. Slow 1200mV 0C Model Removal Summary
+ 26. Slow 1200mV 0C Model Minimum Pulse Width Summary
+ 27. Slow 1200mV 0C Model Setup: 'sysclk'
+ 28. Slow 1200mV 0C Model Hold: 'sysclk'
+ 29. Slow 1200mV 0C Model Minimum Pulse Width: 'sysclk'
+ 30. Setup Times
+ 31. Hold Times
+ 32. Clock to Output Times
+ 33. Minimum Clock to Output Times
+ 34. Slow 1200mV 0C Model Metastability Report
+ 35. Fast 1200mV 0C Model Setup Summary
+ 36. Fast 1200mV 0C Model Hold Summary
+ 37. Fast 1200mV 0C Model Recovery Summary
+ 38. Fast 1200mV 0C Model Removal Summary
+ 39. Fast 1200mV 0C Model Minimum Pulse Width Summary
+ 40. Fast 1200mV 0C Model Setup: 'sysclk'
+ 41. Fast 1200mV 0C Model Hold: 'sysclk'
+ 42. Fast 1200mV 0C Model Minimum Pulse Width: 'sysclk'
+ 43. Setup Times
+ 44. Hold Times
+ 45. Clock to Output Times
+ 46. Minimum Clock to Output Times
+ 47. Fast 1200mV 0C Model Metastability Report
+ 48. Multicorner Timing Analysis Summary
+ 49. Setup Times
+ 50. Hold Times
+ 51. Clock to Output Times
+ 52. Minimum Clock to Output Times
+ 53. Board Trace Model Assignments
+ 54. Input Transition Times
+ 55. Signal Integrity Metrics (Slow 1200mv 0c Model)
+ 56. Signal Integrity Metrics (Slow 1200mv 85c Model)
+ 57. Signal Integrity Metrics (Fast 1200mv 0c Model)
+ 58. Setup Transfers
+ 59. Hold Transfers
+ 60. Report TCCS
+ 61. Report RSKM
+ 62. Unconstrained Paths
+ 63. TimeQuest Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------+
+; TimeQuest Timing Analyzer Summary                                        ;
++--------------------+-----------------------------------------------------+
+; Quartus II Version ; Version 13.1.0 Build 162 10/23/2013 SJ Full Version ;
+; Revision Name      ; NPWM_DAC_ADJ                                        ;
+; Device Family      ; Cyclone IV E                                        ;
+; Device Name        ; EP4CE6E22C8                                         ;
+; Timing Models      ; Final                                               ;
+; Delay Model        ; Combined                                            ;
+; Rise/Fall Delays   ; Enabled                                             ;
++--------------------+-----------------------------------------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 24          ;
+; Maximum allowed            ; 16          ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 16          ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-16        ; < 0.1%      ;
+;     Processors 17-24       ;   0.0%      ;
++----------------------------+-------------+
+
+
++------------------------------------------------------+
+; SDC File List                                        ;
++------------------+--------+--------------------------+
+; SDC File Path    ; Status ; Read at                  ;
++------------------+--------+--------------------------+
+; NPWM_DAC_ADJ.sdc ; OK     ; Sun Sep 20 09:15:28 2026 ;
++------------------+--------+--------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clocks                                                                                                                                                                             ;
++------------+------+--------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------+
+; Clock Name ; Type ; Period ; Frequency ; Rise  ; Fall   ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets    ;
++------------+------+--------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------+
+; sysclk     ; Base ; 20.000 ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { sysclk } ;
++------------+------+--------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------+
+
+
++-------------------------------------------------+
+; Slow 1200mV 85C Model Fmax Summary              ;
++-----------+-----------------+------------+------+
+; Fmax      ; Restricted Fmax ; Clock Name ; Note ;
++-----------+-----------------+------------+------+
+; 91.71 MHz ; 91.71 MHz       ; sysclk     ;      ;
++-----------+-----------------+------------+------+
+This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
+
+
+----------------------------------
+; Timing Closure Recommendations ;
+----------------------------------
+HTML report is unavailable in plain text report export.
+
+
++-------------------------------------+
+; Slow 1200mV 85C Model Setup Summary ;
++--------+-------+--------------------+
+; Clock  ; Slack ; End Point TNS      ;
++--------+-------+--------------------+
+; sysclk ; 9.096 ; 0.000              ;
++--------+-------+--------------------+
+
+
++------------------------------------+
+; Slow 1200mV 85C Model Hold Summary ;
++--------+-------+-------------------+
+; Clock  ; Slack ; End Point TNS     ;
++--------+-------+-------------------+
+; sysclk ; 0.453 ; 0.000             ;
++--------+-------+-------------------+
+
+
+------------------------------------------
+; Slow 1200mV 85C Model Recovery Summary ;
+------------------------------------------
+No paths to report.
+
+
+-----------------------------------------
+; Slow 1200mV 85C Model Removal Summary ;
+-----------------------------------------
+No paths to report.
+
+
++---------------------------------------------------+
+; Slow 1200mV 85C Model Minimum Pulse Width Summary ;
++--------+-------+----------------------------------+
+; Clock  ; Slack ; End Point TNS                    ;
++--------+-------+----------------------------------+
+; sysclk ; 9.785 ; 0.000                            ;
++--------+-------+----------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 85C Model Setup: 'sysclk'                                                                              ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node       ; To Node           ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+; 9.096  ; phase_accum[4]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.790     ;
+; 9.096  ; phase_accum[4]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.790     ;
+; 9.096  ; phase_accum[4]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.790     ;
+; 9.096  ; phase_accum[4]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.790     ;
+; 9.492  ; phase_accum[8]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.394     ;
+; 9.492  ; phase_accum[8]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.394     ;
+; 9.492  ; phase_accum[8]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.394     ;
+; 9.492  ; phase_accum[8]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.394     ;
+; 9.533  ; phase_accum[1]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.112     ; 10.356     ;
+; 9.533  ; phase_accum[1]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.112     ; 10.356     ;
+; 9.533  ; phase_accum[1]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.112     ; 10.356     ;
+; 9.533  ; phase_accum[1]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.112     ; 10.356     ;
+; 9.533  ; phase_accum[4]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 10.335     ;
+; 9.533  ; phase_accum[4]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 10.335     ;
+; 9.533  ; phase_accum[4]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 10.335     ;
+; 9.533  ; phase_accum[4]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 10.335     ;
+; 9.533  ; phase_accum[4]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 10.335     ;
+; 9.533  ; phase_accum[4]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 10.335     ;
+; 9.538  ; phase_accum[7]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.394     ;
+; 9.538  ; phase_accum[7]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.394     ;
+; 9.538  ; phase_accum[7]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.394     ;
+; 9.538  ; phase_accum[7]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.394     ;
+; 9.591  ; phase_accum[10] ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.295     ;
+; 9.591  ; phase_accum[10] ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.295     ;
+; 9.591  ; phase_accum[10] ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.295     ;
+; 9.591  ; phase_accum[10] ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.115     ; 10.295     ;
+; 9.757  ; phase_accum[9]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.175     ;
+; 9.757  ; phase_accum[9]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.175     ;
+; 9.757  ; phase_accum[9]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.175     ;
+; 9.757  ; phase_accum[9]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.069     ; 10.175     ;
+; 9.886  ; phase_accum[4]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.886  ; phase_accum[4]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 10.019     ;
+; 9.929  ; phase_accum[8]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.939      ;
+; 9.929  ; phase_accum[8]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.939      ;
+; 9.929  ; phase_accum[8]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.939      ;
+; 9.929  ; phase_accum[8]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.939      ;
+; 9.929  ; phase_accum[8]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.939      ;
+; 9.929  ; phase_accum[8]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.939      ;
+; 9.975  ; phase_accum[7]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.939      ;
+; 9.975  ; phase_accum[7]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.939      ;
+; 9.975  ; phase_accum[7]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.939      ;
+; 9.975  ; phase_accum[7]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.939      ;
+; 9.975  ; phase_accum[7]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.939      ;
+; 9.975  ; phase_accum[7]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.939      ;
+; 9.982  ; phase_accum[1]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.118     ; 9.901      ;
+; 9.982  ; phase_accum[1]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.118     ; 9.901      ;
+; 9.982  ; phase_accum[1]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.118     ; 9.901      ;
+; 9.982  ; phase_accum[1]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.118     ; 9.901      ;
+; 9.982  ; phase_accum[1]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.118     ; 9.901      ;
+; 9.982  ; phase_accum[1]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.118     ; 9.901      ;
+; 10.011 ; phase_accum[2]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.902      ;
+; 10.011 ; phase_accum[2]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.902      ;
+; 10.011 ; phase_accum[2]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.902      ;
+; 10.011 ; phase_accum[2]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.902      ;
+; 10.024 ; phase_accum[3]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.889      ;
+; 10.024 ; phase_accum[3]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.889      ;
+; 10.024 ; phase_accum[3]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.889      ;
+; 10.024 ; phase_accum[3]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.889      ;
+; 10.028 ; phase_accum[10] ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.840      ;
+; 10.028 ; phase_accum[10] ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.840      ;
+; 10.028 ; phase_accum[10] ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.840      ;
+; 10.028 ; phase_accum[10] ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.840      ;
+; 10.028 ; phase_accum[10] ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.840      ;
+; 10.028 ; phase_accum[10] ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.133     ; 9.840      ;
+; 10.170 ; phase_accum[5]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.743      ;
+; 10.170 ; phase_accum[5]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.743      ;
+; 10.170 ; phase_accum[5]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.743      ;
+; 10.170 ; phase_accum[5]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.088     ; 9.743      ;
+; 10.194 ; phase_accum[9]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.720      ;
+; 10.194 ; phase_accum[9]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.720      ;
+; 10.194 ; phase_accum[9]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.720      ;
+; 10.194 ; phase_accum[9]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.720      ;
+; 10.194 ; phase_accum[9]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.720      ;
+; 10.194 ; phase_accum[9]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.087     ; 9.720      ;
+; 10.268 ; phase_accum[7]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.268 ; phase_accum[7]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.050     ; 9.683      ;
+; 10.282 ; phase_accum[8]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.282 ; phase_accum[8]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.096     ; 9.623      ;
+; 10.322 ; phase_accum[0]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.112     ; 9.567      ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 85C Model Hold: 'sysclk'                                                                                ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node          ; To Node          ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+; 0.453 ; pwm_duty[0]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 0.746      ;
+; 0.453 ; trig_armed         ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 0.746      ;
+; 0.501 ; trig_valid[1]      ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 0.794      ;
+; 0.503 ; trig_valid[0]      ; trig_valid[1]    ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 0.796      ;
+; 0.690 ; period_initialized ; phase_accum[1]   ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 0.983      ;
+; 0.698 ; trig_meta          ; trig_sync        ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 0.991      ;
+; 0.770 ; pwm_duty[4]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.063      ;
+; 0.772 ; pwm_duty[2]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.065      ;
+; 0.772 ; pwm_slot[6]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.065      ;
+; 0.772 ; pwm_slot[5]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.065      ;
+; 0.772 ; pwm_slot[1]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.065      ;
+; 0.773 ; pwm_duty[5]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.066      ;
+; 0.773 ; pwm_slot[4]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.066      ;
+; 0.774 ; pwm_slot[2]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.067      ;
+; 0.778 ; pwm_duty[6]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.071      ;
+; 0.784 ; pwm_duty[0]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.077      ;
+; 0.793 ; period_initialized ; phase_accum[0]   ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.086      ;
+; 0.797 ; pwm_slot[0]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.090      ;
+; 0.805 ; pwm_duty[6]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.098      ;
+; 0.925 ; trig_sync          ; trig_sync_d      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.218      ;
+; 0.956 ; pwm_slot[3]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.249      ;
+; 0.964 ; pwm_duty[1]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.257      ;
+; 0.984 ; pwm_duty[3]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.277      ;
+; 0.993 ; trig_sync          ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.286      ;
+; 1.052 ; trig_sync_d        ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.345      ;
+; 1.096 ; trig_armed         ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.389      ;
+; 1.125 ; pwm_duty[4]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.418      ;
+; 1.126 ; pwm_slot[5]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.419      ;
+; 1.126 ; pwm_slot[1]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.419      ;
+; 1.126 ; pwm_duty[2]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.419      ;
+; 1.127 ; pwm_duty[0]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.420      ;
+; 1.134 ; pwm_duty[5]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.427      ;
+; 1.134 ; pwm_slot[4]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.427      ;
+; 1.135 ; pwm_slot[0]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.428      ;
+; 1.135 ; pwm_slot[2]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.428      ;
+; 1.136 ; pwm_duty[0]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.429      ;
+; 1.143 ; pwm_slot[4]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.436      ;
+; 1.144 ; pwm_slot[2]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.437      ;
+; 1.144 ; pwm_slot[0]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.437      ;
+; 1.200 ; pwm_duty[5]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.493      ;
+; 1.256 ; pwm_duty[4]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.549      ;
+; 1.257 ; pwm_duty[2]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.550      ;
+; 1.257 ; pwm_slot[1]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.550      ;
+; 1.266 ; pwm_duty[2]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.559      ;
+; 1.266 ; pwm_slot[1]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.559      ;
+; 1.267 ; pwm_duty[0]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.560      ;
+; 1.275 ; pwm_slot[2]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.568      ;
+; 1.275 ; pwm_slot[0]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.568      ;
+; 1.276 ; pwm_duty[0]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.569      ;
+; 1.284 ; pwm_slot[2]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.577      ;
+; 1.284 ; pwm_slot[0]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.577      ;
+; 1.297 ; pwm_duty[1]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.590      ;
+; 1.298 ; phase_accum[3]     ; phase_accum[3]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 1.592      ;
+; 1.299 ; phase_accum[6]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 1.593      ;
+; 1.311 ; pwm_slot[3]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.604      ;
+; 1.317 ; pwm_duty[1]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.610      ;
+; 1.335 ; pwm_duty[3]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.628      ;
+; 1.343 ; pwm_duty[4]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.636      ;
+; 1.354 ; pwm_duty[3]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.647      ;
+; 1.397 ; pwm_duty[2]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.690      ;
+; 1.397 ; pwm_slot[1]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.690      ;
+; 1.401 ; pwm_slot[3]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.694      ;
+; 1.406 ; pwm_slot[1]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.699      ;
+; 1.407 ; pwm_duty[0]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.700      ;
+; 1.415 ; pwm_slot[0]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.708      ;
+; 1.419 ; phase_accum[5]     ; phase_accum[5]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 1.713      ;
+; 1.424 ; pwm_slot[0]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.717      ;
+; 1.431 ; phase_accum[2]     ; phase_accum[2]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 1.725      ;
+; 1.437 ; pwm_duty[1]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.730      ;
+; 1.451 ; pwm_slot[3]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.744      ;
+; 1.457 ; pwm_duty[1]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.750      ;
+; 1.470 ; period_initialized ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.763      ;
+; 1.470 ; period_initialized ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.763      ;
+; 1.470 ; period_initialized ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.763      ;
+; 1.470 ; period_initialized ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.763      ;
+; 1.470 ; period_initialized ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.763      ;
+; 1.470 ; period_initialized ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.763      ;
+; 1.470 ; period_initialized ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.763      ;
+; 1.475 ; pwm_duty[3]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.768      ;
+; 1.484 ; pwm_duty[2]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.777      ;
+; 1.542 ; trig_sync          ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.835      ;
+; 1.577 ; pwm_duty[1]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.870      ;
+; 1.652 ; phase_accum[5]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 1.946      ;
+; 1.673 ; phase_accum[2]     ; phase_accum[3]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 1.967      ;
+; 1.675 ; pwm_duty[3]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.968      ;
+; 1.699 ; pwm_duty[6]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.992      ;
+; 1.699 ; pwm_duty[6]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.992      ;
+; 1.699 ; pwm_duty[6]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.992      ;
+; 1.699 ; pwm_duty[6]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.992      ;
+; 1.699 ; pwm_duty[6]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 1.992      ;
+; 1.749 ; pwm_slot[5]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.042      ;
+; 1.749 ; pwm_slot[5]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.042      ;
+; 1.749 ; pwm_slot[5]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.042      ;
+; 1.749 ; pwm_slot[5]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.042      ;
+; 1.749 ; pwm_slot[5]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.042      ;
+; 1.792 ; phase_accum[3]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 2.086      ;
+; 1.811 ; phase_accum[2]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.082      ; 2.105      ;
+; 1.874 ; pwm_slot[4]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.167      ;
+; 1.874 ; pwm_slot[4]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.167      ;
+; 1.874 ; pwm_slot[4]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.081      ; 2.167      ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 85C Model Minimum Pulse Width: 'sysclk'                                                   ;
++-------+--------------+----------------+------------------+--------+------------+----------------------+
+; Slack ; Actual Width ; Required Width ; Type             ; Clock  ; Clock Edge ; Target               ;
++-------+--------------+----------------+------------------+--------+------------+----------------------+
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[0]~reg0     ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[1]~reg0     ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[2]~reg0     ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[3]~reg0     ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[4]~reg0     ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[5]~reg0     ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[6]~reg0     ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; trig_armed           ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; trig_meta            ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; trig_sync            ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; trig_sync_d          ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; trig_valid[0]        ;
+; 9.785 ; 10.005       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; trig_valid[1]        ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[0]     ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[10]    ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[11]    ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[12]    ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[1]     ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[3]     ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[6]     ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[7]     ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[8]     ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[9]     ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[11]      ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[7]       ;
+; 9.787 ; 10.007       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[9]       ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; period_initialized   ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[0]       ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[1]       ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[0]          ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[1]          ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[2]          ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[3]          ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[4]          ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[5]          ;
+; 9.788 ; 10.008       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[6]          ;
+; 9.789 ; 10.009       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[10]      ;
+; 9.789 ; 10.009       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[12]      ;
+; 9.789 ; 10.009       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[4]       ;
+; 9.789 ; 10.009       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[8]       ;
+; 9.790 ; 10.010       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[2]       ;
+; 9.790 ; 10.010       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[3]       ;
+; 9.790 ; 10.010       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[5]       ;
+; 9.790 ; 10.010       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[6]       ;
+; 9.791 ; 10.011       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[2]     ;
+; 9.791 ; 10.011       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[4]     ;
+; 9.791 ; 10.011       ; 0.220          ; High Pulse Width ; sysclk ; Rise       ; active_period[5]     ;
+; 9.800 ; 9.988        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[2]     ;
+; 9.800 ; 9.988        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[4]     ;
+; 9.800 ; 9.988        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[5]     ;
+; 9.800 ; 9.988        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[2]       ;
+; 9.800 ; 9.988        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[3]       ;
+; 9.800 ; 9.988        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[5]       ;
+; 9.800 ; 9.988        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[6]       ;
+; 9.803 ; 9.991        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[10]      ;
+; 9.803 ; 9.991        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[12]      ;
+; 9.803 ; 9.991        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[4]       ;
+; 9.803 ; 9.991        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[8]       ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[0]     ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[10]    ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[12]    ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[1]     ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; period_initialized   ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[0]       ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[11]      ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[1]       ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[7]       ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[9]       ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[0]          ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[1]          ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[2]          ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[3]          ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[4]          ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[5]          ;
+; 9.804 ; 9.992        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[6]          ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[11]    ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[3]     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[6]     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[7]     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[8]     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[9]     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[0]~reg0     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[1]~reg0     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[2]~reg0     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[3]~reg0     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[4]~reg0     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[5]~reg0     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[6]~reg0     ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; trig_armed           ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; trig_meta            ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync            ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync_d          ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[0]        ;
+; 9.805 ; 9.993        ; 0.188          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[1]        ;
+; 9.940 ; 9.940        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[2]|clk ;
+; 9.940 ; 9.940        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[4]|clk ;
+; 9.940 ; 9.940        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[5]|clk ;
+; 9.940 ; 9.940        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[2]|clk   ;
+; 9.940 ; 9.940        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[3]|clk   ;
+; 9.940 ; 9.940        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[5]|clk   ;
++-------+--------------+----------------+------------------+--------+------------+----------------------+
+
+
++-------------------------------------------------------------------------------+
+; Setup Times                                                                   ;
++-------------------+------------+-------+-------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-------------------+------------+-------+-------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 7.017 ; 7.221 ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; 6.405 ; 6.804 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; 4.533 ; 4.871 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 4.395 ; 4.702 ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; 6.744 ; 7.221 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; 6.498 ; 6.740 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; 6.074 ; 6.190 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; 6.653 ; 7.127 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; 6.439 ; 6.601 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; 6.690 ; 6.807 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; 5.629 ; 5.793 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; 6.016 ; 6.091 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; 7.017 ; 7.153 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; 6.154 ; 6.314 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; 0.265 ; 0.466 ; Rise       ; sysclk          ;
++-------------------+------------+-------+-------+------------+-----------------+
+
+
++---------------------------------------------------------------------------------+
+; Hold Times                                                                      ;
++-------------------+------------+--------+--------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++-------------------+------------+--------+--------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 0.304  ; 0.173  ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; -2.716 ; -2.926 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; -0.327 ; -0.453 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 0.304  ; 0.173  ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; -2.221 ; -2.473 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; -2.206 ; -2.498 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; -2.426 ; -2.730 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; -2.544 ; -2.866 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; -2.211 ; -2.487 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; -2.366 ; -2.600 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; -1.805 ; -2.075 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; -2.137 ; -2.334 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; -2.443 ; -2.669 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; -2.708 ; -2.991 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; 0.119  ; -0.064 ; Rise       ; sysclk          ;
++-------------------+------------+--------+--------+------------+-----------------+
+
+
++----------------------------------------------------------------------------+
+; Clock to Output Times                                                      ;
++--------------+------------+--------+--------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++--------------+------------+--------+--------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 8.863  ; 8.598  ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 8.863  ; 8.598  ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 8.035  ; 7.956  ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 7.119  ; 7.013  ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 6.713  ; 6.634  ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 7.330  ; 7.169  ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 8.315  ; 8.140  ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 7.298  ; 7.154  ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 12.190 ; 11.775 ; Rise       ; sysclk          ;
++--------------+------------+--------+--------+------------+-----------------+
+
+
++--------------------------------------------------------------------------+
+; Minimum Clock to Output Times                                            ;
++--------------+------------+-------+-------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++--------------+------------+-------+-------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 6.480 ; 6.402 ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 8.549 ; 8.293 ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 7.748 ; 7.671 ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 6.869 ; 6.766 ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 6.480 ; 6.402 ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 7.071 ; 6.916 ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 8.021 ; 7.852 ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 7.041 ; 6.901 ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 9.170 ; 8.979 ; Rise       ; sysclk          ;
++--------------+------------+-------+-------+------------+-----------------+
+
+
+----------------------------------------------
+; Slow 1200mV 85C Model Metastability Report ;
+----------------------------------------------
+No synchronizer chains to report.
+
+
++-------------------------------------------------+
+; Slow 1200mV 0C Model Fmax Summary               ;
++-----------+-----------------+------------+------+
+; Fmax      ; Restricted Fmax ; Clock Name ; Note ;
++-----------+-----------------+------------+------+
+; 98.71 MHz ; 98.71 MHz       ; sysclk     ;      ;
++-----------+-----------------+------------+------+
+This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
+
+
++------------------------------------+
+; Slow 1200mV 0C Model Setup Summary ;
++--------+-------+-------------------+
+; Clock  ; Slack ; End Point TNS     ;
++--------+-------+-------------------+
+; sysclk ; 9.869 ; 0.000             ;
++--------+-------+-------------------+
+
+
++-----------------------------------+
+; Slow 1200mV 0C Model Hold Summary ;
++--------+-------+------------------+
+; Clock  ; Slack ; End Point TNS    ;
++--------+-------+------------------+
+; sysclk ; 0.402 ; 0.000            ;
++--------+-------+------------------+
+
+
+-----------------------------------------
+; Slow 1200mV 0C Model Recovery Summary ;
+-----------------------------------------
+No paths to report.
+
+
+----------------------------------------
+; Slow 1200mV 0C Model Removal Summary ;
+----------------------------------------
+No paths to report.
+
+
++--------------------------------------------------+
+; Slow 1200mV 0C Model Minimum Pulse Width Summary ;
++--------+-------+---------------------------------+
+; Clock  ; Slack ; End Point TNS                   ;
++--------+-------+---------------------------------+
+; sysclk ; 9.774 ; 0.000                           ;
++--------+-------+---------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 0C Model Setup: 'sysclk'                                                                               ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node       ; To Node           ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+; 9.869  ; phase_accum[4]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 10.033     ;
+; 9.869  ; phase_accum[4]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 10.033     ;
+; 9.869  ; phase_accum[4]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 10.033     ;
+; 9.869  ; phase_accum[4]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 10.033     ;
+; 10.217 ; phase_accum[8]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.685      ;
+; 10.217 ; phase_accum[8]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.685      ;
+; 10.217 ; phase_accum[8]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.685      ;
+; 10.217 ; phase_accum[8]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.685      ;
+; 10.266 ; phase_accum[1]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.098     ; 9.638      ;
+; 10.266 ; phase_accum[1]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.098     ; 9.638      ;
+; 10.266 ; phase_accum[1]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.098     ; 9.638      ;
+; 10.266 ; phase_accum[1]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.098     ; 9.638      ;
+; 10.287 ; phase_accum[4]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.595      ;
+; 10.287 ; phase_accum[4]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.595      ;
+; 10.287 ; phase_accum[4]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.595      ;
+; 10.287 ; phase_accum[4]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.595      ;
+; 10.287 ; phase_accum[4]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.595      ;
+; 10.287 ; phase_accum[4]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.595      ;
+; 10.305 ; phase_accum[10] ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.597      ;
+; 10.305 ; phase_accum[10] ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.597      ;
+; 10.305 ; phase_accum[10] ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.597      ;
+; 10.305 ; phase_accum[10] ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.100     ; 9.597      ;
+; 10.340 ; phase_accum[7]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.602      ;
+; 10.340 ; phase_accum[7]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.602      ;
+; 10.340 ; phase_accum[7]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.602      ;
+; 10.340 ; phase_accum[7]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.602      ;
+; 10.488 ; phase_accum[9]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.454      ;
+; 10.488 ; phase_accum[9]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.454      ;
+; 10.488 ; phase_accum[9]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.454      ;
+; 10.488 ; phase_accum[9]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.060     ; 9.454      ;
+; 10.635 ; phase_accum[8]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.247      ;
+; 10.635 ; phase_accum[8]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.247      ;
+; 10.635 ; phase_accum[8]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.247      ;
+; 10.635 ; phase_accum[8]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.247      ;
+; 10.635 ; phase_accum[8]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.247      ;
+; 10.635 ; phase_accum[8]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.247      ;
+; 10.641 ; phase_accum[4]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.641 ; phase_accum[4]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 9.275      ;
+; 10.694 ; phase_accum[1]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.108     ; 9.200      ;
+; 10.694 ; phase_accum[1]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.108     ; 9.200      ;
+; 10.694 ; phase_accum[1]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.108     ; 9.200      ;
+; 10.694 ; phase_accum[1]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.108     ; 9.200      ;
+; 10.694 ; phase_accum[1]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.108     ; 9.200      ;
+; 10.694 ; phase_accum[1]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.108     ; 9.200      ;
+; 10.723 ; phase_accum[10] ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.159      ;
+; 10.723 ; phase_accum[10] ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.159      ;
+; 10.723 ; phase_accum[10] ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.159      ;
+; 10.723 ; phase_accum[10] ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.159      ;
+; 10.723 ; phase_accum[10] ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.159      ;
+; 10.723 ; phase_accum[10] ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.120     ; 9.159      ;
+; 10.758 ; phase_accum[7]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.164      ;
+; 10.758 ; phase_accum[7]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.164      ;
+; 10.758 ; phase_accum[7]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.164      ;
+; 10.758 ; phase_accum[7]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.164      ;
+; 10.758 ; phase_accum[7]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.164      ;
+; 10.758 ; phase_accum[7]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.164      ;
+; 10.771 ; phase_accum[2]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.155      ;
+; 10.771 ; phase_accum[2]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.155      ;
+; 10.771 ; phase_accum[2]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.155      ;
+; 10.771 ; phase_accum[2]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.155      ;
+; 10.794 ; phase_accum[3]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.132      ;
+; 10.794 ; phase_accum[3]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.132      ;
+; 10.794 ; phase_accum[3]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.132      ;
+; 10.794 ; phase_accum[3]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.132      ;
+; 10.906 ; phase_accum[9]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.016      ;
+; 10.906 ; phase_accum[9]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.016      ;
+; 10.906 ; phase_accum[9]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.016      ;
+; 10.906 ; phase_accum[9]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.016      ;
+; 10.906 ; phase_accum[9]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.016      ;
+; 10.906 ; phase_accum[9]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.080     ; 9.016      ;
+; 10.919 ; phase_accum[5]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.007      ;
+; 10.919 ; phase_accum[5]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.007      ;
+; 10.919 ; phase_accum[5]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.007      ;
+; 10.919 ; phase_accum[5]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.076     ; 9.007      ;
+; 10.987 ; phase_accum[8]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.987 ; phase_accum[8]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.086     ; 8.929      ;
+; 10.999 ; phase_accum[7]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 10.999 ; phase_accum[7]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 8.957      ;
+; 11.001 ; phase_accum[0]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.098     ; 8.903      ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 0C Model Hold: 'sysclk'                                                                                 ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node          ; To Node          ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+; 0.402 ; pwm_duty[0]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.669      ;
+; 0.402 ; trig_armed         ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.669      ;
+; 0.471 ; trig_valid[1]      ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.738      ;
+; 0.473 ; trig_valid[0]      ; trig_valid[1]    ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.740      ;
+; 0.643 ; period_initialized ; phase_accum[1]   ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 0.912      ;
+; 0.646 ; trig_meta          ; trig_sync        ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.913      ;
+; 0.714 ; pwm_duty[4]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.981      ;
+; 0.715 ; pwm_slot[6]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 0.984      ;
+; 0.715 ; pwm_slot[5]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 0.984      ;
+; 0.715 ; pwm_slot[4]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 0.984      ;
+; 0.716 ; pwm_slot[1]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 0.985      ;
+; 0.717 ; pwm_slot[2]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 0.986      ;
+; 0.718 ; pwm_duty[2]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.985      ;
+; 0.719 ; pwm_duty[5]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.986      ;
+; 0.723 ; pwm_duty[6]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.990      ;
+; 0.732 ; pwm_duty[0]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 0.999      ;
+; 0.738 ; period_initialized ; phase_accum[0]   ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.007      ;
+; 0.743 ; pwm_slot[0]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.012      ;
+; 0.755 ; pwm_duty[6]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.022      ;
+; 0.858 ; pwm_duty[1]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.125      ;
+; 0.860 ; trig_sync          ; trig_sync_d      ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.127      ;
+; 0.877 ; pwm_slot[3]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.146      ;
+; 0.889 ; trig_sync          ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.156      ;
+; 0.892 ; pwm_duty[3]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.159      ;
+; 0.936 ; trig_sync_d        ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.203      ;
+; 0.979 ; trig_armed         ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.246      ;
+; 1.031 ; pwm_duty[0]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.298      ;
+; 1.034 ; pwm_slot[4]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.303      ;
+; 1.036 ; pwm_duty[4]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.303      ;
+; 1.036 ; pwm_slot[2]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.305      ;
+; 1.038 ; pwm_slot[0]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.307      ;
+; 1.038 ; pwm_duty[5]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.305      ;
+; 1.039 ; pwm_slot[5]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.308      ;
+; 1.040 ; pwm_slot[1]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.309      ;
+; 1.042 ; pwm_duty[2]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.309      ;
+; 1.047 ; pwm_duty[0]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.314      ;
+; 1.049 ; pwm_slot[4]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.318      ;
+; 1.051 ; pwm_slot[2]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.320      ;
+; 1.053 ; pwm_slot[0]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.322      ;
+; 1.091 ; pwm_duty[5]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.358      ;
+; 1.132 ; pwm_duty[4]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.399      ;
+; 1.138 ; pwm_slot[1]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.407      ;
+; 1.140 ; pwm_duty[2]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.407      ;
+; 1.153 ; pwm_duty[0]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.420      ;
+; 1.158 ; pwm_slot[2]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.427      ;
+; 1.160 ; pwm_slot[0]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.429      ;
+; 1.162 ; pwm_duty[1]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.429      ;
+; 1.162 ; pwm_slot[1]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.431      ;
+; 1.164 ; pwm_duty[2]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.431      ;
+; 1.169 ; pwm_duty[0]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.436      ;
+; 1.173 ; pwm_slot[2]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.442      ;
+; 1.175 ; pwm_slot[0]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.444      ;
+; 1.196 ; pwm_duty[3]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.463      ;
+; 1.212 ; phase_accum[3]     ; phase_accum[3]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.480      ;
+; 1.213 ; phase_accum[6]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.481      ;
+; 1.224 ; pwm_duty[4]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.491      ;
+; 1.227 ; pwm_slot[3]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.496      ;
+; 1.232 ; pwm_duty[1]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.499      ;
+; 1.252 ; pwm_slot[3]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.521      ;
+; 1.260 ; pwm_slot[1]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.529      ;
+; 1.262 ; pwm_duty[2]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.529      ;
+; 1.264 ; pwm_duty[3]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.531      ;
+; 1.275 ; pwm_duty[0]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.542      ;
+; 1.282 ; pwm_slot[0]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.551      ;
+; 1.284 ; pwm_duty[1]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.551      ;
+; 1.284 ; pwm_slot[1]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.553      ;
+; 1.297 ; pwm_slot[0]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.566      ;
+; 1.310 ; phase_accum[5]     ; phase_accum[5]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.578      ;
+; 1.314 ; phase_accum[2]     ; phase_accum[2]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.582      ;
+; 1.318 ; pwm_duty[3]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.585      ;
+; 1.349 ; pwm_slot[3]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.618      ;
+; 1.354 ; pwm_duty[1]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.621      ;
+; 1.358 ; pwm_duty[2]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.625      ;
+; 1.369 ; period_initialized ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.638      ;
+; 1.369 ; period_initialized ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.638      ;
+; 1.369 ; period_initialized ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.638      ;
+; 1.369 ; period_initialized ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.638      ;
+; 1.369 ; period_initialized ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.638      ;
+; 1.369 ; period_initialized ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.638      ;
+; 1.369 ; period_initialized ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.638      ;
+; 1.372 ; trig_sync          ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.639      ;
+; 1.406 ; pwm_duty[1]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.673      ;
+; 1.522 ; pwm_duty[3]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.789      ;
+; 1.533 ; phase_accum[2]     ; phase_accum[3]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.801      ;
+; 1.537 ; phase_accum[5]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.805      ;
+; 1.578 ; pwm_duty[6]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.845      ;
+; 1.578 ; pwm_duty[6]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.845      ;
+; 1.578 ; pwm_duty[6]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.845      ;
+; 1.578 ; pwm_duty[6]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.845      ;
+; 1.578 ; pwm_duty[6]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.072      ; 1.845      ;
+; 1.624 ; pwm_slot[5]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.893      ;
+; 1.624 ; pwm_slot[5]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.893      ;
+; 1.624 ; pwm_slot[5]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.893      ;
+; 1.624 ; pwm_slot[5]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.893      ;
+; 1.624 ; pwm_slot[5]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 1.893      ;
+; 1.659 ; phase_accum[3]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.927      ;
+; 1.671 ; phase_accum[2]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.939      ;
+; 1.717 ; phase_accum[3]     ; phase_accum[5]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.985      ;
+; 1.729 ; phase_accum[2]     ; phase_accum[5]   ; sysclk       ; sysclk      ; 0.000        ; 0.073      ; 1.997      ;
+; 1.747 ; pwm_slot[4]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.074      ; 2.016      ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 0C Model Minimum Pulse Width: 'sysclk'                                                    ;
++-------+--------------+----------------+------------------+--------+------------+----------------------+
+; Slack ; Actual Width ; Required Width ; Type             ; Clock  ; Clock Edge ; Target               ;
++-------+--------------+----------------+------------------+--------+------------+----------------------+
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; period_initialized   ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[0]       ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[11]      ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[1]       ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[7]       ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[9]       ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[0]          ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[1]          ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[2]          ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[3]          ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[4]          ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[5]          ;
+; 9.774 ; 9.990        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_slot[6]          ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[0]     ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[10]    ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[11]    ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[12]    ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[1]     ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[3]     ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[6]     ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[7]     ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[8]     ;
+; 9.776 ; 9.992        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[9]     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[2]     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[4]     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[5]     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[10]      ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[12]      ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[4]       ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[8]       ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[0]~reg0     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[1]~reg0     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[2]~reg0     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[3]~reg0     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[4]~reg0     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[5]~reg0     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; pwm_duty[6]~reg0     ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; trig_armed           ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; trig_meta            ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; trig_sync            ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; trig_sync_d          ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; trig_valid[0]        ;
+; 9.777 ; 9.993        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; trig_valid[1]        ;
+; 9.778 ; 9.994        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[2]       ;
+; 9.778 ; 9.994        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[3]       ;
+; 9.778 ; 9.994        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[5]       ;
+; 9.778 ; 9.994        ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; phase_accum[6]       ;
+; 9.820 ; 10.004       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[2]       ;
+; 9.820 ; 10.004       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[3]       ;
+; 9.820 ; 10.004       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[5]       ;
+; 9.820 ; 10.004       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[6]       ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[2]     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[4]     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[5]     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[0]~reg0     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[1]~reg0     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[2]~reg0     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[3]~reg0     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[4]~reg0     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[5]~reg0     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[6]~reg0     ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_armed           ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_meta            ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync            ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync_d          ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[0]        ;
+; 9.821 ; 10.005       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[1]        ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[11]    ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[3]     ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[6]     ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[7]     ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[8]     ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[9]     ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[10]      ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[12]      ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[4]       ;
+; 9.822 ; 10.006       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[8]       ;
+; 9.823 ; 10.007       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[0]     ;
+; 9.823 ; 10.007       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[10]    ;
+; 9.823 ; 10.007       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[12]    ;
+; 9.823 ; 10.007       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[1]     ;
+; 9.823 ; 10.007       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[11]      ;
+; 9.823 ; 10.007       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[7]       ;
+; 9.823 ; 10.007       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[9]       ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; period_initialized   ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[0]       ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[1]       ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[0]          ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[1]          ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[2]          ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[3]          ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[4]          ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[5]          ;
+; 9.824 ; 10.008       ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[6]          ;
+; 9.952 ; 9.952        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[2]|clk   ;
+; 9.952 ; 9.952        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[3]|clk   ;
+; 9.952 ; 9.952        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[5]|clk   ;
+; 9.952 ; 9.952        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[6]|clk   ;
+; 9.953 ; 9.953        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[2]|clk ;
+; 9.953 ; 9.953        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[4]|clk ;
++-------+--------------+----------------+------------------+--------+------------+----------------------+
+
+
++-------------------------------------------------------------------------------+
+; Setup Times                                                                   ;
++-------------------+------------+-------+-------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-------------------+------------+-------+-------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 6.524 ; 6.481 ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; 5.952 ; 6.103 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; 4.269 ; 4.659 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 4.147 ; 4.496 ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; 6.265 ; 6.481 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; 6.037 ; 6.038 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; 5.650 ; 5.527 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; 6.179 ; 6.397 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; 5.980 ; 5.902 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; 6.233 ; 6.078 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; 5.207 ; 5.179 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; 5.578 ; 5.444 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; 6.524 ; 6.403 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; 5.720 ; 5.639 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; 0.236 ; 0.543 ; Rise       ; sysclk          ;
++-------------------+------------+-------+-------+------------+-----------------+
+
+
++---------------------------------------------------------------------------------+
+; Hold Times                                                                      ;
++-------------------+------------+--------+--------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++-------------------+------------+--------+--------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 0.281  ; 0.060  ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; -2.459 ; -2.459 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; -0.270 ; -0.528 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 0.281  ; 0.060  ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; -1.995 ; -2.056 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; -1.983 ; -2.082 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; -2.178 ; -2.296 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; -2.286 ; -2.422 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; -1.981 ; -2.078 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; -2.138 ; -2.163 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; -1.595 ; -1.710 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; -1.911 ; -1.933 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; -2.204 ; -2.240 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; -2.448 ; -2.542 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; 0.110  ; -0.176 ; Rise       ; sysclk          ;
++-------------------+------------+--------+--------+------------+-----------------+
+
+
++----------------------------------------------------------------------------+
+; Clock to Output Times                                                      ;
++--------------+------------+--------+--------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++--------------+------------+--------+--------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 8.213  ; 7.743  ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 8.213  ; 7.743  ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 7.380  ; 7.179  ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 6.491  ; 6.328  ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 6.098  ; 5.990  ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 6.704  ; 6.468  ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 7.650  ; 7.338  ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 6.667  ; 6.458  ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 11.332 ; 10.568 ; Rise       ; sysclk          ;
++--------------+------------+--------+--------+------------+-----------------+
+
+
++--------------------------------------------------------------------------+
+; Minimum Clock to Output Times                                            ;
++--------------+------------+-------+-------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++--------------+------------+-------+-------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 5.869 ; 5.765 ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 7.903 ; 7.450 ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 7.100 ; 6.906 ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 6.246 ; 6.088 ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 5.869 ; 5.765 ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 6.450 ; 6.223 ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 7.363 ; 7.062 ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 6.415 ; 6.213 ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 8.375 ; 8.151 ; Rise       ; sysclk          ;
++--------------+------------+-------+-------+------------+-----------------+
+
+
+---------------------------------------------
+; Slow 1200mV 0C Model Metastability Report ;
+---------------------------------------------
+No synchronizer chains to report.
+
+
++------------------------------------+
+; Fast 1200mV 0C Model Setup Summary ;
++--------+--------+------------------+
+; Clock  ; Slack  ; End Point TNS    ;
++--------+--------+------------------+
+; sysclk ; 15.230 ; 0.000            ;
++--------+--------+------------------+
+
+
++-----------------------------------+
+; Fast 1200mV 0C Model Hold Summary ;
++--------+-------+------------------+
+; Clock  ; Slack ; End Point TNS    ;
++--------+-------+------------------+
+; sysclk ; 0.186 ; 0.000            ;
++--------+-------+------------------+
+
+
+-----------------------------------------
+; Fast 1200mV 0C Model Recovery Summary ;
+-----------------------------------------
+No paths to report.
+
+
+----------------------------------------
+; Fast 1200mV 0C Model Removal Summary ;
+----------------------------------------
+No paths to report.
+
+
++--------------------------------------------------+
+; Fast 1200mV 0C Model Minimum Pulse Width Summary ;
++--------+-------+---------------------------------+
+; Clock  ; Slack ; End Point TNS                   ;
++--------+-------+---------------------------------+
+; sysclk ; 9.434 ; 0.000                           ;
++--------+-------+---------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------+
+; Fast 1200mV 0C Model Setup: 'sysclk'                                                                               ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node       ; To Node           ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+; 15.230 ; phase_accum[4]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.705      ;
+; 15.230 ; phase_accum[4]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.705      ;
+; 15.230 ; phase_accum[4]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.705      ;
+; 15.230 ; phase_accum[4]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.705      ;
+; 15.322 ; phase_accum[7]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.642      ;
+; 15.322 ; phase_accum[7]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.642      ;
+; 15.322 ; phase_accum[7]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.642      ;
+; 15.322 ; phase_accum[7]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.642      ;
+; 15.354 ; phase_accum[1]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.582      ;
+; 15.354 ; phase_accum[1]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.582      ;
+; 15.354 ; phase_accum[1]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.582      ;
+; 15.354 ; phase_accum[1]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.582      ;
+; 15.394 ; phase_accum[8]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.541      ;
+; 15.394 ; phase_accum[8]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.541      ;
+; 15.394 ; phase_accum[8]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.541      ;
+; 15.394 ; phase_accum[8]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.541      ;
+; 15.451 ; phase_accum[9]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.513      ;
+; 15.451 ; phase_accum[9]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.513      ;
+; 15.451 ; phase_accum[9]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.513      ;
+; 15.451 ; phase_accum[9]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.023     ; 4.513      ;
+; 15.463 ; phase_accum[4]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.459      ;
+; 15.463 ; phase_accum[4]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.459      ;
+; 15.463 ; phase_accum[4]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.459      ;
+; 15.463 ; phase_accum[4]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.459      ;
+; 15.463 ; phase_accum[4]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.459      ;
+; 15.463 ; phase_accum[4]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.459      ;
+; 15.511 ; phase_accum[10] ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.424      ;
+; 15.511 ; phase_accum[10] ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.424      ;
+; 15.511 ; phase_accum[10] ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.424      ;
+; 15.511 ; phase_accum[10] ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.052     ; 4.424      ;
+; 15.520 ; phase_accum[4]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.520 ; phase_accum[4]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.421      ;
+; 15.550 ; phase_accum[0]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.386      ;
+; 15.550 ; phase_accum[0]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.386      ;
+; 15.550 ; phase_accum[0]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.386      ;
+; 15.550 ; phase_accum[0]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.051     ; 4.386      ;
+; 15.555 ; phase_accum[7]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.396      ;
+; 15.555 ; phase_accum[7]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.396      ;
+; 15.555 ; phase_accum[7]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.396      ;
+; 15.555 ; phase_accum[7]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.396      ;
+; 15.555 ; phase_accum[7]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.396      ;
+; 15.555 ; phase_accum[7]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.396      ;
+; 15.581 ; phase_accum[1]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.056     ; 4.350      ;
+; 15.581 ; phase_accum[1]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.056     ; 4.350      ;
+; 15.581 ; phase_accum[1]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.056     ; 4.350      ;
+; 15.581 ; phase_accum[1]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.056     ; 4.350      ;
+; 15.581 ; phase_accum[1]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.056     ; 4.350      ;
+; 15.581 ; phase_accum[1]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.056     ; 4.350      ;
+; 15.587 ; phase_accum[3]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.364      ;
+; 15.587 ; phase_accum[3]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.364      ;
+; 15.587 ; phase_accum[3]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.364      ;
+; 15.587 ; phase_accum[3]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.364      ;
+; 15.612 ; phase_accum[7]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.612 ; phase_accum[7]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.017     ; 4.358      ;
+; 15.627 ; phase_accum[8]  ; active_period[3]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.295      ;
+; 15.627 ; phase_accum[8]  ; active_period[6]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.295      ;
+; 15.627 ; phase_accum[8]  ; active_period[7]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.295      ;
+; 15.627 ; phase_accum[8]  ; active_period[8]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.295      ;
+; 15.627 ; phase_accum[8]  ; active_period[9]  ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.295      ;
+; 15.627 ; phase_accum[8]  ; active_period[11] ; sysclk       ; sysclk      ; 20.000       ; -0.065     ; 4.295      ;
+; 15.628 ; phase_accum[1]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.628 ; phase_accum[1]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.037     ; 4.322      ;
+; 15.632 ; phase_accum[2]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.319      ;
+; 15.632 ; phase_accum[2]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.319      ;
+; 15.632 ; phase_accum[2]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.319      ;
+; 15.632 ; phase_accum[2]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.319      ;
+; 15.654 ; phase_accum[5]  ; active_period[0]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.297      ;
+; 15.654 ; phase_accum[5]  ; active_period[1]  ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.297      ;
+; 15.654 ; phase_accum[5]  ; active_period[10] ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.297      ;
+; 15.654 ; phase_accum[5]  ; active_period[12] ; sysclk       ; sysclk      ; 20.000       ; -0.036     ; 4.297      ;
+; 15.681 ; phase_accum[8]  ; pwm_slot[6]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; phase_accum[0]    ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; pwm_slot[5]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; pwm_slot[0]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; pwm_slot[1]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; pwm_slot[2]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; pwm_slot[3]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; pwm_slot[4]       ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
+; 15.681 ; phase_accum[8]  ; phase_accum[1]    ; sysclk       ; sysclk      ; 20.000       ; -0.046     ; 4.260      ;
++--------+-----------------+-------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Fast 1200mV 0C Model Hold: 'sysclk'                                                                                 ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node          ; To Node          ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+; 0.186 ; pwm_duty[0]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.307      ;
+; 0.186 ; trig_armed         ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.307      ;
+; 0.193 ; trig_valid[1]      ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.314      ;
+; 0.195 ; trig_valid[0]      ; trig_valid[1]    ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.316      ;
+; 0.266 ; trig_meta          ; trig_sync        ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.387      ;
+; 0.277 ; period_initialized ; phase_accum[1]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.398      ;
+; 0.309 ; pwm_duty[4]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.430      ;
+; 0.309 ; pwm_slot[6]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.430      ;
+; 0.309 ; pwm_slot[1]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.430      ;
+; 0.310 ; pwm_duty[5]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.431      ;
+; 0.310 ; pwm_duty[2]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.431      ;
+; 0.310 ; pwm_slot[5]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.431      ;
+; 0.310 ; pwm_slot[2]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.431      ;
+; 0.310 ; pwm_slot[4]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.431      ;
+; 0.312 ; pwm_duty[0]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.433      ;
+; 0.313 ; pwm_duty[6]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.434      ;
+; 0.322 ; pwm_slot[0]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.443      ;
+; 0.322 ; period_initialized ; phase_accum[0]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.443      ;
+; 0.325 ; pwm_duty[6]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.446      ;
+; 0.346 ; trig_sync          ; trig_sync_d      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.467      ;
+; 0.371 ; pwm_slot[3]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.492      ;
+; 0.372 ; pwm_duty[1]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.493      ;
+; 0.383 ; pwm_duty[3]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.504      ;
+; 0.385 ; trig_sync          ; trig_armed       ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.506      ;
+; 0.427 ; trig_sync_d        ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.548      ;
+; 0.429 ; trig_armed         ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.550      ;
+; 0.458 ; pwm_duty[4]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.579      ;
+; 0.458 ; pwm_slot[1]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.579      ;
+; 0.459 ; pwm_slot[5]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.580      ;
+; 0.459 ; pwm_duty[2]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.580      ;
+; 0.465 ; pwm_duty[0]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.586      ;
+; 0.468 ; pwm_slot[4]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.589      ;
+; 0.468 ; pwm_duty[5]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.589      ;
+; 0.468 ; pwm_slot[2]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.589      ;
+; 0.468 ; pwm_duty[0]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.589      ;
+; 0.469 ; pwm_slot[0]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.590      ;
+; 0.471 ; pwm_slot[2]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.592      ;
+; 0.471 ; pwm_slot[4]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.592      ;
+; 0.472 ; pwm_slot[0]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.593      ;
+; 0.511 ; pwm_duty[5]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.632      ;
+; 0.515 ; phase_accum[3]     ; phase_accum[3]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.636      ;
+; 0.518 ; phase_accum[6]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.639      ;
+; 0.520 ; pwm_slot[3]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.641      ;
+; 0.521 ; pwm_duty[4]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.642      ;
+; 0.521 ; pwm_slot[1]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.642      ;
+; 0.522 ; pwm_duty[2]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.643      ;
+; 0.524 ; pwm_duty[1]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.645      ;
+; 0.524 ; pwm_slot[1]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.645      ;
+; 0.525 ; pwm_duty[2]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.646      ;
+; 0.527 ; pwm_duty[1]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.648      ;
+; 0.531 ; pwm_duty[0]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.652      ;
+; 0.534 ; pwm_slot[2]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.655      ;
+; 0.534 ; pwm_duty[0]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.655      ;
+; 0.535 ; pwm_slot[0]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.656      ;
+; 0.537 ; pwm_slot[2]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.658      ;
+; 0.538 ; pwm_slot[0]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.659      ;
+; 0.541 ; pwm_duty[3]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.662      ;
+; 0.544 ; pwm_duty[3]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.665      ;
+; 0.560 ; pwm_duty[4]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.681      ;
+; 0.565 ; phase_accum[5]     ; phase_accum[5]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.686      ;
+; 0.583 ; period_initialized ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.583 ; period_initialized ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.583 ; period_initialized ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.583 ; period_initialized ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.583 ; period_initialized ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.583 ; period_initialized ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.583 ; period_initialized ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.583 ; pwm_slot[3]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.704      ;
+; 0.586 ; pwm_slot[3]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.707      ;
+; 0.587 ; pwm_slot[1]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.708      ;
+; 0.588 ; pwm_duty[2]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.709      ;
+; 0.590 ; pwm_duty[1]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.711      ;
+; 0.590 ; pwm_slot[1]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.711      ;
+; 0.590 ; phase_accum[2]     ; phase_accum[2]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.711      ;
+; 0.593 ; pwm_duty[1]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.714      ;
+; 0.597 ; pwm_duty[0]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.718      ;
+; 0.601 ; pwm_slot[0]        ; pwm_slot[5]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.722      ;
+; 0.604 ; pwm_slot[0]        ; pwm_slot[6]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.725      ;
+; 0.607 ; pwm_duty[3]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.728      ;
+; 0.609 ; trig_sync          ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.730      ;
+; 0.626 ; pwm_duty[2]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.747      ;
+; 0.656 ; pwm_duty[1]~reg0   ; pwm_duty[6]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.777      ;
+; 0.666 ; phase_accum[5]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.787      ;
+; 0.676 ; phase_accum[2]     ; phase_accum[3]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.797      ;
+; 0.699 ; pwm_duty[3]~reg0   ; pwm_duty[0]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.820      ;
+; 0.707 ; pwm_slot[5]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.828      ;
+; 0.707 ; pwm_slot[5]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.828      ;
+; 0.707 ; pwm_slot[5]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.828      ;
+; 0.707 ; pwm_slot[5]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.828      ;
+; 0.707 ; pwm_slot[5]        ; pwm_slot[4]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.828      ;
+; 0.710 ; pwm_duty[6]~reg0   ; pwm_duty[5]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.831      ;
+; 0.710 ; pwm_duty[6]~reg0   ; pwm_duty[1]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.831      ;
+; 0.710 ; pwm_duty[6]~reg0   ; pwm_duty[2]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.831      ;
+; 0.710 ; pwm_duty[6]~reg0   ; pwm_duty[3]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.831      ;
+; 0.710 ; pwm_duty[6]~reg0   ; pwm_duty[4]~reg0 ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.831      ;
+; 0.731 ; phase_accum[3]     ; phase_accum[6]   ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.852      ;
+; 0.743 ; pwm_slot[4]        ; pwm_slot[0]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.864      ;
+; 0.743 ; pwm_slot[4]        ; pwm_slot[1]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.864      ;
+; 0.743 ; pwm_slot[4]        ; pwm_slot[2]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.864      ;
+; 0.743 ; pwm_slot[4]        ; pwm_slot[3]      ; sysclk       ; sysclk      ; 0.000        ; 0.037      ; 0.864      ;
++-------+--------------------+------------------+--------------+-------------+--------------+------------+------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Fast 1200mV 0C Model Minimum Pulse Width: 'sysclk'                                                             ;
++--------+--------------+----------------+------------------+--------+------------+------------------------------+
+; Slack  ; Actual Width ; Required Width ; Type             ; Clock  ; Clock Edge ; Target                       ;
++--------+--------------+----------------+------------------+--------+------------+------------------------------+
+; 9.434  ; 9.618        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[2]             ;
+; 9.434  ; 9.618        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[4]             ;
+; 9.434  ; 9.618        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[5]             ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[11]            ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[3]             ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[6]             ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[7]             ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[8]             ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[9]             ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; period_initialized           ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[0]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[10]              ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[12]              ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[1]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[2]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[3]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[4]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[5]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[6]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[8]               ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[0]                  ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[1]                  ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[2]                  ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[3]                  ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[4]                  ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[5]                  ;
+; 9.435  ; 9.619        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[6]                  ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[11]              ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[7]               ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[9]               ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[0]~reg0             ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[1]~reg0             ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[2]~reg0             ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[3]~reg0             ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[4]~reg0             ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[5]~reg0             ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[6]~reg0             ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_armed                   ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_meta                    ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync                    ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync_d                  ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[0]                ;
+; 9.436  ; 9.620        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[1]                ;
+; 9.437  ; 9.621        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[0]             ;
+; 9.437  ; 9.621        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[10]            ;
+; 9.437  ; 9.621        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[12]            ;
+; 9.437  ; 9.621        ; 0.184          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[1]             ;
+; 9.614  ; 9.614        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[2]|clk         ;
+; 9.614  ; 9.614        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[4]|clk         ;
+; 9.614  ; 9.614        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[5]|clk         ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[11]|clk        ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[3]|clk         ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[6]|clk         ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[7]|clk         ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[8]|clk         ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[9]|clk         ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; period_initialized|clk       ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[0]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[10]|clk          ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[12]|clk          ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[1]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[2]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[3]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[4]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[5]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[6]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[8]|clk           ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[0]|clk              ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[1]|clk              ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[2]|clk              ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[3]|clk              ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[4]|clk              ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[5]|clk              ;
+; 9.615  ; 9.615        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_slot[6]|clk              ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[11]|clk          ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[7]|clk           ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; phase_accum[9]|clk           ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[0]~reg0|clk         ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[1]~reg0|clk         ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[2]~reg0|clk         ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[3]~reg0|clk         ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[4]~reg0|clk         ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[5]~reg0|clk         ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; pwm_duty[6]~reg0|clk         ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; trig_armed|clk               ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; trig_meta|clk                ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync_d|clk              ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; trig_sync|clk                ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[0]|clk            ;
+; 9.616  ; 9.616        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; trig_valid[1]|clk            ;
+; 9.617  ; 9.617        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[0]|clk         ;
+; 9.617  ; 9.617        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[10]|clk        ;
+; 9.617  ; 9.617        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[12]|clk        ;
+; 9.617  ; 9.617        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; active_period[1]|clk         ;
+; 9.620  ; 9.620        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; sysclk~input|o               ;
+; 9.639  ; 9.639        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; sysclk~inputclkctrl|inclk[0] ;
+; 9.639  ; 9.639        ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; sysclk~inputclkctrl|outclk   ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; sysclk ; Rise       ; sysclk~input|i               ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; sysclk ; Rise       ; sysclk~input|i               ;
+; 10.161 ; 10.377       ; 0.216          ; High Pulse Width ; sysclk ; Rise       ; active_period[0]             ;
++--------+--------------+----------------+------------------+--------+------------+------------------------------+
+
+
++-------------------------------------------------------------------------------+
+; Setup Times                                                                   ;
++-------------------+------------+-------+-------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-------------------+------------+-------+-------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 3.100 ; 3.888 ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; 2.940 ; 3.481 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; 2.119 ; 2.334 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 2.052 ; 2.274 ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; 3.099 ; 3.674 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; 2.914 ; 3.716 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; 2.674 ; 3.416 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; 3.100 ; 3.699 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; 2.811 ; 3.601 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; 2.885 ; 3.683 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; 2.499 ; 3.261 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; 2.604 ; 3.351 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; 3.069 ; 3.888 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; 2.722 ; 3.559 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; 0.170 ; 0.465 ; Rise       ; sysclk          ;
++-------------------+------------+-------+-------+------------+-----------------+
+
+
++---------------------------------------------------------------------------------+
+; Hold Times                                                                      ;
++-------------------+------------+--------+--------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++-------------------+------------+--------+--------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 0.083  ; -0.199 ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; -1.247 ; -1.896 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; -0.201 ; -0.464 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 0.083  ; -0.199 ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; -1.047 ; -1.659 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; -1.062 ; -1.716 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; -1.159 ; -1.804 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; -1.230 ; -1.888 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; -1.048 ; -1.672 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; -1.079 ; -1.713 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; -0.888 ; -1.500 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; -0.997 ; -1.604 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; -1.157 ; -1.798 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; -1.291 ; -1.952 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; -0.004 ; -0.295 ; Rise       ; sysclk          ;
++-------------------+------------+--------+--------+------------+-----------------+
+
+
++--------------------------------------------------------------------------+
+; Clock to Output Times                                                    ;
++--------------+------------+-------+-------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++--------------+------------+-------+-------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 4.060 ; 4.224 ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 4.060 ; 4.224 ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 3.738 ; 3.895 ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 3.314 ; 3.391 ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 3.145 ; 3.194 ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 3.383 ; 3.459 ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 3.853 ; 4.008 ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 3.380 ; 3.455 ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 5.455 ; 5.733 ; Rise       ; sysclk          ;
++--------------+------------+-------+-------+------------+-----------------+
+
+
++--------------------------------------------------------------------------+
+; Minimum Clock to Output Times                                            ;
++--------------+------------+-------+-------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++--------------+------------+-------+-------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 3.046 ; 3.094 ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 3.923 ; 4.081 ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 3.615 ; 3.767 ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 3.209 ; 3.283 ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 3.046 ; 3.094 ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 3.275 ; 3.348 ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 3.728 ; 3.878 ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 3.272 ; 3.344 ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 4.260 ; 4.281 ; Rise       ; sysclk          ;
++--------------+------------+-------+-------+------------+-----------------+
+
+
+---------------------------------------------
+; Fast 1200mV 0C Model Metastability Report ;
+---------------------------------------------
+No synchronizer chains to report.
+
+
++-----------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                         ;
++------------------+-------+-------+----------+---------+---------------------+
+; Clock            ; Setup ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++------------------+-------+-------+----------+---------+---------------------+
+; Worst-case Slack ; 9.096 ; 0.186 ; N/A      ; N/A     ; 9.434               ;
+;  sysclk          ; 9.096 ; 0.186 ; N/A      ; N/A     ; 9.434               ;
+; Design-wide TNS  ; 0.0   ; 0.0   ; 0.0      ; 0.0     ; 0.0                 ;
+;  sysclk          ; 0.000 ; 0.000 ; N/A      ; N/A     ; 0.000               ;
++------------------+-------+-------+----------+---------+---------------------+
+
+
++-------------------------------------------------------------------------------+
+; Setup Times                                                                   ;
++-------------------+------------+-------+-------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-------------------+------------+-------+-------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 7.017 ; 7.221 ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; 6.405 ; 6.804 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; 4.533 ; 4.871 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 4.395 ; 4.702 ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; 6.744 ; 7.221 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; 6.498 ; 6.740 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; 6.074 ; 6.190 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; 6.653 ; 7.127 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; 6.439 ; 6.601 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; 6.690 ; 6.807 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; 5.629 ; 5.793 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; 6.016 ; 6.091 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; 7.017 ; 7.153 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; 6.154 ; 6.314 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; 0.265 ; 0.543 ; Rise       ; sysclk          ;
++-------------------+------------+-------+-------+------------+-----------------+
+
+
++---------------------------------------------------------------------------------+
+; Hold Times                                                                      ;
++-------------------+------------+--------+--------+------------+-----------------+
+; Data Port         ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++-------------------+------------+--------+--------+------------+-----------------+
+; period_count[*]   ; sysclk     ; 0.304  ; 0.173  ; Rise       ; sysclk          ;
+;  period_count[0]  ; sysclk     ; -1.247 ; -1.896 ; Rise       ; sysclk          ;
+;  period_count[1]  ; sysclk     ; -0.201 ; -0.453 ; Rise       ; sysclk          ;
+;  period_count[2]  ; sysclk     ; 0.304  ; 0.173  ; Rise       ; sysclk          ;
+;  period_count[3]  ; sysclk     ; -1.047 ; -1.659 ; Rise       ; sysclk          ;
+;  period_count[4]  ; sysclk     ; -1.062 ; -1.716 ; Rise       ; sysclk          ;
+;  period_count[5]  ; sysclk     ; -1.159 ; -1.804 ; Rise       ; sysclk          ;
+;  period_count[6]  ; sysclk     ; -1.230 ; -1.888 ; Rise       ; sysclk          ;
+;  period_count[7]  ; sysclk     ; -1.048 ; -1.672 ; Rise       ; sysclk          ;
+;  period_count[8]  ; sysclk     ; -1.079 ; -1.713 ; Rise       ; sysclk          ;
+;  period_count[9]  ; sysclk     ; -0.888 ; -1.500 ; Rise       ; sysclk          ;
+;  period_count[10] ; sysclk     ; -0.997 ; -1.604 ; Rise       ; sysclk          ;
+;  period_count[11] ; sysclk     ; -1.157 ; -1.798 ; Rise       ; sysclk          ;
+;  period_count[12] ; sysclk     ; -1.291 ; -1.952 ; Rise       ; sysclk          ;
+; trig              ; sysclk     ; 0.119  ; -0.064 ; Rise       ; sysclk          ;
++-------------------+------------+--------+--------+------------+-----------------+
+
+
++----------------------------------------------------------------------------+
+; Clock to Output Times                                                      ;
++--------------+------------+--------+--------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++--------------+------------+--------+--------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 8.863  ; 8.598  ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 8.863  ; 8.598  ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 8.035  ; 7.956  ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 7.119  ; 7.013  ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 6.713  ; 6.634  ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 7.330  ; 7.169  ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 8.315  ; 8.140  ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 7.298  ; 7.154  ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 12.190 ; 11.775 ; Rise       ; sysclk          ;
++--------------+------------+--------+--------+------------+-----------------+
+
+
++--------------------------------------------------------------------------+
+; Minimum Clock to Output Times                                            ;
++--------------+------------+-------+-------+------------+-----------------+
+; Data Port    ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++--------------+------------+-------+-------+------------+-----------------+
+; pwm_duty[*]  ; sysclk     ; 3.046 ; 3.094 ; Rise       ; sysclk          ;
+;  pwm_duty[0] ; sysclk     ; 3.923 ; 4.081 ; Rise       ; sysclk          ;
+;  pwm_duty[1] ; sysclk     ; 3.615 ; 3.767 ; Rise       ; sysclk          ;
+;  pwm_duty[2] ; sysclk     ; 3.209 ; 3.283 ; Rise       ; sysclk          ;
+;  pwm_duty[3] ; sysclk     ; 3.046 ; 3.094 ; Rise       ; sysclk          ;
+;  pwm_duty[4] ; sysclk     ; 3.275 ; 3.348 ; Rise       ; sysclk          ;
+;  pwm_duty[5] ; sysclk     ; 3.728 ; 3.878 ; Rise       ; sysclk          ;
+;  pwm_duty[6] ; sysclk     ; 3.272 ; 3.344 ; Rise       ; sysclk          ;
+; pwm_out      ; sysclk     ; 4.260 ; 4.281 ; Rise       ; sysclk          ;
++--------------+------------+-------+-------+------------+-----------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Board Trace Model Assignments                                                                                                                                                                                                                                                                                                                                                                                    ;
++---------------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
+; Pin           ; I/O Standard ; Near Tline Length ; Near Tline L per Length ; Near Tline C per Length ; Near Series R ; Near Differential R ; Near Pull-up R ; Near Pull-down R ; Near C ; Far Tline Length ; Far Tline L per Length ; Far Tline C per Length ; Far Series R ; Far Pull-up R ; Far Pull-down R ; Far C ; Termination Voltage ; Far Differential R ; EBD File Name ; EBD Signal Name ; EBD Far-end ;
++---------------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
+; pwm_out       ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; pwm_duty[0]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; pwm_duty[1]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; pwm_duty[2]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; pwm_duty[3]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; pwm_duty[4]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; pwm_duty[5]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; pwm_duty[6]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
++---------------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
+
+
++----------------------------------------------------------------------------+
+; Input Transition Times                                                     ;
++-------------------------+--------------+-----------------+-----------------+
+; Pin                     ; I/O Standard ; 10-90 Rise Time ; 90-10 Fall Time ;
++-------------------------+--------------+-----------------+-----------------+
+; sysclk                  ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; rst_n                   ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; rst_pwm_n               ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[12]        ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[11]        ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[10]        ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[9]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[7]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[8]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[6]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[5]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[4]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[3]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[0]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[2]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; period_count[1]         ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; trig                    ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; ~ALTERA_ASDO_DATA1~     ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; ~ALTERA_FLASH_nCE_nCSO~ ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; ~ALTERA_DATA0~          ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
++-------------------------+--------------+-----------------+-----------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Integrity Metrics (Slow 1200mv 0c Model)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; Pin           ; I/O Standard ; Board Delay on Rise ; Board Delay on Fall ; Steady State Voh at FPGA Pin ; Steady State Vol at FPGA Pin ; Voh Max at FPGA Pin ; Vol Min at FPGA Pin ; Ringback Voltage on Rise at FPGA Pin ; Ringback Voltage on Fall at FPGA Pin ; 10-90 Rise Time at FPGA Pin ; 90-10 Fall Time at FPGA Pin ; Monotonic Rise at FPGA Pin ; Monotonic Fall at FPGA Pin ; Steady State Voh at Far-end ; Steady State Vol at Far-end ; Voh Max at Far-end ; Vol Min at Far-end ; Ringback Voltage on Rise at Far-end ; Ringback Voltage on Fall at Far-end ; 10-90 Rise Time at Far-end ; 90-10 Fall Time at Far-end ; Monotonic Rise at Far-end ; Monotonic Fall at Far-end ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; pwm_out       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.8e-09 V                    ; 2.37 V              ; -0.00373 V          ; 0.104 V                              ; 0.011 V                              ; 4.34e-10 s                  ; 3.82e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 2.8e-09 V                   ; 2.37 V             ; -0.00373 V         ; 0.104 V                             ; 0.011 V                             ; 4.34e-10 s                 ; 3.82e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.8e-09 V                    ; 2.37 V              ; -0.00373 V          ; 0.104 V                              ; 0.011 V                              ; 4.34e-10 s                  ; 3.82e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 2.8e-09 V                   ; 2.37 V             ; -0.00373 V         ; 0.104 V                             ; 0.011 V                             ; 4.34e-10 s                 ; 3.82e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.07e-09 V                   ; 2.38 V              ; -0.0073 V           ; 0.097 V                              ; 0.018 V                              ; 4.24e-10 s                  ; 3.65e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 2.07e-09 V                  ; 2.38 V             ; -0.0073 V          ; 0.097 V                             ; 0.018 V                             ; 4.24e-10 s                 ; 3.65e-10 s                 ; No                        ; Yes                       ;
+; pwm_duty[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.07e-09 V                   ; 2.38 V              ; -0.0073 V           ; 0.097 V                              ; 0.018 V                              ; 4.24e-10 s                  ; 3.65e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 2.07e-09 V                  ; 2.38 V             ; -0.0073 V          ; 0.097 V                             ; 0.018 V                             ; 4.24e-10 s                 ; 3.65e-10 s                 ; No                        ; Yes                       ;
+; pwm_duty[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.07e-09 V                   ; 2.38 V              ; -0.0073 V           ; 0.097 V                              ; 0.018 V                              ; 4.24e-10 s                  ; 3.65e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 2.07e-09 V                  ; 2.38 V             ; -0.0073 V          ; 0.097 V                             ; 0.018 V                             ; 4.24e-10 s                 ; 3.65e-10 s                 ; No                        ; Yes                       ;
+; pwm_duty[4]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.07e-09 V                   ; 2.38 V              ; -0.0073 V           ; 0.097 V                              ; 0.018 V                              ; 4.24e-10 s                  ; 3.65e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 2.07e-09 V                  ; 2.38 V             ; -0.0073 V          ; 0.097 V                             ; 0.018 V                             ; 4.24e-10 s                 ; 3.65e-10 s                 ; No                        ; Yes                       ;
+; pwm_duty[5]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.07e-09 V                   ; 2.36 V              ; -0.00737 V          ; 0.209 V                              ; 0.012 V                              ; 5.22e-10 s                  ; 5.33e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 2.07e-09 V                  ; 2.36 V             ; -0.00737 V         ; 0.209 V                             ; 0.012 V                             ; 5.22e-10 s                 ; 5.33e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.07e-09 V                   ; 2.38 V              ; -0.0073 V           ; 0.097 V                              ; 0.018 V                              ; 4.24e-10 s                  ; 3.65e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 2.07e-09 V                  ; 2.38 V             ; -0.0073 V          ; 0.097 V                             ; 0.018 V                             ; 4.24e-10 s                 ; 3.65e-10 s                 ; No                        ; Yes                       ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.74e-09 V                   ; 2.37 V              ; -0.0346 V           ; 0.198 V                              ; 0.094 V                              ; 3.14e-10 s                  ; 2.92e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.74e-09 V                  ; 2.37 V             ; -0.0346 V          ; 0.198 V                             ; 0.094 V                             ; 3.14e-10 s                 ; 2.92e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.57e-09 V                   ; 2.37 V              ; -0.00683 V          ; 0.171 V                              ; 0.018 V                              ; 4.97e-10 s                  ; 6.66e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 2.57e-09 V                  ; 2.37 V             ; -0.00683 V         ; 0.171 V                             ; 0.018 V                             ; 4.97e-10 s                 ; 6.66e-10 s                 ; Yes                       ; Yes                       ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Integrity Metrics (Slow 1200mv 85c Model)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; Pin           ; I/O Standard ; Board Delay on Rise ; Board Delay on Fall ; Steady State Voh at FPGA Pin ; Steady State Vol at FPGA Pin ; Voh Max at FPGA Pin ; Vol Min at FPGA Pin ; Ringback Voltage on Rise at FPGA Pin ; Ringback Voltage on Fall at FPGA Pin ; 10-90 Rise Time at FPGA Pin ; 90-10 Fall Time at FPGA Pin ; Monotonic Rise at FPGA Pin ; Monotonic Fall at FPGA Pin ; Steady State Voh at Far-end ; Steady State Vol at Far-end ; Voh Max at Far-end ; Vol Min at Far-end ; Ringback Voltage on Rise at Far-end ; Ringback Voltage on Fall at Far-end ; 10-90 Rise Time at Far-end ; 90-10 Fall Time at Far-end ; Monotonic Rise at Far-end ; Monotonic Fall at Far-end ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; pwm_out       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.85e-07 V                   ; 2.35 V              ; -0.0123 V           ; 0.144 V                              ; 0.042 V                              ; 4.81e-10 s                  ; 4.81e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 2.85e-07 V                  ; 2.35 V             ; -0.0123 V          ; 0.144 V                             ; 0.042 V                             ; 4.81e-10 s                 ; 4.81e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.85e-07 V                   ; 2.35 V              ; -0.0123 V           ; 0.144 V                              ; 0.042 V                              ; 4.81e-10 s                  ; 4.81e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 2.85e-07 V                  ; 2.35 V             ; -0.0123 V          ; 0.144 V                             ; 0.042 V                             ; 4.81e-10 s                 ; 4.81e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.93e-07 V                   ; 2.35 V              ; -0.00834 V          ; 0.127 V                              ; 0.035 V                              ; 4.7e-10 s                   ; 4.64e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.93e-07 V                  ; 2.35 V             ; -0.00834 V         ; 0.127 V                             ; 0.035 V                             ; 4.7e-10 s                  ; 4.64e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.93e-07 V                   ; 2.35 V              ; -0.00834 V          ; 0.127 V                              ; 0.035 V                              ; 4.7e-10 s                   ; 4.64e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.93e-07 V                  ; 2.35 V             ; -0.00834 V         ; 0.127 V                             ; 0.035 V                             ; 4.7e-10 s                  ; 4.64e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.93e-07 V                   ; 2.35 V              ; -0.00834 V          ; 0.127 V                              ; 0.035 V                              ; 4.7e-10 s                   ; 4.64e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.93e-07 V                  ; 2.35 V             ; -0.00834 V         ; 0.127 V                             ; 0.035 V                             ; 4.7e-10 s                  ; 4.64e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[4]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.93e-07 V                   ; 2.35 V              ; -0.00834 V          ; 0.127 V                              ; 0.035 V                              ; 4.7e-10 s                   ; 4.64e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.93e-07 V                  ; 2.35 V             ; -0.00834 V         ; 0.127 V                             ; 0.035 V                             ; 4.7e-10 s                  ; 4.64e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[5]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.93e-07 V                   ; 2.34 V              ; -0.00869 V          ; 0.14 V                               ; 0.046 V                              ; 6.89e-10 s                  ; 6.56e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.93e-07 V                  ; 2.34 V             ; -0.00869 V         ; 0.14 V                              ; 0.046 V                             ; 6.89e-10 s                 ; 6.56e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.93e-07 V                   ; 2.35 V              ; -0.00834 V          ; 0.127 V                              ; 0.035 V                              ; 4.7e-10 s                   ; 4.64e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.93e-07 V                  ; 2.35 V             ; -0.00834 V         ; 0.127 V                             ; 0.035 V                             ; 4.7e-10 s                  ; 4.64e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.55e-07 V                   ; 2.35 V              ; -0.00221 V          ; 0.097 V                              ; 0.005 V                              ; 4.49e-10 s                  ; 3.85e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.55e-07 V                  ; 2.35 V             ; -0.00221 V         ; 0.097 V                             ; 0.005 V                             ; 4.49e-10 s                 ; 3.85e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 2.54e-07 V                   ; 2.34 V              ; -0.00774 V          ; 0.109 V                              ; 0.026 V                              ; 6.58e-10 s                  ; 8.24e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 2.54e-07 V                  ; 2.34 V             ; -0.00774 V         ; 0.109 V                             ; 0.026 V                             ; 6.58e-10 s                 ; 8.24e-10 s                 ; Yes                       ; Yes                       ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Integrity Metrics (Fast 1200mv 0c Model)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; Pin           ; I/O Standard ; Board Delay on Rise ; Board Delay on Fall ; Steady State Voh at FPGA Pin ; Steady State Vol at FPGA Pin ; Voh Max at FPGA Pin ; Vol Min at FPGA Pin ; Ringback Voltage on Rise at FPGA Pin ; Ringback Voltage on Fall at FPGA Pin ; 10-90 Rise Time at FPGA Pin ; 90-10 Fall Time at FPGA Pin ; Monotonic Rise at FPGA Pin ; Monotonic Fall at FPGA Pin ; Steady State Voh at Far-end ; Steady State Vol at Far-end ; Voh Max at Far-end ; Vol Min at Far-end ; Ringback Voltage on Rise at Far-end ; Ringback Voltage on Fall at Far-end ; 10-90 Rise Time at Far-end ; 90-10 Fall Time at Far-end ; Monotonic Rise at Far-end ; Monotonic Fall at Far-end ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; pwm_out       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.74e-08 V                   ; 2.73 V              ; -0.0384 V           ; 0.169 V                              ; 0.089 V                              ; 2.7e-10 s                   ; 2.62e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 2.74e-08 V                  ; 2.73 V             ; -0.0384 V          ; 0.169 V                             ; 0.089 V                             ; 2.7e-10 s                  ; 2.62e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.74e-08 V                   ; 2.73 V              ; -0.0384 V           ; 0.169 V                              ; 0.089 V                              ; 2.7e-10 s                   ; 2.62e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 2.74e-08 V                  ; 2.73 V             ; -0.0384 V          ; 0.169 V                             ; 0.089 V                             ; 2.7e-10 s                  ; 2.62e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.74e-08 V                   ; 2.73 V              ; -0.0384 V           ; 0.169 V                              ; 0.089 V                              ; 2.7e-10 s                   ; 2.62e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 2.74e-08 V                  ; 2.73 V             ; -0.0384 V          ; 0.169 V                             ; 0.089 V                             ; 2.7e-10 s                  ; 2.62e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[4]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.74e-08 V                   ; 2.73 V              ; -0.0384 V           ; 0.169 V                              ; 0.089 V                              ; 2.7e-10 s                   ; 2.62e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 2.74e-08 V                  ; 2.73 V             ; -0.0384 V          ; 0.169 V                             ; 0.089 V                             ; 2.7e-10 s                  ; 2.62e-10 s                 ; Yes                       ; Yes                       ;
+; pwm_duty[5]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.74e-08 V                   ; 2.71 V              ; -0.0317 V           ; 0.148 V                              ; 0.064 V                              ; 4.51e-10 s                  ; 4.15e-10 s                  ; No                         ; Yes                        ; 2.62 V                      ; 2.74e-08 V                  ; 2.71 V             ; -0.0317 V          ; 0.148 V                             ; 0.064 V                             ; 4.51e-10 s                 ; 4.15e-10 s                 ; No                        ; Yes                       ;
+; pwm_duty[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.74e-08 V                   ; 2.73 V              ; -0.0384 V           ; 0.169 V                              ; 0.089 V                              ; 2.7e-10 s                   ; 2.62e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 2.74e-08 V                  ; 2.73 V             ; -0.0384 V          ; 0.169 V                             ; 0.089 V                             ; 2.7e-10 s                  ; 2.62e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.22e-08 V                   ; 2.74 V              ; -0.06 V             ; 0.158 V                              ; 0.08 V                               ; 2.68e-10 s                  ; 2.19e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 2.22e-08 V                  ; 2.74 V             ; -0.06 V            ; 0.158 V                             ; 0.08 V                              ; 2.68e-10 s                 ; 2.19e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 3.54e-08 V                   ; 2.7 V               ; -0.00943 V          ; 0.276 V                              ; 0.035 V                              ; 3.19e-10 s                  ; 4.99e-10 s                  ; No                         ; Yes                        ; 2.62 V                      ; 3.54e-08 V                  ; 2.7 V              ; -0.00943 V         ; 0.276 V                             ; 0.035 V                             ; 3.19e-10 s                 ; 4.99e-10 s                 ; No                        ; Yes                       ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+
+
++-------------------------------------------------------------------+
+; Setup Transfers                                                   ;
++------------+----------+----------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+----------+----------+----------+----------+
+; sysclk     ; sysclk   ; 3804     ; 0        ; 0        ; 0        ;
++------------+----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
++-------------------------------------------------------------------+
+; Hold Transfers                                                    ;
++------------+----------+----------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+----------+----------+----------+----------+
+; sysclk     ; sysclk   ; 3804     ; 0        ; 0        ; 0        ;
++------------+----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
+---------------
+; Report TCCS ;
+---------------
+No dedicated SERDES Transmitter circuitry present in device or used in design
+
+
+---------------
+; Report RSKM ;
+---------------
+No non-DPA dedicated SERDES Receiver circuitry present in device or used in design
+
+
++------------------------------------------------+
+; Unconstrained Paths                            ;
++---------------------------------+-------+------+
+; Property                        ; Setup ; Hold ;
++---------------------------------+-------+------+
+; Illegal Clocks                  ; 0     ; 0    ;
+; Unconstrained Clocks            ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 16    ; 16   ;
+; Unconstrained Input Port Paths  ; 196   ; 196  ;
+; Unconstrained Output Ports      ; 8     ; 8    ;
+; Unconstrained Output Port Paths ; 21    ; 21   ;
++---------------------------------+-------+------+
+
+
++------------------------------------+
+; TimeQuest Timing Analyzer Messages ;
++------------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
+    Info: Version 13.1.0 Build 162 10/23/2013 SJ Full Version
+    Info: Processing started: Sun Sep 20 09:15:27 2026
+Info: Command: quartus_sta NPWM_DAC_ADJ -c NPWM_DAC_ADJ
+Info: qsta_default_script.tcl version: #1
+Info (11104): Parallel Compilation has detected 24 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 16 of the 16 physical processors detected instead.
+Info (21076): High junction temperature operating condition is not set. Assuming a default value of '85'.
+Info (21076): Low junction temperature operating condition is not set. Assuming a default value of '0'.
+Info (332104): Reading SDC File: 'NPWM_DAC_ADJ.sdc'
+Info (332151): Clock uncertainty is not calculated until you update the timing netlist.
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in TimeQuest to see clock uncertainties.
+Info: Found TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
+Info: Analyzing Slow 1200mV 85C Model
+Info (332146): Worst-case setup slack is 9.096
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     9.096               0.000 sysclk 
+Info (332146): Worst-case hold slack is 0.453
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.453               0.000 sysclk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is 9.785
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     9.785               0.000 sysclk 
+Info: Analyzing Slow 1200mV 0C Model
+Info (334003): Started post-fitting delay annotation
+Info (334004): Delay annotation completed successfully
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in TimeQuest to see clock uncertainties.
+Info (332146): Worst-case setup slack is 9.869
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     9.869               0.000 sysclk 
+Info (332146): Worst-case hold slack is 0.402
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.402               0.000 sysclk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is 9.774
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     9.774               0.000 sysclk 
+Info: Analyzing Fast 1200mV 0C Model
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in TimeQuest to see clock uncertainties.
+Info (332146): Worst-case setup slack is 15.230
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    15.230               0.000 sysclk 
+Info (332146): Worst-case hold slack is 0.186
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.186               0.000 sysclk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is 9.434
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     9.434               0.000 sysclk 
+Info (332102): Design is not fully constrained for setup requirements
+Info (332102): Design is not fully constrained for hold requirements
+Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 4813 megabytes
+    Info: Processing ended: Sun Sep 20 09:15:28 2026
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+

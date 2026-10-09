@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="960" viewBox="0 0 1500 960">
+  <defs>
+    <style>
+      text{font-family:"Microsoft YaHei",Arial,sans-serif;fill:#17202a}.title{font-size:30px;font-weight:700}.h{font-size:21px;font-weight:700}.t{font-size:17px}.s{font-size:14px}
+      .fpga{fill:#eef6ff;stroke:#24527a;stroke-width:3}.buf{fill:#eef9ee;stroke:#2f7d32;stroke-width:3}.board{fill:#fff8e6;stroke:#9b6b00;stroke-width:2}.note{fill:#fff;stroke:#888;stroke-width:2;stroke-dasharray:7 5}
+      .clk{stroke:#1261a0;stroke-width:3;fill:none}.sdi{stroke:#26834a;stroke-width:3;fill:none}.sdo{stroke:#873bb5;stroke-width:4;fill:none}.cs{stroke:#c33;stroke-width:2;fill:none}.gnd{stroke:#333;stroke-width:3;fill:none}
+    </style>
+    <marker id="blue" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#1261a0"/></marker>
+    <marker id="green" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#26834a"/></marker>
+    <marker id="purple" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#873bb5"/></marker>
+    <marker id="red" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#c33"/></marker>
+  </defs>
+
+  <text x="750" y="45" text-anchor="middle" class="title">20块 ADS7953：共用 SCLK / SDI / SDO，独立 CS#</text>
+
+  <rect x="40" y="120" width="270" height="650" rx="18" class="fpga"/>
+  <text x="175" y="160" text-anchor="middle" class="h">Cyclone IV FPGA</text>
+  <text x="72" y="235" class="t">SCLK</text>
+  <text x="72" y="305" class="t">SDI</text>
+  <text x="72" y="410" class="t">CS#[19:0]</text>
+  <text x="72" y="640" class="t">SDO</text>
+  <text x="175" y="725" text-anchor="middle" class="s">23个GPIO</text>
+
+  <rect x="370" y="155" width="235" height="205" rx="15" class="buf"/>
+  <text x="487" y="194" text-anchor="middle" class="h">U1  74LVC244</text>
+  <text x="487" y="238" text-anchor="middle" class="t">SCLK → 4路同源输出</text>
+  <text x="487" y="278" text-anchor="middle" class="t">SDI → 4路同源输出</text>
+  <text x="487" y="322" text-anchor="middle" class="s">每个输出驱动5块板</text>
+
+  <path d="M310 230 H370" class="clk" marker-end="url(#blue)"/>
+  <path d="M310 300 H370" class="sdi" marker-end="url(#green)"/>
+
+  <g>
+    <rect x="730" y="100" width="260" height="115" rx="12" class="board"/><text x="860" y="137" text-anchor="middle" class="h">Board 0…4</text><text x="860" y="169" text-anchor="middle" class="s">SCLK0 / SDI0</text><text x="860" y="195" text-anchor="middle" class="s">CS0…4，各SDO并入总线</text>
+    <rect x="1110" y="100" width="260" height="115" rx="12" class="board"/><text x="1240" y="137" text-anchor="middle" class="h">Board 5…9</text><text x="1240" y="169" text-anchor="middle" class="s">SCLK1 / SDI1</text><text x="1240" y="195" text-anchor="middle" class="s">CS5…9，各SDO并入总线</text>
+    <rect x="730" y="300" width="260" height="115" rx="12" class="board"/><text x="860" y="337" text-anchor="middle" class="h">Board 10…14</text><text x="860" y="369" text-anchor="middle" class="s">SCLK2 / SDI2</text><text x="860" y="395" text-anchor="middle" class="s">CS10…14，各SDO并入总线</text>
+    <rect x="1110" y="300" width="260" height="115" rx="12" class="board"/><text x="1240" y="337" text-anchor="middle" class="h">Board 15…19</text><text x="1240" y="369" text-anchor="middle" class="s">SCLK3 / SDI3</text><text x="1240" y="395" text-anchor="middle" class="s">CS15…19，各SDO并入总线</text>
+  </g>
+
+  <path d="M605 205 H690 V155 H730" class="clk" marker-end="url(#blue)"/>
+  <path d="M605 225 H680 V155 H1110" class="clk" marker-end="url(#blue)"/>
+  <path d="M605 260 H670 V355 H730" class="clk" marker-end="url(#blue)"/>
+  <path d="M605 280 H660 V355 H1110" class="clk" marker-end="url(#blue)"/>
+  <text x="645" y="190" class="s">蓝：SCLK分组</text>
+
+  <path d="M605 310 H650 V180 H730" class="sdi" marker-end="url(#green)"/>
+  <path d="M605 330 H640 V180 H1110" class="sdi" marker-end="url(#green)"/>
+  <path d="M605 340 H630 V380 H730" class="sdi" marker-end="url(#green)"/>
+  <path d="M605 350 H620 V380 H1110" class="sdi" marker-end="url(#green)"/>
+
+  <path d="M310 405 H700 V480 H1380" class="cs" marker-end="url(#red)"/>
+  <text x="810" y="469" class="t">20根独立CS#：每根加4.7～10kΩ上拉</text>
+
+  <path d="M1370 545 H655 V635 H310" class="sdo" marker-end="url(#purple)"/>
+  <path d="M860 215 V545" class="sdo"/><path d="M1240 215 V545" class="sdo"/>
+  <path d="M860 415 V545" class="sdo"/><path d="M1240 415 V545" class="sdo"/>
+  <text x="890" y="575" text-anchor="middle" class="t">一根共享SDO主干：任意时刻只能一块板驱动</text>
+  <text x="890" y="605" text-anchor="middle" class="s">FPGA端10kΩ下拉；可预留74LVC1G17接收缓冲</text>
+
+  <path d="M350 705 H1380" class="gnd"/>
+  <text x="870" y="695" text-anchor="middle" class="s">公共低阻地平面 / 每个连接器配置充足地回流</text>
+  <text x="870" y="742" text-anchor="middle" class="t">外部DC 5 V → 星形/分组配电 → 20块板CN1-1；74LVC244单独使用FPGA侧3.3 V</text>
+
+  <rect x="365" y="790" width="1010" height="125" rx="14" class="note"/>
+  <text x="390" y="825" class="h">片选切换规则</text>
+  <text x="390" y="858" class="t">停止SCLK → 当前CS拉高 → 全部CS保持高≥100 ns → 目标CS拉低 → 开始下一板传输</text>
+  <text x="390" y="892" class="s">若出现两路CS同时为低，两个推挽SDO可能争用；必须在FPGA逻辑中加入互斥保护。</text>
+</svg>

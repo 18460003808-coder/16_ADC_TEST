@@ -1,0 +1,644 @@
+ADS7953_NBoard_UART FPGA模块调用及信号控制框图
+=================================================
+
+适用工程：NEW/ADS7953_NBoard_UART
+目标器件：EP4CE30F23C8
+系统时钟：50 MHz
+UART：115200 baud，8-N-1
+ADC SCLK：1 MHz
+当前板数宏：ADS7953_BOARD_COUNT = 20
+
+
+一、模块调用总框图
+==================
+
+                                 +----------------------+
+                                 |       上位机PC       |
+                                 | 发送T（ASCII 0x54）  |
+                                 | 接收数据帧和结束帧   |
+                                 +----------+-----------+
+                                            |
+                                  uart_rxd  |  uart_txd
+                                            |
+                                 +----------v-----------+
+                                 | ads7953_Nboard_hw_top|
+                                 | Quartus物理顶层      |
+                                 +----------+-----------+
+                                            |
+                                 +----------v-----------+
+                                 |  ads7953_Nboard_top  |
+                                 | 系统连接层           |
+                                 +-----+-----------+----+
+                                       |           |
+                    +------------------+           +------------------+
+                    |                                                 |
+        +-----------v----------------+                 +--------------v---------------+
+        | ads7953_Nboard_uart_bridge |                 | ads7953_Nboard_controller     |
+        | UART触发、组帧、序号管理   |                 | 多板轮询、CS选择、数据汇总   |
+        +------+---------------+-----+                 +---------------+--------------+
+               |               |                                       |
+       +-------v------+ +------v-------+                     +---------v----------+
+       | uart_rx_8n1  | | uart_tx_8n1 |                     | ads7953_16ch_reader |
+       | UART字节接收 | | UART字节发送|                     | 单板SPI读取器       |
+       +--------------+ +--------------+                     +---------+----------+
+                                                                        |
+                                      +---------------------------------+----------------+
+                                      |                 |                                |
+                               adc_sclk/adc_sdi   adc_cs_n[19:0]                    adc_sdo
+                                      |                 |                                |
+                             +--------v-----------------v--------------------------------v--+
+                             | ADS7953板0、板1、……、板19                                |
+                             | SCLK/SDI/SDO共用，每块板使用独立CS                        |
+                             +------------------------------------------------------------+
+
+
+二、模块调用层级
+================
+
+ads7953_Nboard_hw_top
+|
++-- ads7953_Nboard_top
+    |
+    +-- ads7953_Nboard_uart_bridge
+    |   |
+    |   +-- uart_rx_8n1
+    |   +-- uart_tx_8n1
+    |
+    +-- ads7953_Nboard_controller
+        |
+        +-- ads7953_16ch_reader
+
+
+三、各模块职责
+==============
+
+1. ads7953_Nboard_hw_top
+-----------------------
+
+Quartus工程的TOP_LEVEL_ENTITY。
+
+物理输入：
+  clk
+  rst_n
+  uart_rxd
+  adc_sdo
+
+物理输出：
+  uart_txd
+  adc_cs_n[19:0]
+  adc_sclk
+  adc_sdi
+
+ready、busy、packet_busy和sample_*等调试信号只接内部unused_*网络，
+没有接到FPGA外部引脚。
+
+
+2. ads7953_Nboard_top
+--------------------
+
+系统连接层，不负责具体SPI或UART状态机。
+
+默认参数：
+  CLK_HZ       = 50_000_000
+  UART_BAUD    = 115_200
+  ADC_SCLK_HZ  = 1_000_000
+  BOARD_COUNT  = ADS7953_BOARD_COUNT宏
+
+当前宏文件rtl/ads7953_board_count.vh为：
+
+  `define ADS7953_BOARD_COUNT 20
+
+顶层内部关键连接：
+
+  start_scans             UART Bridge -> NBoard Controller
+  scans_done              NBoard Controller -> UART Bridge
+  board_codes[3839:0]     NBoard Controller -> UART Bridge
+  board_valid[19:0]       NBoard Controller -> UART Bridge
+
+
+3. ads7953_Nboard_uart_bridge
+------------------------------
+
+主要职责：
+  1）调用uart_rx_8n1接收上位机命令；
+  2）检测ASCII T（0x54）；
+  3）系统空闲时产生start_scans；
+  4）等待全部板卡采集完成；
+  5）锁存board_codes和board_valid；
+  6）生成采集序号Seq；
+  7）依次发送N个40字节数据帧；
+  8）最后发送1个8字节结束帧；
+  9）调用uart_tx_8n1逐字节发送。
+
+接受触发的完整条件：
+
+  start_scans = rx_valid
+                && rx_data == 8'h54
+                && adc_ready
+                && !packet_active
+                && !tx_busy
+                && !tx_start
+
+含义：
+  - 必须收到T；
+  - ADC多板控制器必须空闲；
+  - 上一轮数据包不能正在发送；
+  - UART发送器必须空闲。
+
+采集或发送期间收到的新T会被忽略，不会排队。
+
+
+4. ads7953_Nboard_controller
+----------------------------
+
+主要职责：
+  1）从板0轮询到板N-1；
+  2）每次只启动一个ads7953_16ch_reader；
+  3）把单路reader_cs_n译码成20路独立CS；
+  4）保存每块板16通道结果；
+  5）保存每块板本轮是否读取成功；
+  6）全部板完成后产生all_done/scans_done脉冲。
+
+控制器状态：
+
+  ST_WAIT_POWERUP
+        |
+        | reader_ready=1
+        v
+  ST_IDLE
+        |
+        | start_scans=1
+        v
+  ST_WAIT_BOARD <---------------------+
+        |                              |
+        | reader_scan_done             |
+        v                              |
+  当前板不是最后一板                   |
+        |                              |
+        v                              |
+  ST_BOARD_GAP -- reader_trig ---------+
+        |
+        | 最后一板完成
+        v
+  ST_FINISH -- all_done=1 --> ST_IDLE
+
+开始一轮采集时：
+
+  board_codes    <= 0
+  board_valid    <= 0
+  selected_board <= 0
+  reader_trig    <= 1
+  busy           <= 1
+
+当前板完成时：
+
+  board_codes[selected_board*192 +: 192] <= reader_codes
+  board_valid[selected_board]             <= reader_scan_ok
+
+
+5. ads7953_16ch_reader
+----------------------
+
+只负责当前选中一块ADS7953的SPI操作。
+
+主要职责：
+  1）产生CS、SCLK和SDI；
+  2）在SCLK上升沿采样SDO；
+  3）发送93C0、3C40和连续0000；
+  4）丢弃前三个返回字；
+  5）检查返回通道号是否按CH0到CH15排列；
+  6）把16路12位结果保存到adc_codes；
+  7）通道错位时尝试重新同步；
+  8）最多执行32个SPI字，防止SCLK永久运行；
+  9）输出scan_done和scan_ok。
+
+读取器状态：
+
+  ST_POWERUP
+      |
+      | 上电等待完成
+      v
+  ST_IDLE
+      |
+      | trig上升沿
+      v
+  ST_START
+      |
+      | CS拉低，准备bit15
+      v
+  ST_SHIFT
+      |
+      | 完成16个SCLK
+      v
+  ST_GAP
+      |
+      +-- 尚未完成 ----------> ST_START
+      |
+      +-- 收到CH15 ----------> ST_IDLE，scan_done=1，scan_ok=1
+      |
+      +-- 达到32字 ----------> ST_IDLE，scan_done=1，scan_ok=0
+
+
+6. uart_rx_8n1
+---------------
+
+把UART串行输入转换成8位数据。
+
+输出：
+  rx_data：接收到的8位数据
+  rx_valid：完成一个有效字节时产生一个时钟周期脉冲
+
+接收格式：
+  1个起始位
+  8个数据位
+  无校验
+  1个停止位
+
+
+7. uart_tx_8n1
+---------------
+
+把8位数据转换为UART串行输出。
+
+输入：
+  start：发送一个字节的启动脉冲
+  data：需要发送的字节
+
+输出：
+  tx：UART串行输出
+  busy：当前字节仍在发送
+
+UART Bridge只有在tx_busy=0时才发送下一个字节，因此不会覆盖前一个字节。
+
+
+四、CS、SCLK、SDI和SDO控制关系
+==============================
+
+1. SCLK和SDI
+------------
+
+reader直接产生：
+
+  reader_sclk -> adc_sclk
+  reader_sdi  -> adc_sdi
+
+SCLK和SDI由所有ADS7953板卡共用。
+
+
+2. CS译码
+---------
+
+reader只输出一个标量reader_cs_n。
+
+controller根据selected_board译码：
+
+  adc_cs_n = reader_cs_n ? 20'hFFFFF
+                           : ~(20'h00001 << selected_board)
+
+结果：
+
+  reader_cs_n=1：所有CS为高，所有板取消选择。
+  reader_cs_n=0：只有selected_board对应的CS为低。
+
+示例：
+
+  selected_board=0  -> 只有CS0低
+  selected_board=1  -> 只有CS1低
+  selected_board=15 -> 只有CS15低
+  selected_board=19 -> 只有CS19低
+
+任意时刻最多只有一块板被选中。
+
+
+3. SDO
+------
+
+20块ADS7953共用一根adc_sdo返回线。
+
+当前只有CS为低的ADS7953应当驱动SDO，其他板的SDO应为高阻。
+reader在SCLK上升沿采样adc_sdo。
+
+
+五、单块板SPI帧流程
+==================
+
+SPI格式：
+  CS低有效
+  每个字16个SCLK
+  MSB First
+  FPGA在SCLK上升沿采样SDO
+  每个16位字结束后CS拉高100 ns
+
+发送顺序：
+
+  SPI字1：93C0
+  SPI字2：3C40
+  SPI字3：0000
+  SPI字4及以后：0000
+
+作用：
+
+  93C0：设置Auto-2最后通道为CH15
+  3C40：进入Auto-2、重新从CH0开始、选择0～2×VREF量程
+  0000：保持当前模式并继续扫描
+
+返回处理：
+
+  前三个SDO返回字：丢弃
+  第四个返回字：期望0xxx，即CH0
+  第五个返回字：期望1xxx，即CH1
+  ......
+  第十九个返回字：期望Fxxx，即CH15
+
+SDO返回字：
+
+  bit15～bit12：通道号0～F
+  bit11～bit0 ：12位ADC转换结果
+
+
+六、通道顺序检查和重新同步
+==========================
+
+reader维护：
+
+  collecting
+  expected_channel
+  frame_count
+
+处理逻辑：
+
+1）尚未开始收集时
+
+  只接受0xxx作为CH0起点。
+  其他通道号不写入adc_codes。
+
+2）已经开始收集时
+
+  收到expected_channel：
+    保存低12位ADC结果；
+    expected_channel加1。
+
+  收到0xxx但当前不期待CH0：
+    认为出现了新一轮扫描；
+    清空已有部分数据；
+    从新的CH0重新同步。
+
+  收到其他错误通道号：
+    不写入当前期望通道；
+    继续发送SCLK等待重新同步。
+
+3）收到Fxxx
+
+  如果前面已经按顺序收到CH0～CH14：
+    保存CH15；
+    scan_ok置1；
+    在当前字间隔结束后停止。
+
+
+七、正常和异常采集时间
+====================
+
+当前SCLK为1 MHz：
+
+  周期     = 1 us
+  高电平   = 500 ns
+  低电平   = 500 ns
+  一个SPI字= 16 us
+
+正常扫描：
+
+  3个丢弃字 + 16个有效通道字 = 19个SPI字
+  19 × 16 = 304个SCLK
+  约304 us，不含短暂CS高间隔
+
+异常或缺板：
+
+  最多32个SPI字
+  32 × 16 = 512个SCLK
+  约512 us，不含短暂CS高间隔
+
+因此示波器上看到：
+
+  正常：SCLK脉冲段较短，收到CH15后停止。
+  异常：通道序列没有完成，继续尝试直到32字，SCLK脉冲段变长。
+
+SCLK变长是检测到返回数据异常后的结果，不是SCLK周期本身变慢。
+
+
+八、scan_done与scan_ok区别
+=========================
+
+scan_done：
+  表示当前板已经结束处理。
+  正常完成和超时失败都会产生scan_done。
+  controller依靠scan_done切换到下一块板，防止缺板死锁。
+
+scan_ok：
+  1：取得完整连续CH0～CH15，reader_codes有效。
+  0：达到32字仍未完成，reader_codes被清零。
+
+controller保存为：
+
+  board_valid[selected_board] <= reader_scan_ok
+
+
+九、全部板卡数据缓存
+====================
+
+每块板：
+
+  16通道 × 12位 = 192位
+
+20块板：
+
+  20 × 192位 = 3840位
+
+缓存排列：
+
+  board_codes[191:0]       = 板0的CH0～CH15
+  board_codes[383:192]     = 板1的CH0～CH15
+  ......
+  board_codes[3839:3648]   = 板19的CH0～CH15
+
+板内排列：
+
+  adc_codes[11:0]          = CH0
+  adc_codes[23:12]         = CH1
+  ......
+  adc_codes[191:180]       = CH15
+
+
+十、全部板完成后的UART发送
+=========================
+
+最后一块板完成后：
+
+  controller进入ST_FINISH；
+  all_done/scans_done产生一个时钟周期脉冲；
+  busy清零；
+  controller返回ST_IDLE。
+
+UART Bridge检测到scans_done后：
+
+  codes_snapshot   <= board_codes
+  valid_snapshot   <= board_valid
+  packet_sequence  <= sequence_counter
+  sequence_counter <= sequence_counter + 1
+  packet_active    <= 1
+
+发送顺序：
+
+  板0数据帧40B
+  板1数据帧40B
+  ......
+  板N-1数据帧40B
+  结束帧8B
+
+数据帧：
+
+  A5 5A 01 Board 20 SeqLo SeqHi
+  CH0Lo CH0Hi ... CH15Lo CH15Hi XOR
+
+结束帧：
+
+  A5 5A 01 FF BoardCount SeqLo SeqHi XOR
+
+
+十一、读取错误标志
+==================
+
+board_valid中某位为0时，UART Bridge把对应板数据帧的Byte8 bit7置1。
+
+Byte8是CH0高字节：
+
+  bit7    ：板级SPI读取错误标志
+  bit6～4 ：保留
+  bit3～0 ：CH0 ADC原码bit11～bit8
+
+上位机解析ADC值时仍使用：
+
+  code = low_byte | ((high_byte & 0x0F) << 8)
+
+错误标志不影响12位ADC原码。
+
+标志含义：
+
+  bit7=0：本轮取得了完整CH0～CH15。
+  bit7=1：本轮达到32字仍未取得完整通道序列。
+
+bit7=1只能说明读取失败，不能单独区分：
+
+  未插板；
+  SDO信号完整性问题；
+  SCLK或CS异常；
+  ADC供电或工作异常；
+  连接器接触问题。
+
+
+十二、完整控制时序摘要
+======================
+
+上位机发送T
+  |
+  v
+uart_rx_8n1输出rx_valid和0x54
+  |
+  v
+UART Bridge检查ADC、UART和组帧模块是否空闲
+  |
+  v
+start_scans脉冲
+  |
+  v
+Controller清空缓存，selected_board=0
+  |
+  v
+reader_trig脉冲
+  |
+  v
+Reader给当前板发送93C0、3C40、0000...
+  |
+  v
+Reader检查SDO通道号0～F
+  |
+  +-- 成功：scan_done=1，scan_ok=1，保存16路
+  |
+  +-- 32字超时：scan_done=1，scan_ok=0，16路清零
+  |
+  v
+Controller保存reader_codes和reader_scan_ok
+  |
+  +-- 不是最后一板：selected_board加1，等待100ns，再触发Reader
+  |
+  +-- 最后一板：scans_done脉冲
+  |
+  v
+UART Bridge锁存全部数据和有效标志
+  |
+  v
+逐字节发送N个40B数据帧和一个8B结束帧
+  |
+  v
+上位机校验XOR、按Seq组轮次、显示或导出数据
+
+
+十三、当前20板配置下只插1块板的结果
+===================================
+
+当前BOARD_COUNT=20，所以控制器仍会依次扫描：
+
+  CS0 -> CS1 -> CS2 -> ... -> CS19
+
+假设只有1块正常板：
+
+  正常板约304 us完成；
+  其余19个位置通常各自运行到32字，约512 us后退出；
+  对应未插位置board_valid为0；
+  最后仍发送20个数据帧和1个结束帧。
+
+纯SPI轮询时间约：
+
+  1 × 304 us + 19 × 512 us
+  约10 ms
+
+UART返回字节数：
+
+  20 × 40 + 8 = 808字节
+
+115200 baud、8-N-1下UART发送约70 ms。
+
+所以完整一轮约为：
+
+  ADC轮询约10 ms + UART发送约70 ms
+  约80 ms
+
+连续触发间隔小于完整一轮时间时，新触发可能落在忙状态并被FPGA忽略。
+
+
+十四、关键源码位置
+==================
+
+Quartus顶层和源文件列表：
+  ADS7953_NBoard_UART.qsf
+
+物理顶层：
+  rtl/ads7953_Nboard_hw_top.v
+
+系统连接层：
+  rtl/ads7953_Nboard_top.v
+
+板数宏：
+  rtl/ads7953_board_count.vh
+
+多板轮询和CS译码：
+  rtl/ads7953_Nboard_controller.v
+
+单板SPI时序、通道检查和32字超时：
+  rtl/ads7953_16ch_reader.v
+
+UART触发、组帧、错误标志和回传：
+  rtl/ads7953_Nboard_uart_bridge.v
+
+UART收发字节模块：
+  rtl/uart_8n1.v
+

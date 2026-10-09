@@ -1,0 +1,75 @@
+# 50 MHz clock and active-low push-button reset
+set_location_assignment PIN_G1 -to clk
+set_location_assignment PIN_E4 -to rst_n
+
+# J11 independent ADS7953 board selects
+set_location_assignment PIN_B21 -to adc_cs_n[0]
+set_location_assignment PIN_C20 -to adc_cs_n[1]
+set_location_assignment PIN_C22 -to adc_cs_n[2]
+set_location_assignment PIN_D21 -to adc_cs_n[3]
+set_location_assignment PIN_E21 -to adc_cs_n[4]
+set_location_assignment PIN_F17 -to adc_cs_n[5]
+set_location_assignment PIN_F20 -to adc_cs_n[6]
+set_location_assignment PIN_F22 -to adc_cs_n[7]
+set_location_assignment PIN_G18 -to adc_cs_n[8]
+set_location_assignment PIN_H18 -to adc_cs_n[9]
+set_location_assignment PIN_H20 -to adc_cs_n[10]
+set_location_assignment PIN_H22 -to adc_cs_n[11]
+set_location_assignment PIN_J18 -to adc_cs_n[12]
+set_location_assignment PIN_J22 -to adc_cs_n[13]
+set_location_assignment PIN_K18 -to adc_cs_n[14]
+set_location_assignment PIN_K21 -to adc_cs_n[15]
+set_location_assignment PIN_L21 -to adc_cs_n[16]
+set_location_assignment PIN_M19 -to adc_cs_n[17]
+set_location_assignment PIN_M21 -to adc_cs_n[18]
+set_location_assignment PIN_M22 -to adc_cs_n[19]
+
+# J11 shared ADS7953 SPI bus
+set_location_assignment PIN_G17 -to adc_sdo
+set_location_assignment PIN_H19 -to adc_sdi
+set_location_assignment PIN_J17 -to adc_sclk
+
+# RTL8211EG GMII interface from hardware manual pages 21-22
+set_location_assignment PIN_B3  -to e_rxd[0]
+set_location_assignment PIN_A3  -to e_rxd[1]
+set_location_assignment PIN_B4  -to e_rxd[2]
+set_location_assignment PIN_A4  -to e_rxd[3]
+set_location_assignment PIN_B5  -to e_rxd[4]
+set_location_assignment PIN_A5  -to e_rxd[5]
+set_location_assignment PIN_B6  -to e_rxd[6]
+set_location_assignment PIN_A6  -to e_rxd[7]
+set_location_assignment PIN_B7  -to e_txd[0]
+set_location_assignment PIN_A7  -to e_txd[1]
+set_location_assignment PIN_B8  -to e_txd[2]
+set_location_assignment PIN_A8  -to e_txd[3]
+set_location_assignment PIN_B9  -to e_txd[4]
+set_location_assignment PIN_A9  -to e_txd[5]
+set_location_assignment PIN_B10 -to e_txd[6]
+set_location_assignment PIN_A10 -to e_txd[7]
+set_location_assignment PIN_C10 -to e_mdio
+set_location_assignment PIN_D10 -to e_mdc
+set_location_assignment PIN_E10 -to e_txer
+set_location_assignment PIN_C7  -to e_txen
+set_location_assignment PIN_C6  -to e_gtxc
+set_location_assignment PIN_E6  -to e_rxer
+set_location_assignment PIN_C8  -to e_reset_n
+set_location_assignment PIN_C3  -to e_rxc
+set_location_assignment PIN_E5  -to e_rxdv
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rst_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_cs_n[*]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdo
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sdi
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to adc_sclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to e_*
+
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_cs_n[*]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_sdi
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to adc_sclk
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to e_txd[*]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to e_txen
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to e_txer
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to e_gtxc
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to e_reset_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "8MA" -to e_mdc
