@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import csv
 import queue
+import sys
 import threading
 import time
 from datetime import datetime
@@ -29,6 +31,100 @@ SLIDE_DONE = 1
 SLIDE_COMMAND_HEADER = b"\x55\xAA"
 SLIDE_COMMAND_OPCODE = 0x4D
 IV_TO_CHANNEL = (14, 12, 10, 8, 13, 15, 9, 11, 5, 7, 1, 3, 6, 4, 2, 0)
+BOARD_MAPPING_FILENAME = "board_mapping.csv"
+
+
+def application_directory() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
+
+
+def configuration_directory(
+        platform_name: str | None = None, home: Path | None = None) -> Path:
+    platform_name = platform_name or sys.platform
+    if platform_name == "darwin":
+        return (home or Path.home()) / "Library" / "Application Support" / \
+            "ADS7953_NBoard_UART_SLIDE"
+    return application_directory()
+
+
+def default_export_directory(
+        platform_name: str | None = None, home: Path | None = None) -> Path:
+    platform_name = platform_name or sys.platform
+    if platform_name == "darwin":
+        user_home = home or Path.home()
+        documents = user_home / "Documents"
+        return documents if documents.is_dir() else user_home
+    return Path.cwd()
+
+
+def create_identity_board_mapping(path: Path) -> None:
+    """Create the editable first-run mapping used by the macOS app."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = ["capture_slot,logical_board"]
+    rows.extend(f"{board},{board}" for board in range(1, MAX_BOARD_COUNT + 1))
+    path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+
+def load_board_mapping(path: Path) -> tuple[int, ...]:
+    """Load physical capture-slot to logical-board mapping as zero-based IDs."""
+    if not path.is_file():
+        raise ValueError(f"找不到板卡映射文件：{path}")
+
+    physical_to_logical: list[int | None] = [None] * MAX_BOARD_COUNT
+    logical_seen: set[int] = set()
+    with path.open("r", encoding="utf-8-sig", newline="") as stream:
+        reader = csv.DictReader(stream)
+        required = {"capture_slot", "logical_board"}
+        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+            raise ValueError(
+                "映射文件表头必须包含capture_slot和logical_board。")
+        for row_number, row in enumerate(reader, start=2):
+            if not any((value or "").strip() for value in row.values()):
+                continue
+            try:
+                capture_slot = int((row["capture_slot"] or "").strip())
+                logical_board = int((row["logical_board"] or "").strip())
+            except ValueError as exc:
+                raise ValueError(f"映射文件第{row_number}行必须是整数。") from exc
+            if not 1 <= capture_slot <= MAX_BOARD_COUNT:
+                raise ValueError(f"第{row_number}行capture_slot必须为1～20。")
+            if not 1 <= logical_board <= MAX_BOARD_COUNT:
+                raise ValueError(f"第{row_number}行logical_board必须为1～20。")
+            physical_index = capture_slot - 1
+            logical_index = logical_board - 1
+            if physical_to_logical[physical_index] is not None:
+                raise ValueError(f"采集卡插口{capture_slot}重复配置。")
+            if logical_index in logical_seen:
+                raise ValueError(f"实际子板{logical_board}重复配置。")
+            physical_to_logical[physical_index] = logical_index
+            logical_seen.add(logical_index)
+
+    missing_slots = [
+        str(index + 1) for index, value in enumerate(physical_to_logical)
+        if value is None
+    ]
+    if missing_slots:
+        raise ValueError("映射文件缺少采集卡插口：" + ",".join(missing_slots))
+    missing_boards = [
+        str(index + 1) for index in range(MAX_BOARD_COUNT)
+        if index not in logical_seen
+    ]
+    if missing_boards:
+        raise ValueError("映射文件缺少实际子板：" + ",".join(missing_boards))
+    return tuple(value for value in physical_to_logical if value is not None)
+
+
+def remap_board_group(
+        physical_boards: dict[int, tuple[list[int], bool]],
+        board_count: int, physical_to_logical: tuple[int, ...]
+        ) -> dict[int, tuple[list[int], bool]]:
+    """Convert FPGA physical board IDs to configured logical board IDs."""
+    return {
+        physical_to_logical[physical_board]: physical_boards[physical_board]
+        for physical_board in range(board_count)
+    }
 
 
 def build_slide_command(direction: int, pulse_count: int) -> bytes:
@@ -128,10 +224,28 @@ class Ads7953App:
         self.pending: dict[int, dict[int, tuple[list[int], bool]]] = {}
         self.current_codes = {board: [0] * 16 for board in range(MAX_BOARD_COUNT)}
         self.current_errors = {board: False for board in range(MAX_BOARD_COUNT)}
+        self.active_logical_boards: set[int] = set()
         self.current_sequence: int | None = None
         self.detected_board_count = 0
-        self.export_path = Path.cwd() / "ADS7953_NBoard_data.xlsx"
+        self.mapping_path = configuration_directory() / BOARD_MAPPING_FILENAME
+        self.mapping_error: str | None = None
+        try:
+            if sys.platform == "darwin" and not self.mapping_path.exists():
+                create_identity_board_mapping(self.mapping_path)
+            self.physical_to_logical = load_board_mapping(self.mapping_path)
+        except (OSError, UnicodeError, ValueError) as exc:
+            self.physical_to_logical = tuple(range(MAX_BOARD_COUNT))
+            self.mapping_error = str(exc)
+        self.export_path = default_export_directory() / "ADS7953_NBoard_data.xlsx"
         self._build_ui()
+        if self.mapping_error:
+            self.status.set(f"板卡映射配置错误：{self.mapping_error}")
+            self.root.after(0, lambda: messagebox.showerror(
+                "板卡映射配置错误",
+                self.mapping_error +
+                f"\n\n请修正以下文件后重新启动：\n{self.mapping_path}"))
+        else:
+            self.status.set(f"未连接；已加载板卡映射：{self.mapping_path.name}")
         self._refresh_ports()
         self.root.after(50, self._poll_events)
         self.root.protocol("WM_DELETE_WINDOW", self._close)
@@ -208,6 +322,12 @@ class Ads7953App:
         if self.serial_port and self.serial_port.is_open:
             self._disconnect()
             return
+        if self.mapping_error:
+            messagebox.showerror(
+                "板卡映射配置错误",
+                self.mapping_error +
+                f"\n\n请修正以下文件后重新启动：\n{self.mapping_path}")
+            return
         port = self.port_box.get()
         if not port:
             messagebox.showwarning("提示", "没有可用串口，请连接设备后刷新。")
@@ -237,7 +357,7 @@ class Ads7953App:
         self.connect_button.configure(text="连接")
         self.trigger_button.configure(state=tk.DISABLED)
         self.continuous_button.configure(state=tk.DISABLED)
-        self.status.set("未连接")
+        self.status.set(f"未连接；已加载板卡映射：{self.mapping_path.name}")
 
     def _reader(self) -> None:
         parser = FrameParser()
@@ -358,7 +478,10 @@ class Ads7953App:
                             if not self.continuous_active:
                                 self.trigger_button.configure(state=tk.NORMAL)
                             continue
-                        self._complete_capture(sequence, boards, board_count)
+                        logical_boards = remap_board_group(
+                            boards, board_count, self.physical_to_logical)
+                        self._complete_capture(
+                            sequence, logical_boards, board_count)
                         self.pending = {
                             seq: values for seq, values in self.pending.items()
                             if seq > sequence
@@ -381,12 +504,11 @@ class Ads7953App:
     def _complete_capture(
             self, sequence: int, boards: dict[int, tuple[list[int], bool]],
             board_count: int) -> None:
-        self.detected_board_count = board_count
-        for board in range(board_count):
-            self.current_codes[board], self.current_errors[board] = boards[board]
-        self.board_box["values"] = [str(i) for i in range(board_count)]
-        if int(self.board_box.get() or 0) >= board_count:
-            self.board_box.current(0)
+        self._store_logical_boards(boards, board_count)
+        logical_board_ids = sorted(boards)
+        self.board_box["values"] = [str(board) for board in logical_board_ids]
+        if int(self.board_box.get() or 0) not in boards:
+            self.board_box.set(str(logical_board_ids[0]))
         self.current_sequence = sequence
         self.sequence_text.set(f"采集序号：{sequence}")
         self._refresh_table()
@@ -396,7 +518,7 @@ class Ads7953App:
         if not self.continuous_active:
             self.trigger_button.configure(state=tk.NORMAL)
         suffix = f"，已写入 {self.export_path}" if wrote_excel else ""
-        failed = [str(board) for board in range(board_count) if self.current_errors[board]]
+        failed = [str(board) for board in sorted(boards) if self.current_errors[board]]
         if failed:
             self.status.set(
                 f"序号 {sequence}：板号 {','.join(failed)} SPI读取异常（32字超时）{suffix}")
@@ -417,6 +539,18 @@ class Ads7953App:
                 str(iv), values=(f"IV{iv}", channel, code,
                                  f"{millivolts:.2f}", f"{millivolts / 1000.0:.4f}"),
                 tags=row_tags)
+
+    def _store_logical_boards(
+            self, boards: dict[int, tuple[list[int], bool]],
+            board_count: int) -> None:
+        self.detected_board_count = board_count
+        self.active_logical_boards = set(boards)
+        for board in range(MAX_BOARD_COUNT):
+            self.current_codes[board] = [0] * 16
+            self.current_errors[board] = False
+        for board, (codes, spi_error) in boards.items():
+            self.current_codes[board] = codes
+            self.current_errors[board] = spi_error
 
     def _select_export(self) -> None:
         selected = filedialog.asksaveasfilename(
@@ -445,7 +579,7 @@ class Ads7953App:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
         error_fill = PatternFill(fill_type="solid", fgColor="FFE6E6")
         error_font = Font(color="C00000")
-        for board in range(board_count):
+        for board in sorted(boards):
             codes, spi_error = boards[board]
             values = [codes[channel] * 5000.0 / 4096.0 for channel in IV_TO_CHANNEL]
             sheet.append([

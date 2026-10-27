@@ -19,6 +19,10 @@ Quartus工程入口：`ADS7953_NBoard_UART_SLIDE.qpf`。
 
 正式程序：`host/dist/ADS7953_NBoard_AllChannels_UART_SLIDE.exe`；Scope程序：`host/dist/ADS7953_NBoard_Scope_UART.exe`。
 
+两个上位机均从EXE同目录的`board_mapping.csv`自动读取“采集卡物理插口→实际逻辑子板”映射。配置使用1～20编号，必须是20个插口和20块子板的一一对应关系；缺失、重复或越界时禁止连接采集。映射应用于IV显示、错误标红、Scope曲线、普通/联动Excel和后续灰度成像，说明见`docs/板卡映射配置说明.md`。
+
+macOS Apple Silicon M5版共用同一套Python源码，提供两个arm64 `.app`规格文件和`host/build_macos.sh`。需要发送到Mac的文件已单独整理在`macOS_M5_Package/`，复制该文件夹即可，不需要携带Windows EXE、FPGA工程或用户数据。Mac版首次启动会在`~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/board_mapping.csv`生成映射文件，默认Excel目录为`~/Documents`。最终`.app`必须在Mac上构建，步骤见`docs/macOS版本使用与打包说明.md`。
+
 串口参数固定为115200、8-N-1。界面保留原来的单次采集、连续采集、动态板数、IV0～IV319显示、异常板标红和纵向Excel导出，并增加：
 
 1. 滑轨单独调试：选择正/反方向，输入0.5～300 mm后执行一次移动。
@@ -31,11 +35,11 @@ Quartus工程入口：`ADS7953_NBoard_UART_SLIDE.qpf`。
 
 灰度Excel采用顺序读取并在后台线程计算，处理期间GUI保持响应。生成后先显示预览，不会自动创建PNG；只有点击预览窗口中的“导出PNG”才选择性保存。`host/build_exe.ps1`只生成最终全通道滑轨版和保留的Scope版。
 
-重新打包SLIDE全通道程序：
+重新打包两个正式上位机并把外部映射文件复制到`host/dist`：
 
 ```powershell
 cd host
-pyinstaller --noconfirm --clean ADS7953_NBoard_AllChannels_UART.spec
+powershell -ExecutionPolicy Bypass -File .\build_exe.ps1
 ```
 
 ## 安全与超时
@@ -46,11 +50,11 @@ pyinstaller --noconfirm --clean ADS7953_NBoard_AllChannels_UART.spec
 - 滑轨或采集应答超时后联动停止，界面提示人工确认当前位置；不会在位置未知时盲目继续运动。
 - ADC每块板最多尝试32个SPI字，缺板不会导致SCLK永久运行。
 
-协议见`docs/通信协议.md`，操作步骤见`docs/滑轨联动使用说明.md`，所有Verilog文件的逐项实现见`docs/所有Verilog文件功能实现说明.md`。
+协议见`docs/通信协议.md`，操作步骤见`docs/滑轨联动使用说明.md`，板卡接线映射见`docs/板卡映射配置说明.md`，Mac构建见`docs/macOS版本使用与打包说明.md`，所有Verilog文件的逐项实现见`docs/所有Verilog文件功能实现说明.md`。
 
 ## 验证状态
 
-- Python单元测试：13项通过。
+- Python单元测试：18项通过。
 - GUI源码启动检查：通过。
 - 正式EXE启动检查：通过。
 - Quartus 13.1全流程编译：20板配置0 error，已生成SOF。

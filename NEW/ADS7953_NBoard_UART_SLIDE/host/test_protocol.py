@@ -1,6 +1,12 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
-from ads7953_Nboard_gui import FrameParser, build_slide_command
+from ads7953_Nboard_gui import (
+    FrameParser, build_slide_command, configuration_directory,
+    create_identity_board_mapping, default_export_directory,
+    load_board_mapping, remap_board_group,
+)
 
 
 def xor(data: bytes) -> int:
@@ -31,6 +37,53 @@ def slide_done_frame(direction: int, pulse_count: int) -> bytes:
 
 
 class FrameParserTest(unittest.TestCase):
+    @staticmethod
+    def _mapping_csv(first: int = 1, second: int = 2) -> str:
+        rows = ["capture_slot,logical_board", f"1,{first}", f"2,{second}"]
+        rows.extend(f"{index},{index}" for index in range(3, 21))
+        return "\n".join(rows) + "\n"
+
+    def test_board_mapping_loads_swapped_first_two_boards(self) -> None:
+        with TemporaryDirectory() as temporary_directory:
+            path = Path(temporary_directory) / "board_mapping.csv"
+            path.write_text(self._mapping_csv(2, 1), encoding="utf-8")
+            mapping = load_board_mapping(path)
+        self.assertEqual((1, 0), mapping[:2])
+        self.assertEqual(tuple(range(2, 20)), mapping[2:])
+
+    def test_macos_paths_and_first_run_mapping(self) -> None:
+        with TemporaryDirectory() as temporary_directory:
+            home = Path(temporary_directory)
+            config_dir = configuration_directory("darwin", home)
+            self.assertEqual(
+                home / "Library" / "Application Support" /
+                "ADS7953_NBoard_UART_SLIDE",
+                config_dir)
+            mapping_path = config_dir / "board_mapping.csv"
+            create_identity_board_mapping(mapping_path)
+            self.assertEqual(tuple(range(20)), load_board_mapping(mapping_path))
+            self.assertEqual(home, default_export_directory("darwin", home))
+            (home / "Documents").mkdir()
+            self.assertEqual(
+                home / "Documents", default_export_directory("darwin", home))
+
+    def test_board_mapping_rejects_duplicate_logical_board(self) -> None:
+        with TemporaryDirectory() as temporary_directory:
+            path = Path(temporary_directory) / "board_mapping.csv"
+            path.write_text(self._mapping_csv(1, 1), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "实际子板1重复配置"):
+                load_board_mapping(path)
+
+    def test_remap_board_group_uses_logical_board_ids(self) -> None:
+        physical_boards = {
+            0: ([0] * 16, False),
+            1: ([100] * 16, True),
+        }
+        mapping = (1, 0) + tuple(range(2, 20))
+        logical_boards = remap_board_group(physical_boards, 2, mapping)
+        self.assertEqual(([100] * 16, True), logical_boards[0])
+        self.assertEqual(([0] * 16, False), logical_boards[1])
+
     def test_slide_command(self) -> None:
         command = build_slide_command(1, 80)
         self.assertEqual(b"\x55\xAA\x4D\x01\x50\x00\x1C", command)

@@ -18,6 +18,8 @@ ADS7953_NBoard_UART_SLIDE最终工程说明
 - host/dist/ADS7953_NBoard_AllChannels_UART_SLIDE.exe：全通道显示、采集、滑轨与灰度成像最终版。
 - host/dist/ADS7953_NBoard_Scope_UART.exe：保留的多通道示波器式显示版，不含滑轨操作界面。
 
+两个程序启动时都读取EXE旁的host/dist/board_mapping.csv。该文件配置采集卡物理插口1～20与实际逻辑子板1～20的一一对应关系；所有显示、标红、波形和Excel均按映射后的逻辑IV0～IV319处理。配置错误时禁止连接，具体格式见docs/板卡映射配置说明.md。
+
 全通道滑轨版功能：
 
 1. 滑轨单独调试可选择方向，距离范围0.5～300 mm。运动期间状态灯为红色，收到匹配的FPGA完成帧后变为绿色。
@@ -31,4 +33,7 @@ ADS7953_NBoard_UART_SLIDE最终工程说明
 - README.md：工程范围、构建和验证状态。
 - docs/通信协议.md：ADC与滑轨UART帧格式。
 - docs/滑轨联动使用说明.md：接线、操作、Excel和灰度图说明。
+- docs/板卡映射配置说明.md：物理插口与实际子板对应关系。
+- docs/macOS版本使用与打包说明.md：Apple Silicon M5版构建和使用步骤。
+- macOS_M5_Package/：可整体复制到M5 Mac的两款上位机独立构建包。
 - docs/FPGA模块调用及信号控制框图.txt：FPGA模块层级及控制时序。

@@ -8,6 +8,7 @@ from ads7953_all_channels_gui import AllChannelsApp
 from ads7953_all_channels_gui import all_channel_rows
 from ads7953_all_channels_gui import grayscale_pixels_from_excel
 from ads7953_scope_gui import ScopeApp
+from ads7953_Nboard_gui import remap_board_group
 
 
 class AllChannelMappingTests(unittest.TestCase):
@@ -104,6 +105,25 @@ class AllChannelMappingTests(unittest.TestCase):
             self.assertEqual("00C00000", sheet.cell(18, 2).font.color.rgb)
             self.assertIsNone(sheet.cell(34, 2).value)
 
+    def test_all_channels_excel_uses_configured_logical_order(self):
+        physical_boards = {
+            0: (list(range(16)), False),
+            1: ([100 + value for value in range(16)], True),
+        }
+        mapping = (1, 0) + tuple(range(2, 20))
+        boards = remap_board_group(physical_boards, 2, mapping)
+        with TemporaryDirectory() as temporary_directory:
+            path = Path(temporary_directory) / "mapped.xlsx"
+            app = AllChannelsApp.__new__(AllChannelsApp)
+            app.export_path = path
+            app._append_excel(9, boards, 2)
+            sheet = load_workbook(path, data_only=True).active
+            self.assertAlmostEqual(
+                114 * 5000.0 / 4096.0, sheet.cell(2, 2).value)
+            self.assertEqual("00C00000", sheet.cell(2, 2).font.color.rgb)
+            self.assertAlmostEqual(
+                14 * 5000.0 / 4096.0, sheet.cell(18, 2).value)
+
     def test_linked_run_creates_new_named_workbook(self):
         boards = {
             0: (list(range(16)), False),
@@ -148,10 +168,12 @@ class AllChannelMappingTests(unittest.TestCase):
             self.assertEqual("纵向通道数据", workbook.active.title)
 
     def test_scope_excel_exports_only_selected_global_channels(self):
-        boards = {
+        physical_boards = {
             0: (list(range(16)), False),
             1: ([100 + value for value in range(16)], True),
         }
+        mapping = (1, 0) + tuple(range(2, 20))
+        boards = remap_board_group(physical_boards, 2, mapping)
         with TemporaryDirectory() as temporary_directory:
             path = Path(temporary_directory) / "scope.xlsx"
             app = ScopeApp.__new__(ScopeApp)
@@ -162,7 +184,9 @@ class AllChannelMappingTests(unittest.TestCase):
             self.assertEqual("IV0", sheet.cell(2, 3).value)
             self.assertEqual("IV16", sheet.cell(3, 3).value)
             self.assertEqual("读取状态", sheet.cell(1, 7).value)
-            self.assertEqual("读取异常（32字超时）", sheet.cell(3, 7).value)
+            self.assertEqual("读取异常（32字超时）", sheet.cell(2, 7).value)
+            self.assertEqual(114, sheet.cell(2, 8).value)
+            self.assertEqual(14, sheet.cell(3, 8).value)
             self.assertEqual(3, sheet.max_row)
 
 

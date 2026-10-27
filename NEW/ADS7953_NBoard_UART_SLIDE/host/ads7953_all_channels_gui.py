@@ -14,13 +14,13 @@ from PIL import Image, ImageTk
 
 from ads7953_Nboard_gui import (
     Ads7953App, BAUD, IV_TO_CHANNEL, MAX_BOARD_COUNT, SLIDE_DONE,
-    build_slide_command,
+    build_slide_command, default_export_directory,
 )
 
 
 def all_channel_rows(boards: dict[int, list[int]], board_count: int):
     """Return rows in global IV order: board 0 IV0..15, board 1 IV16..31..."""
-    for board in range(board_count):
+    for board in sorted(boards):
         codes = boards[board]
         for local_iv, adc_channel in enumerate(IV_TO_CHANNEL):
             global_iv = board * 16 + local_iv
@@ -102,7 +102,7 @@ class AllChannelsApp(Ads7953App):
             tuple[str, int, dict[int, tuple[list[int], bool]], int, float]
         ] = []
         super().__init__(root)
-        self.export_path = Path.cwd() / "ADS7953_AllChannels_data.xlsx"
+        self.export_path = default_export_directory() / "ADS7953_AllChannels_data.xlsx"
         self.root.after(50, self._poll_grayscale_events)
 
     def _build_ui(self) -> None:
@@ -630,7 +630,7 @@ class AllChannelsApp(Ads7953App):
             for global_iv in range(MAX_BOARD_COUNT * 16):
                 board, local_iv = divmod(global_iv, 16)
                 cell = sheet.cell(global_iv + 2, data_column)
-                if board >= board_count:
+                if board not in boards:
                     continue
                 codes, spi_error = boards[board]
                 adc_channel = IV_TO_CHANNEL[local_iv]
@@ -646,9 +646,7 @@ class AllChannelsApp(Ads7953App):
             board_count: int) -> None:
         if self.link_active:
             self.link_capture_token += 1
-            self.detected_board_count = board_count
-            for board in range(board_count):
-                self.current_codes[board], self.current_errors[board] = boards[board]
+            self._store_logical_boards(boards, board_count)
             self.current_sequence = sequence
             self.sequence_text.set(f"采集序号：{sequence}")
             self.channel_count_text.set(f"{board_count}块板，共{board_count * 16}路")
@@ -673,9 +671,7 @@ class AllChannelsApp(Ads7953App):
                 self._update_action_controls()
             return
 
-        self.detected_board_count = board_count
-        for board in range(board_count):
-            self.current_codes[board], self.current_errors[board] = boards[board]
+        self._store_logical_boards(boards, board_count)
         self.current_sequence = sequence
         self.sequence_text.set(f"采集序号：{sequence}")
         self.channel_count_text.set(f"{board_count}块板，共{board_count * 16}路")
@@ -686,7 +682,7 @@ class AllChannelsApp(Ads7953App):
         if not self.continuous_active:
             self.trigger_button.configure(state=tk.NORMAL)
         suffix = f"，已写入 {self.export_path}" if wrote_excel else ""
-        failed = [str(board) for board in range(board_count) if self.current_errors[board]]
+        failed = [str(board) for board in sorted(boards) if self.current_errors[board]]
         if failed:
             self.status.set(
                 f"序号 {sequence}：板号 {','.join(failed)} SPI读取异常（32字超时）{suffix}")
@@ -699,7 +695,7 @@ class AllChannelsApp(Ads7953App):
         self.table.delete(*self.table.get_children())
         boards = {
             board: self.current_codes[board]
-            for board in range(self.detected_board_count)
+            for board in self.active_logical_boards
         }
         for global_iv, board, local_iv, adc_channel, code, millivolts in all_channel_rows(
                 boards, self.detected_board_count):
@@ -752,7 +748,7 @@ class AllChannelsApp(Ads7953App):
         for global_iv in range(MAX_BOARD_COUNT * 16):
             board, local_iv = divmod(global_iv, 16)
             cell = sheet.cell(global_iv + 2, data_column)
-            if board >= board_count:
+            if board not in boards:
                 cell.value = None
                 continue
             codes, spi_error = boards[board]

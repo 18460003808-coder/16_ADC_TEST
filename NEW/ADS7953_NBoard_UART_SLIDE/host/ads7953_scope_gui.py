@@ -9,7 +9,9 @@ from tkinter import filedialog, ttk
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
 
-from ads7953_Nboard_gui import Ads7953App, IV_TO_CHANNEL, MAX_BOARD_COUNT
+from ads7953_Nboard_gui import (
+    Ads7953App, IV_TO_CHANNEL, MAX_BOARD_COUNT, default_export_directory,
+)
 
 
 HISTORY_POINTS = 200
@@ -27,7 +29,7 @@ class ScopeApp(Ads7953App):
             deque(maxlen=HISTORY_POINTS) for _ in range(MAX_BOARD_COUNT * 16)]
         self.sample_number = 0
         super().__init__(root)
-        self.export_path = Path.cwd() / "ADS7953_Scope_data.xlsx"
+        self.export_path = default_export_directory() / "ADS7953_Scope_data.xlsx"
 
     def _build_ui(self) -> None:
         self.root.title("ADS7953 N板实时波形工具")
@@ -92,22 +94,22 @@ class ScopeApp(Ads7953App):
     def _complete_capture(
             self, sequence: int, boards: dict[int, tuple[list[int], bool]],
             board_count: int) -> None:
-        count_changed = self.detected_board_count != board_count
-        self.detected_board_count = board_count
+        previous_boards = self.active_logical_boards.copy()
+        self._store_logical_boards(boards, board_count)
+        count_changed = previous_boards != self.active_logical_boards
         self.sample_number += 1
         self.sample_numbers.append(self.sample_number)
-        for board in range(board_count):
+        for board in sorted(boards):
             codes, spi_error = boards[board]
-            self.current_codes[board] = codes
-            self.current_errors[board] = spi_error
             for local_iv, adc_channel in enumerate(IV_TO_CHANNEL):
                 global_iv = board * 16 + local_iv
                 self.histories[global_iv].append(
                     codes[adc_channel] * 5.0 / 4096.0)
                 self.error_histories[global_iv].append(spi_error)
         if count_changed:
-            self._update_channel_list(board_count * 16)
-        self._update_channel_error_colors(board_count * 16)
+            highest_channel = (max(boards) + 1) * 16
+            self._update_channel_list(highest_channel)
+        self._update_channel_error_colors(self.channel_list.size())
         self.current_sequence = sequence
         self.sequence_text.set(f"采集序号：{sequence}")
         self._draw_scope()
@@ -117,7 +119,7 @@ class ScopeApp(Ads7953App):
         if not self.continuous_active:
             self.trigger_button.configure(state=tk.NORMAL)
         suffix = f"，已写入 {self.export_path}" if wrote_excel else ""
-        failed = [str(board) for board in range(board_count) if self.current_errors[board]]
+        failed = [str(board) for board in sorted(boards) if self.current_errors[board]]
         if failed:
             self.status.set(
                 f"板号 {','.join(failed)} SPI读取异常（红色采样点，32字超时）{suffix}")
@@ -238,7 +240,7 @@ class ScopeApp(Ads7953App):
         error_font = Font(color="C00000")
         for global_iv in self._selected_channels():
             board, local_iv = divmod(global_iv, 16)
-            if board >= board_count:
+            if board not in boards:
                 continue
             adc_channel = IV_TO_CHANNEL[local_iv]
             codes, spi_error = boards[board]

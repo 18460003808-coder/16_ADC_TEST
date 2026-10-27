@@ -10,3 +10,4 @@ foreach ($spec in $specs) {
         throw "PyInstaller failed: $spec"
     }
 }
+Copy-Item -LiteralPath 'board_mapping.csv' -Destination 'dist\board_mapping.csv' -Force

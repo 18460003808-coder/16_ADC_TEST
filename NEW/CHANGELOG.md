@@ -1,5 +1,22 @@
 # 修改日志
 
+## 2026-10-22：SLIDE两个上位机增加Apple Silicon macOS版本
+
+- AllChannels滑轨版和Scope版共用现有Python源码，新增两份arm64 PyInstaller规格文件、`requirements-macos.txt`和`build_macos.sh`，目标平台为M5等Apple Silicon Mac。
+- 新增独立发送目录`ADS7953_NBoard_UART_SLIDE/macOS_M5_Package/`，仅包含两款Mac应用的源码、依赖、arm64规格、构建脚本、映射模板和专用README，可整体复制到Mac。
+- macOS首次启动会在`~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/board_mapping.csv`生成20板恒等映射；两款应用共用该文件，默认Excel目录改用`~/Documents`。
+- Windows仍从EXE目录读取`board_mapping.csv`，默认导出行为不变；FPGA RTL、UART通信帧、引脚约束和SOF均未修改。
+- Python语法检查、18项单元测试、两个GUI源码启动检查和两个重新打包后的Windows正式EXE启动检查均通过。
+- 当前Windows环境不能交叉生成或运行macOS `.app`；实际构建、Gatekeeper首次打开、Mac串口和实物采集仍须在M5 Mac上验证。
+
+## 2026-10-21：SLIDE两个上位机增加外部板卡映射
+
+- 新增`host/board_mapping.csv`，按1～20编号配置“采集卡物理插口→实际逻辑子板”；两个EXE启动时从自身目录自动读取。
+- 映射统一在公共接收层执行，AllChannels显示/标红/联动/纵向Excel/灰度数据源和Scope通道/曲线/Excel均使用映射后的逻辑IV0～IV319。
+- 配置必须覆盖20个插口和20块子板且一一对应；文件缺失、重复、非整数或越界时禁止连接串口。
+- 新增映射加载、重复拒绝、数据重排和Excel逻辑顺序测试；当前17项Python测试通过，两个GUI源码及正式EXE启动检查通过。
+- FPGA RTL、UART通信帧、板内`IV_TO_CHANNEL`、约束和SOF均未修改。
+
 ## 2026-10-08：补充SLIDE工程全部Verilog实现说明
 
 - 新增`ADS7953_NBoard_UART_SLIDE/docs/所有Verilog文件功能实现说明.md`，逐个说明7个综合`.v`文件和2个仿真`.v`文件。

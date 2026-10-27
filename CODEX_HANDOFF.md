@@ -29,6 +29,10 @@ The desired architecture is:
 - `NEW/ADS7953_NBoard_NET/`: macro 1–20 boards, UDP, SCLK 10 MHz.
 - `NEW/ADS7953_NBoard_UART_SLIDE/`: derivative of the current N-board UART project, plus 2 kHz slide pulses, the AllChannels linked-run host, standalone named Excel export, and background 320×N grayscale preview with optional PNG export. Its maintained host executables are the SLIDE AllChannels build and the Scope build.
 
+The two SLIDE hosts load `board_mapping.csv` from beside the EXE. The CSV is a complete 1-based permutation from `capture_slot` to `logical_board`; received physical Board IDs are remapped before display, error highlighting, waveform history, Excel export, linked capture, and grayscale input generation. Invalid or missing mapping configuration blocks serial connection. FPGA frames and the per-board `IV_TO_CHANNEL` mapping are unchanged.
+
+The same two SLIDE hosts also have Apple Silicon arm64 PyInstaller specifications and `host/build_macos.sh`. The self-contained files to copy to a Mac are in `NEW/ADS7953_NBoard_UART_SLIDE/macOS_M5_Package/`. On macOS the applications share `~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/board_mapping.csv`, creating an identity mapping on first run, and default Excel output to `~/Documents`. A macOS `.app` must be built and verified on a Mac; Windows validation does not prove the application bundle, Gatekeeper behavior, USB-UART driver, or physical acquisition on macOS.
+
 Do not touch `NPWM_DAC`.
 
 ## FPGA target and physical design
