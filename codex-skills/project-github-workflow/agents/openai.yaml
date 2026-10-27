@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project GitHub Workflow"
+  short_description: "Commit changes and confirm every GitHub push"
+  default_prompt: "Use $project-github-workflow to create or update this project with explicit GitHub setup and push approval."
