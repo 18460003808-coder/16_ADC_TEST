@@ -5,7 +5,7 @@
 - `ADS7953_NBoard_AllChannels_UART_SLIDE.app`
 - `ADS7953_NBoard_Scope_UART.app`
 
-两款应用保留Windows版的UART采集、动态板数、外部板卡映射、错误标红和Excel导出；AllChannels还包含滑轨联动及灰度图预览/PNG导出，Scope保留多通道实时波形显示。
+两款应用保留Windows版的UART采集、动态板数、板卡序号映射、板内IV→ADC通道映射、错误标红和Excel导出；两类映射都可在上位机中直接修改。AllChannels还包含滑轨联动及灰度图预览/PNG导出，Scope保留多通道实时波形显示。
 
 ## 1. Mac准备
 
@@ -34,21 +34,25 @@ bash build_macos.sh
 dist_macos/ADS7953_NBoard_AllChannels_UART_SLIDE.app
 dist_macos/ADS7953_NBoard_Scope_UART.app
 dist_macos/board_mapping_template.csv
+dist_macos/channel_mapping_template.csv
 ```
 
 ## 3. 首次打开
 
 应用未配置Apple Developer签名和公证。首次运行若被macOS拦截，请在Finder中按住Control点击应用，选择“打开”，再在确认框中选择“打开”。
 
-## 4. 板卡映射
+## 4. 映射配置
 
 两款应用共用以下实际配置文件：
 
 ```text
 ~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/board_mapping.csv
+~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/channel_mapping.csv
 ```
 
-首次启动会自动创建1～20板恒等映射。要校准物理插口和实际子板，请修改上述文件并完全退出、重新打开应用。本发送包中的`board_mapping.csv`及输出的`board_mapping_template.csv`只是模板，应用运行时不直接读取发送包中的模板。
+首次启动会自动创建1～20板恒等映射和当前默认的IV→ADC通道映射。请先断开串口，再点击上位机顶部的“映射配置”：左侧修改物理插口→逻辑子板，右侧修改IV0～IV15→ADC CH0～CH15，点击“保存并应用”后立即生效。
+
+本发送包中的两份CSV及输出的`*_template.csv`只是模板，应用运行时使用Application Support目录中的实际配置。
 
 ## 5. 串口和输出文件
 
@@ -59,4 +63,4 @@ dist_macos/board_mapping_template.csv
 
 ## 6. 验证边界
 
-源码已在Windows完成语法检查、18项单元测试和两款GUI回归，但Windows不能生成或运行macOS `.app`。在正式使用前，仍需在M5 Mac上验证应用启动、USB转串口驱动、实际串口收发、Excel/PNG以及滑轨联动。
+源码已在Windows完成语法检查、21项单元测试和两款映射配置窗口GUI回归，但Windows不能生成或运行macOS `.app`。在正式使用前，仍需在M5 Mac上验证应用启动、USB转串口驱动、实际串口收发、Excel/PNG以及滑轨联动。

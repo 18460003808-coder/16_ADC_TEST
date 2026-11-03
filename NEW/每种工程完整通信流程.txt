@@ -776,6 +776,14 @@ ADC采集链路与NEW/ADS7953_NBoard_UART完全相同：
 
 PC发54 → FPGA逐板执行ADS7953 SPI → UART回N个40字节数据帧+8字节结束帧
 
+SLIDE的AllChannels和Scope上位机在完整轮次收齐后执行两级可配置映射：
+
+1. board_mapping.csv：采集卡物理插口1～20 → 实际逻辑子板1～20。
+2. channel_mapping.csv：每块板共用的本地IV0～IV15 → ADC CH0～CH15。
+
+两组映射都可在上位机“映射配置”窗口直接修改，断开串口后保存即生效。
+它们只改变显示、标红、Scope曲线、Excel及灰度数据的解释方式，不改变UART帧内的Board和CH0～CH15原始顺序。
+
 滑轨移动命令共7字节：
 
 55 AA 4D Dir PulseLo PulseHi XOR

@@ -32,6 +32,7 @@ SLIDE_COMMAND_HEADER = b"\x55\xAA"
 SLIDE_COMMAND_OPCODE = 0x4D
 IV_TO_CHANNEL = (14, 12, 10, 8, 13, 15, 9, 11, 5, 7, 1, 3, 6, 4, 2, 0)
 BOARD_MAPPING_FILENAME = "board_mapping.csv"
+CHANNEL_MAPPING_FILENAME = "channel_mapping.csv"
 
 
 def application_directory() -> Path:
@@ -61,9 +62,18 @@ def default_export_directory(
 
 def create_identity_board_mapping(path: Path) -> None:
     """Create the editable first-run mapping used by the macOS app."""
+    save_board_mapping(path, tuple(range(MAX_BOARD_COUNT)))
+
+
+def save_board_mapping(path: Path, physical_to_logical: tuple[int, ...]) -> None:
+    if (len(physical_to_logical) != MAX_BOARD_COUNT or
+            set(physical_to_logical) != set(range(MAX_BOARD_COUNT))):
+        raise ValueError("板卡映射必须是0～19的一一对应排列。")
     path.parent.mkdir(parents=True, exist_ok=True)
     rows = ["capture_slot,logical_board"]
-    rows.extend(f"{board},{board}" for board in range(1, MAX_BOARD_COUNT + 1))
+    rows.extend(
+        f"{physical + 1},{logical + 1}"
+        for physical, logical in enumerate(physical_to_logical))
     path.write_text("\n".join(rows) + "\n", encoding="utf-8")
 
 
@@ -125,6 +135,66 @@ def remap_board_group(
         physical_to_logical[physical_board]: physical_boards[physical_board]
         for physical_board in range(board_count)
     }
+
+
+def create_default_channel_mapping(path: Path) -> None:
+    save_channel_mapping(path, IV_TO_CHANNEL)
+
+
+def save_channel_mapping(path: Path, iv_to_channel: tuple[int, ...]) -> None:
+    if (len(iv_to_channel) != 16 or set(iv_to_channel) != set(range(16))):
+        raise ValueError("板内接口映射必须是ADC CH0～CH15的一一对应排列。")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = ["local_iv,adc_channel"]
+    rows.extend(
+        f"{local_iv},{adc_channel}"
+        for local_iv, adc_channel in enumerate(iv_to_channel))
+    path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+
+def load_channel_mapping(path: Path) -> tuple[int, ...]:
+    if not path.is_file():
+        raise ValueError(f"找不到板内接口映射文件：{path}")
+
+    iv_to_channel: list[int | None] = [None] * 16
+    channel_seen: set[int] = set()
+    with path.open("r", encoding="utf-8-sig", newline="") as stream:
+        reader = csv.DictReader(stream)
+        required = {"local_iv", "adc_channel"}
+        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+            raise ValueError(
+                "映射文件表头必须包含local_iv和adc_channel。")
+        for row_number, row in enumerate(reader, start=2):
+            if not any((value or "").strip() for value in row.values()):
+                continue
+            try:
+                local_iv = int((row["local_iv"] or "").strip())
+                adc_channel = int((row["adc_channel"] or "").strip())
+            except ValueError as exc:
+                raise ValueError(f"映射文件第{row_number}行必须是整数。") from exc
+            if not 0 <= local_iv < 16:
+                raise ValueError(f"第{row_number}行local_iv必须为0～15。")
+            if not 0 <= adc_channel < 16:
+                raise ValueError(f"第{row_number}行adc_channel必须为0～15。")
+            if iv_to_channel[local_iv] is not None:
+                raise ValueError(f"板内接口IV{local_iv}重复配置。")
+            if adc_channel in channel_seen:
+                raise ValueError(f"ADC CH{adc_channel}重复配置。")
+            iv_to_channel[local_iv] = adc_channel
+            channel_seen.add(adc_channel)
+
+    missing_ivs = [
+        str(index) for index, value in enumerate(iv_to_channel)
+        if value is None
+    ]
+    if missing_ivs:
+        raise ValueError("映射文件缺少板内接口IV：" + ",".join(missing_ivs))
+    missing_channels = [
+        str(index) for index in range(16) if index not in channel_seen
+    ]
+    if missing_channels:
+        raise ValueError("映射文件缺少ADC CH：" + ",".join(missing_channels))
+    return tuple(value for value in iv_to_channel if value is not None)
 
 
 def build_slide_command(direction: int, pulse_count: int) -> bytes:
@@ -227,25 +297,35 @@ class Ads7953App:
         self.active_logical_boards: set[int] = set()
         self.current_sequence: int | None = None
         self.detected_board_count = 0
-        self.mapping_path = configuration_directory() / BOARD_MAPPING_FILENAME
-        self.mapping_error: str | None = None
+        config_dir = configuration_directory()
+        self.mapping_path = config_dir / BOARD_MAPPING_FILENAME
+        self.channel_mapping_path = config_dir / CHANNEL_MAPPING_FILENAME
+        mapping_errors = []
         try:
             if sys.platform == "darwin" and not self.mapping_path.exists():
                 create_identity_board_mapping(self.mapping_path)
             self.physical_to_logical = load_board_mapping(self.mapping_path)
         except (OSError, UnicodeError, ValueError) as exc:
             self.physical_to_logical = tuple(range(MAX_BOARD_COUNT))
-            self.mapping_error = str(exc)
+            mapping_errors.append(f"板卡序号：{exc}")
+        try:
+            if sys.platform == "darwin" and not self.channel_mapping_path.exists():
+                create_default_channel_mapping(self.channel_mapping_path)
+            self.iv_to_channel = load_channel_mapping(self.channel_mapping_path)
+        except (OSError, UnicodeError, ValueError) as exc:
+            self.iv_to_channel = IV_TO_CHANNEL
+            mapping_errors.append(f"板内接口：{exc}")
+        self.mapping_error = "\n".join(mapping_errors) or None
         self.export_path = default_export_directory() / "ADS7953_NBoard_data.xlsx"
         self._build_ui()
         if self.mapping_error:
-            self.status.set(f"板卡映射配置错误：{self.mapping_error}")
+            self.status.set(f"映射配置错误：{self.mapping_error}")
             self.root.after(0, lambda: messagebox.showerror(
-                "板卡映射配置错误",
+                "映射配置错误",
                 self.mapping_error +
-                f"\n\n请修正以下文件后重新启动：\n{self.mapping_path}"))
+                "\n\n请点击上位机中的“映射配置”进行修正。"))
         else:
-            self.status.set(f"未连接；已加载板卡映射：{self.mapping_path.name}")
+            self.status.set("未连接；板卡序号和板内接口映射已加载")
         self._refresh_ports()
         self.root.after(50, self._poll_events)
         self.root.protocol("WM_DELETE_WINDOW", self._close)
@@ -263,6 +343,9 @@ class Ads7953App:
             controls, text="采集", state=tk.DISABLED, command=self._trigger)
         self.trigger_button.pack(side=tk.LEFT, padx=5)
         ttk.Button(controls, text="选择Excel", command=self._select_export).pack(side=tk.LEFT, padx=5)
+        ttk.Button(
+            controls, text="映射配置",
+            command=self._open_mapping_editor).pack(side=tk.LEFT, padx=5)
 
         repeat_controls = ttk.Frame(self.root, padding=(8, 0, 8, 6))
         repeat_controls.pack(fill=tk.X)
@@ -306,11 +389,117 @@ class Ads7953App:
             self.table.heading(column, text=heading)
             self.table.column(column, width=width, anchor=tk.CENTER)
         self.table.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
-        for iv, channel in enumerate(IV_TO_CHANNEL):
+        for iv, channel in enumerate(self.iv_to_channel):
             self.table.insert("", tk.END, iid=str(iv),
                               values=(f"IV{iv}", channel, 0, "0.00", "0.0000"))
         self.table.tag_configure(
             "spi_error", foreground="#C00000", background="#FFE6E6")
+
+    def _open_mapping_editor(self) -> None:
+        if self.serial_port and self.serial_port.is_open:
+            messagebox.showwarning("映射配置", "请先断开串口，再修改映射配置。")
+            return
+        if getattr(self, "link_captures", []):
+            messagebox.showwarning(
+                "映射配置", "请先保存当前待保存的联动数据，再修改映射配置。")
+            return
+
+        window = tk.Toplevel(self.root)
+        window.title("板卡序号与板内接口映射配置")
+        window.transient(self.root)
+        window.resizable(False, False)
+
+        content = ttk.Frame(window, padding=10)
+        content.pack(fill=tk.BOTH, expand=True)
+        board_frame = ttk.LabelFrame(
+            content, text="采集卡物理插口 → 实际逻辑子板", padding=8)
+        board_frame.grid(row=0, column=0, sticky=tk.N, padx=(0, 8))
+        channel_frame = ttk.LabelFrame(
+            content, text="板内接口 → ADC通道（所有子板共用）", padding=8)
+        channel_frame.grid(row=0, column=1, sticky=tk.N)
+
+        board_values = tuple(str(value) for value in range(1, 21))
+        board_vars = []
+        for physical, logical in enumerate(self.physical_to_logical, start=1):
+            ttk.Label(board_frame, text=f"插口 {physical}", width=9).grid(
+                row=physical - 1, column=0, padx=(0, 4), pady=1)
+            value = tk.StringVar(value=str(logical + 1))
+            board_vars.append(value)
+            ttk.Combobox(
+                board_frame, textvariable=value, values=board_values,
+                state="readonly", width=7).grid(
+                    row=physical - 1, column=1, pady=1)
+
+        channel_values = tuple(f"CH{value}" for value in range(16))
+        channel_vars = []
+        for local_iv, adc_channel in enumerate(self.iv_to_channel):
+            ttk.Label(channel_frame, text=f"IV{local_iv}", width=7).grid(
+                row=local_iv, column=0, padx=(0, 4), pady=1)
+            value = tk.StringVar(value=f"CH{adc_channel}")
+            channel_vars.append(value)
+            ttk.Combobox(
+                channel_frame, textvariable=value, values=channel_values,
+                state="readonly", width=7).grid(
+                    row=local_iv, column=1, pady=1)
+
+        ttk.Label(
+            content,
+            text="保存时会检查两组映射均为一一对应；保存成功后立即生效。",
+            foreground="#555555").grid(
+                row=1, column=0, columnspan=2, pady=(10, 4))
+        buttons = ttk.Frame(content)
+        buttons.grid(row=2, column=0, columnspan=2, pady=(4, 0))
+        ttk.Button(
+            buttons, text="保存并应用",
+            command=lambda: self._save_mapping_editor(
+                window, board_vars, channel_vars)).pack(side=tk.LEFT, padx=5)
+        ttk.Button(buttons, text="取消", command=window.destroy).pack(
+            side=tk.LEFT, padx=5)
+        window.grab_set()
+
+    def _save_mapping_editor(
+            self, window: tk.Toplevel, board_vars: list[tk.StringVar],
+            channel_vars: list[tk.StringVar]) -> None:
+        try:
+            physical_to_logical = tuple(
+                int(value.get()) - 1 for value in board_vars)
+            iv_to_channel = tuple(
+                int(value.get().removeprefix("CH")) for value in channel_vars)
+            if set(physical_to_logical) != set(range(MAX_BOARD_COUNT)):
+                raise ValueError("20个逻辑子板编号必须各使用一次，不能重复或缺失。")
+            if set(iv_to_channel) != set(range(16)):
+                raise ValueError("ADC CH0～CH15必须各使用一次，不能重复或缺失。")
+            save_board_mapping(self.mapping_path, physical_to_logical)
+            save_channel_mapping(self.channel_mapping_path, iv_to_channel)
+        except (OSError, ValueError) as exc:
+            messagebox.showerror("保存失败", str(exc), parent=window)
+            return
+
+        self.physical_to_logical = physical_to_logical
+        self.iv_to_channel = iv_to_channel
+        self.mapping_error = None
+        self._reset_mapping_state()
+        window.destroy()
+        self.status.set("映射配置已保存并立即生效")
+        messagebox.showinfo(
+            "映射配置", "板卡序号和板内接口映射已保存并立即生效。",
+            parent=self.root)
+
+    def _reset_mapping_state(self) -> None:
+        self.pending.clear()
+        self.current_sequence = None
+        self.detected_board_count = 0
+        self.active_logical_boards.clear()
+        for board in range(MAX_BOARD_COUNT):
+            self.current_codes[board] = [0] * 16
+            self.current_errors[board] = False
+        if hasattr(self, "sequence_text"):
+            self.sequence_text.set("采集序号：--")
+        if hasattr(self, "board_box"):
+            self.board_box["values"] = ["0"]
+            self.board_box.set("0")
+        if hasattr(self, "table"):
+            self._refresh_table()
 
     def _refresh_ports(self) -> None:
         ports = [port.device for port in list_ports.comports()]
@@ -324,9 +513,9 @@ class Ads7953App:
             return
         if self.mapping_error:
             messagebox.showerror(
-                "板卡映射配置错误",
+                "映射配置错误",
                 self.mapping_error +
-                f"\n\n请修正以下文件后重新启动：\n{self.mapping_path}")
+                "\n\n请点击上位机中的“映射配置”进行修正。")
             return
         port = self.port_box.get()
         if not port:
@@ -357,7 +546,7 @@ class Ads7953App:
         self.connect_button.configure(text="连接")
         self.trigger_button.configure(state=tk.DISABLED)
         self.continuous_button.configure(state=tk.DISABLED)
-        self.status.set(f"未连接；已加载板卡映射：{self.mapping_path.name}")
+        self.status.set("未连接；板卡序号和板内接口映射已加载")
 
     def _reader(self) -> None:
         parser = FrameParser()
@@ -532,7 +721,7 @@ class Ads7953App:
         board = int(self.board_box.get() or 0)
         codes = self.current_codes[board]
         row_tags = ("spi_error",) if self.current_errors[board] else ()
-        for iv, channel in enumerate(IV_TO_CHANNEL):
+        for iv, channel in enumerate(self.iv_to_channel):
             code = codes[channel]
             millivolts = code * 5000.0 / 4096.0
             self.table.item(
@@ -581,7 +770,10 @@ class Ads7953App:
         error_font = Font(color="C00000")
         for board in sorted(boards):
             codes, spi_error = boards[board]
-            values = [codes[channel] * 5000.0 / 4096.0 for channel in IV_TO_CHANNEL]
+            values = [
+                codes[channel] * 5000.0 / 4096.0
+                for channel in self.iv_to_channel
+            ]
             sheet.append([
                 timestamp, sequence, board,
                 "读取异常（32字超时）" if spi_error else "正常",

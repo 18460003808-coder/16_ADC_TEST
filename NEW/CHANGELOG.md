@@ -1,5 +1,12 @@
 # 修改日志
 
+## 2026-11-03：SLIDE上位机内直接配置两级映射
+
+- AllChannels和Scope顶部新增“映射配置”，断开串口后可直接设置20个物理插口→逻辑子板，以及所有子板共用的IV0～IV15→ADC CH0～CH15；保存时校验一一对应并立即生效。
+- 新增`channel_mapping.csv`，原有`board_mapping.csv`继续保留；两类映射统一用于显示、错误标红、Scope曲线、普通/联动Excel和灰度图数据源，原始UART帧和FPGA逻辑不变。
+- Windows构建脚本和正式EXE已同步两份CSV；Apple Silicon Mac源码、构建脚本、模板和`macOS_M5_Package`交付包已同步。
+- Python语法检查、21项单元测试、两个映射配置窗口GUI启动检查和两个Windows正式EXE启动检查通过；没有运行Quartus、ModelSim或实物硬件测试。
+
 ## 2026-10-22：SLIDE两个上位机增加Apple Silicon macOS版本
 
 - AllChannels滑轨版和Scope版共用现有Python源码，新增两份arm64 PyInstaller规格文件、`requirements-macos.txt`和`build_macos.sh`，目标平台为M5等Apple Silicon Mac。

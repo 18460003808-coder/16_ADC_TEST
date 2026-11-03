@@ -18,11 +18,13 @@ from ads7953_Nboard_gui import (
 )
 
 
-def all_channel_rows(boards: dict[int, list[int]], board_count: int):
+def all_channel_rows(
+        boards: dict[int, list[int]], board_count: int,
+        iv_to_channel: tuple[int, ...] = IV_TO_CHANNEL):
     """Return rows in global IV order: board 0 IV0..15, board 1 IV16..31..."""
     for board in sorted(boards):
         codes = boards[board]
-        for local_iv, adc_channel in enumerate(IV_TO_CHANNEL):
+        for local_iv, adc_channel in enumerate(iv_to_channel):
             global_iv = board * 16 + local_iv
             code = codes[adc_channel]
             millivolts = code * 5000.0 / 4096.0
@@ -123,6 +125,9 @@ class AllChannelsApp(Ads7953App):
         ttk.Button(
             controls, text="选择普通采集Excel",
             command=self._select_export).pack(side=tk.LEFT, padx=5)
+        ttk.Button(
+            controls, text="映射配置",
+            command=self._open_mapping_editor).pack(side=tk.LEFT, padx=5)
 
         repeat = ttk.Frame(self.root, padding=(8, 0, 8, 6))
         repeat.pack(fill=tk.X)
@@ -633,7 +638,8 @@ class AllChannelsApp(Ads7953App):
                 if board not in boards:
                     continue
                 codes, spi_error = boards[board]
-                adc_channel = IV_TO_CHANNEL[local_iv]
+                adc_channel = getattr(
+                    self, "iv_to_channel", IV_TO_CHANNEL)[local_iv]
                 cell.value = codes[adc_channel] * 5000.0 / 4096.0
                 cell.number_format = "0.00"
                 if spi_error:
@@ -698,7 +704,7 @@ class AllChannelsApp(Ads7953App):
             for board in self.active_logical_boards
         }
         for global_iv, board, local_iv, adc_channel, code, millivolts in all_channel_rows(
-                boards, self.detected_board_count):
+                boards, self.detected_board_count, self.iv_to_channel):
             tags = ("spi_error",) if self.current_errors[board] else ()
             self.table.insert("", tk.END, values=(
                 f"IV{global_iv}", board, f"IV{local_iv}", adc_channel, code,
@@ -752,7 +758,8 @@ class AllChannelsApp(Ads7953App):
                 cell.value = None
                 continue
             codes, spi_error = boards[board]
-            adc_channel = IV_TO_CHANNEL[local_iv]
+            adc_channel = getattr(
+                self, "iv_to_channel", IV_TO_CHANNEL)[local_iv]
             cell.value = codes[adc_channel] * 5000.0 / 4096.0
             cell.number_format = "0.00"
             if spi_error:
@@ -761,6 +768,10 @@ class AllChannelsApp(Ads7953App):
         workbook.save(self.export_path)
         if hasattr(self, "image_excel_var"):
             self.image_excel_var.set(str(self.export_path))
+
+    def _reset_mapping_state(self) -> None:
+        super()._reset_mapping_state()
+        self.channel_count_text.set("等待识别板卡数量")
 
 
 def main() -> None:

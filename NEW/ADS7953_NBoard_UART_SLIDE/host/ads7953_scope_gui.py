@@ -48,6 +48,9 @@ class ScopeApp(Ads7953App):
         self.trigger_button.pack(side=tk.LEFT, padx=5)
         ttk.Button(controls, text="选择Excel", command=self._select_export).pack(side=tk.LEFT, padx=5)
         ttk.Button(controls, text="清除波形", command=self._clear_waveforms).pack(side=tk.LEFT, padx=5)
+        ttk.Button(
+            controls, text="映射配置",
+            command=self._open_mapping_editor).pack(side=tk.LEFT, padx=5)
 
         repeat = ttk.Frame(self.root, padding=(8, 0, 8, 6))
         repeat.pack(fill=tk.X)
@@ -101,7 +104,7 @@ class ScopeApp(Ads7953App):
         self.sample_numbers.append(self.sample_number)
         for board in sorted(boards):
             codes, spi_error = boards[board]
-            for local_iv, adc_channel in enumerate(IV_TO_CHANNEL):
+            for local_iv, adc_channel in enumerate(self.iv_to_channel):
                 global_iv = board * 16 + local_iv
                 self.histories[global_iv].append(
                     codes[adc_channel] * 5.0 / 4096.0)
@@ -211,6 +214,17 @@ class ScopeApp(Ads7953App):
         self._draw_scope()
         self.status.set("波形记录已清除")
 
+    def _reset_mapping_state(self) -> None:
+        super()._reset_mapping_state()
+        self.sample_number = 0
+        self.sample_numbers.clear()
+        for history in self.histories:
+            history.clear()
+        for history in self.error_histories:
+            history.clear()
+        self._update_channel_list(1)
+        self._draw_scope()
+
     def _select_export(self) -> None:
         selected = filedialog.asksaveasfilename(
             title="选择波形数据文件", defaultextension=".xlsx",
@@ -242,7 +256,8 @@ class ScopeApp(Ads7953App):
             board, local_iv = divmod(global_iv, 16)
             if board not in boards:
                 continue
-            adc_channel = IV_TO_CHANNEL[local_iv]
+            adc_channel = getattr(
+                self, "iv_to_channel", IV_TO_CHANNEL)[local_iv]
             codes, spi_error = boards[board]
             code = codes[adc_channel]
             millivolts = code * 5000.0 / 4096.0

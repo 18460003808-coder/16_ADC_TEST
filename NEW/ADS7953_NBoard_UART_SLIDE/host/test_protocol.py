@@ -4,8 +4,9 @@ from tempfile import TemporaryDirectory
 
 from ads7953_Nboard_gui import (
     FrameParser, build_slide_command, configuration_directory,
-    create_identity_board_mapping, default_export_directory,
-    load_board_mapping, remap_board_group,
+    create_default_channel_mapping, create_identity_board_mapping,
+    default_export_directory, load_board_mapping, load_channel_mapping,
+    remap_board_group, save_board_mapping, save_channel_mapping,
 )
 
 
@@ -62,6 +63,11 @@ class FrameParserTest(unittest.TestCase):
             mapping_path = config_dir / "board_mapping.csv"
             create_identity_board_mapping(mapping_path)
             self.assertEqual(tuple(range(20)), load_board_mapping(mapping_path))
+            channel_path = config_dir / "channel_mapping.csv"
+            create_default_channel_mapping(channel_path)
+            self.assertEqual(
+                (14, 12, 10, 8, 13, 15, 9, 11, 5, 7, 1, 3, 6, 4, 2, 0),
+                load_channel_mapping(channel_path))
             self.assertEqual(home, default_export_directory("darwin", home))
             (home / "Documents").mkdir()
             self.assertEqual(
@@ -83,6 +89,27 @@ class FrameParserTest(unittest.TestCase):
         logical_boards = remap_board_group(physical_boards, 2, mapping)
         self.assertEqual(([100] * 16, True), logical_boards[0])
         self.assertEqual(([0] * 16, False), logical_boards[1])
+
+    def test_mapping_save_helpers_round_trip(self) -> None:
+        with TemporaryDirectory() as temporary_directory:
+            directory = Path(temporary_directory)
+            board_mapping = (1, 0) + tuple(range(2, 20))
+            channel_mapping = tuple(reversed(range(16)))
+            board_path = directory / "board_mapping.csv"
+            channel_path = directory / "channel_mapping.csv"
+            save_board_mapping(board_path, board_mapping)
+            save_channel_mapping(channel_path, channel_mapping)
+            self.assertEqual(board_mapping, load_board_mapping(board_path))
+            self.assertEqual(channel_mapping, load_channel_mapping(channel_path))
+
+    def test_channel_mapping_rejects_duplicate_adc_channel(self) -> None:
+        with TemporaryDirectory() as temporary_directory:
+            path = Path(temporary_directory) / "channel_mapping.csv"
+            rows = ["local_iv,adc_channel", "0,0", "1,0"]
+            rows.extend(f"{index},{index}" for index in range(2, 16))
+            path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "ADC CH0重复配置"):
+                load_channel_mapping(path)
 
     def test_slide_command(self) -> None:
         command = build_slide_command(1, 80)

@@ -11,3 +11,4 @@ foreach ($spec in $specs) {
     }
 }
 Copy-Item -LiteralPath 'board_mapping.csv' -Destination 'dist\board_mapping.csv' -Force
+Copy-Item -LiteralPath 'channel_mapping.csv' -Destination 'dist\channel_mapping.csv' -Force

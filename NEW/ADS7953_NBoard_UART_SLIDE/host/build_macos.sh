@@ -29,6 +29,7 @@ python -m PyInstaller --noconfirm --clean \
     ADS7953_NBoard_Scope_UART_macOS.spec
 
 cp -f board_mapping.csv dist_macos/board_mapping_template.csv
+cp -f channel_mapping.csv dist_macos/channel_mapping_template.csv
 
 echo
 echo "构建完成："
@@ -37,3 +38,4 @@ echo "  dist_macos/ADS7953_NBoard_Scope_UART.app"
 echo
 echo "首次运行会在以下位置生成实际映射文件："
 echo "  ~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/board_mapping.csv"
+echo "  ~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/channel_mapping.csv"

@@ -29,9 +29,9 @@ The desired architecture is:
 - `NEW/ADS7953_NBoard_NET/`: macro 1–20 boards, UDP, SCLK 10 MHz.
 - `NEW/ADS7953_NBoard_UART_SLIDE/`: derivative of the current N-board UART project, plus 2 kHz slide pulses, the AllChannels linked-run host, standalone named Excel export, and background 320×N grayscale preview with optional PNG export. Its maintained host executables are the SLIDE AllChannels build and the Scope build.
 
-The two SLIDE hosts load `board_mapping.csv` from beside the EXE. The CSV is a complete 1-based permutation from `capture_slot` to `logical_board`; received physical Board IDs are remapped before display, error highlighting, waveform history, Excel export, linked capture, and grayscale input generation. Invalid or missing mapping configuration blocks serial connection. FPGA frames and the per-board `IV_TO_CHANNEL` mapping are unchanged.
+The two SLIDE hosts use `board_mapping.csv` for the complete 1-based `capture_slot` to `logical_board` permutation and `channel_mapping.csv` for the shared per-board `local_iv` to `adc_channel` permutation. Both mappings can be edited from the `映射配置` window while disconnected, are validated as one-to-one permutations, and apply immediately after saving. They affect display, error highlighting, waveform history, Excel export, linked capture, and grayscale input generation. Invalid or missing configuration blocks serial connection but can be repaired in the same window. FPGA frames remain unchanged.
 
-The same two SLIDE hosts also have Apple Silicon arm64 PyInstaller specifications and `host/build_macos.sh`. The self-contained files to copy to a Mac are in `NEW/ADS7953_NBoard_UART_SLIDE/macOS_M5_Package/`. On macOS the applications share `~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/board_mapping.csv`, creating an identity mapping on first run, and default Excel output to `~/Documents`. A macOS `.app` must be built and verified on a Mac; Windows validation does not prove the application bundle, Gatekeeper behavior, USB-UART driver, or physical acquisition on macOS.
+The same two SLIDE hosts also have Apple Silicon arm64 PyInstaller specifications and `host/build_macos.sh`. The self-contained files to copy to a Mac are in `NEW/ADS7953_NBoard_UART_SLIDE/macOS_M5_Package/`. On macOS the applications share both mapping files under `~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/`, creating current defaults on first run, and default Excel output to `~/Documents`. A macOS `.app` must be built and verified on a Mac; Windows validation does not prove the application bundle, Gatekeeper behavior, USB-UART driver, or physical acquisition on macOS.
 
 Do not touch `NPWM_DAC`.
 
@@ -108,7 +108,7 @@ UDP uses FPGA MAC `02:00:00:00:79:53`, FPGA IP `192.168.1.50`, local UDP port 50
 - AllChannels: one page; board 0 is global IV0–IV15, board 1 IV16–IV31, and so on.
 - Scope: selectable multiple IV channels with real-time traces; NET scope supports horizontal and vertical scale settings.
 - FreeRun: periodic trigger thread does not wait for FPGA feedback; receive/parsing remains independent. Default interval is 100 ms and duration 0 means unlimited.
-- Raw frame payload is ADC channel order. Display/export uses `IV_TO_CHANNEL = (14,12,10,8,13,15,9,11,5,7,1,3,6,4,2,0)` per board.
+- Raw frame payload is ADC channel order. Maintained projects use `IV_TO_CHANNEL = (14,12,10,8,13,15,9,11,5,7,1,3,6,4,2,0)` by default; the SLIDE hosts load the equivalent mapping from `channel_mapping.csv` and can change it through their mapping window.
 - `NEW/ADS7953_NBoard_UART` has a backward-compatible board-level SPI error flag in bit7 of the CH0 high byte (application byte 8): 1 means the 32-word bound was reached without a complete ordered sweep. Its Diagnostic host highlights all 16 values red. Other maintained projects still have no valid bit. The flag reports acquisition failure, not a definitive online/offline state.
 
 ## Clock details that are easy to misread
@@ -120,6 +120,7 @@ UDP uses FPGA MAC `02:00:00:00:79:53`, FPGA IP `192.168.1.50`, local UDP port 50
 
 ## Verification history and current caution
 
+- On 2026-11-03 the two SLIDE hosts added an in-application editor for both board-number and per-board IV-to-ADC mappings. Python syntax, 21 unit tests, both mapping-window GUI source checks, both Mac-package source checks, and both rebuilt Windows EXE startup smoke tests passed. Current Windows hashes are AllChannels `C967FEDB41B25E2A95B3141B3D4F08479B4DA4207A5FC9CB119B16FF6A7D3377` and Scope `534C22D87B8FD3D14845A4A851FC6F3F20A03198A608E40B34454E29B1611174`. No macOS `.app`, FPGA compile, ModelSim, or physical hardware test was performed for this change.
 - The four maintained projects completed full Quartus 13.1 compilation with zero errors after the bounded-scan RTL change, and their `output_files` contain SOF files.
 - Earlier ModelSim tests passed for one-board UART/NET readers and N-board UART/NET configurations including high board counts. After the later 32-frame no-board regression was added to the one-board testbenches, those revised simulations were not rerun because a new explicit permission was still required.
 - Host parser/view tests and packaged EXE startup smoke tests had passed when generated.

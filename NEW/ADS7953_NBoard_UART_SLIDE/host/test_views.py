@@ -64,6 +64,12 @@ class AllChannelMappingTests(unittest.TestCase):
         self.assertEqual((16, 1, 0, 14, 114), rows[16][:5])
         self.assertEqual((31, 1, 15, 0, 100), rows[31][:5])
 
+    def test_custom_channel_mapping_changes_display_rows(self):
+        boards = {0: list(range(16))}
+        rows = list(all_channel_rows(boards, 1, tuple(range(16))))
+        self.assertEqual((0, 0, 0, 0, 0), rows[0][:5])
+        self.assertEqual((15, 0, 15, 15, 15), rows[15][:5])
+
     def test_all_channels_excel_uses_iv_rows_and_time_columns(self):
         boards = {
             0: (list(range(16)), False),
@@ -73,13 +79,14 @@ class AllChannelMappingTests(unittest.TestCase):
             path = Path(temporary_directory) / "all.xlsx"
             app = AllChannelsApp.__new__(AllChannelsApp)
             app.export_path = path
+            app.iv_to_channel = tuple(range(16))
             app._append_excel(7, boards, 2)
             sheet = load_workbook(path, data_only=True).active
             self.assertEqual("接口", sheet.cell(1, 1).value)
             self.assertEqual("IV0", sheet.cell(2, 1).value)
             self.assertEqual("IV319", sheet.cell(321, 1).value)
             self.assertIn("Seq 7", sheet.cell(1, 2).value)
-            self.assertAlmostEqual(14 * 5000.0 / 4096.0, sheet.cell(2, 2).value)
+            self.assertAlmostEqual(0.0, sheet.cell(2, 2).value)
             self.assertIsNone(sheet.cell(34, 2).value)
             self.assertEqual(2, sheet.max_column)
             self.assertEqual(321, sheet.max_row)
@@ -178,6 +185,7 @@ class AllChannelMappingTests(unittest.TestCase):
             path = Path(temporary_directory) / "scope.xlsx"
             app = ScopeApp.__new__(ScopeApp)
             app.export_path = path
+            app.iv_to_channel = tuple(range(16))
             app._selected_channels = lambda: [0, 16]
             app._append_excel(8, boards, 2)
             sheet = load_workbook(path, data_only=True).active
@@ -185,8 +193,8 @@ class AllChannelMappingTests(unittest.TestCase):
             self.assertEqual("IV16", sheet.cell(3, 3).value)
             self.assertEqual("读取状态", sheet.cell(1, 7).value)
             self.assertEqual("读取异常（32字超时）", sheet.cell(2, 7).value)
-            self.assertEqual(114, sheet.cell(2, 8).value)
-            self.assertEqual(14, sheet.cell(3, 8).value)
+            self.assertEqual(100, sheet.cell(2, 8).value)
+            self.assertEqual(0, sheet.cell(3, 8).value)
             self.assertEqual(3, sheet.max_row)
 
 

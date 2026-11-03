@@ -55,6 +55,7 @@ bash build_macos.sh
 dist_macos/ADS7953_NBoard_AllChannels_UART_SLIDE.app
 dist_macos/ADS7953_NBoard_Scope_UART.app
 dist_macos/board_mapping_template.csv
+dist_macos/channel_mapping_template.csv
 ```
 
 首次构建需要联网下载Python依赖。以后可以继续执行同一脚本覆盖构建。
@@ -69,12 +70,13 @@ dist_macos/board_mapping_template.csv
 
 不要把`.app`内部`Contents/MacOS`目录当作配置目录，也不要直接修改应用包内部文件。
 
-## 6. Mac版板卡映射文件
+## 6. Mac版映射配置
 
-Mac版首次启动时会自动生成：
+Mac版首次启动时会自动生成两份配置：
 
 ```text
 ~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/board_mapping.csv
+~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/channel_mapping.csv
 ```
 
 Finder默认隐藏`Library`目录。可以在Finder中选择“前往→前往文件夹”，输入：
@@ -83,7 +85,15 @@ Finder默认隐藏`Library`目录。可以在Finder中选择“前往→前往�
 ~/Library/Application Support/ADS7953_NBoard_UART_SLIDE
 ```
 
-配置格式仍为：
+通常不需要进入隐藏目录手工改CSV。请先断开串口，再点击AllChannels或Scope顶部的“映射配置”：
+
+- 左侧修改采集卡物理插口→实际逻辑子板。
+- 右侧修改所有子板共用的IV0～IV15→ADC CH0～CH15。
+- 点击“保存并应用”后，两份CSV立即更新并在当前程序中生效。
+
+两款应用共用同一组文件，因此AllChannels和Scope的IV0～IV319含义保持一致。完整CSV格式见`板卡映射配置说明.md`。
+
+板卡序号模板为：
 
 ```csv
 capture_slot,logical_board
@@ -94,7 +104,7 @@ capture_slot,logical_board
 20,20
 ```
 
-修改后必须完全退出并重新启动应用。AllChannels和Scope共用同一个映射文件，因此两款程序的IV0～IV319顺序保持一致。
+板内接口默认映射文件为`local_iv,adc_channel`两列，初始值保持现有硬件顺序`(14,12,10,8,13,15,9,11,5,7,1,3,6,4,2,0)`。
 
 ## 7. Excel和灰度图位置
 
@@ -117,7 +127,7 @@ Mac版默认把普通采集Excel放在：
 
 ## 9. 当前验证边界
 
-- Windows环境已完成Python语法检查、18项单元测试和两个GUI源码启动检查。
-- macOS路径、首次生成映射文件和Documents输出目录已通过自动测试。
+- Windows环境已完成Python语法检查、21项单元测试和两个映射配置窗口的GUI源码启动检查。
+- macOS路径、首次生成两份映射文件和Documents输出目录已通过自动测试。
 - 两份arm64 PyInstaller规格文件和构建脚本已经生成。
 - 当前没有M5 Mac执行环境，因此尚未实际生成或启动`.app`，也没有进行Mac串口、Excel、滑轨或实物采集验证。
