@@ -9,6 +9,8 @@
 
 功能与Windows正式版保持一致，包括UART采集、板卡映射、错误标红、Excel导出、Scope波形，以及AllChannels的滑轨联动和灰度成像。
 
+Scope通道区使用可滚动复选框列表：鼠标滚轮浏览通道，单击复选框显示或隐藏曲线，“全选”和“清空”用于批量选择。
+
 FPGA RTL、UART通信帧和SOF不需要修改。macOS串口通常显示为`/dev/cu.usbserial-*`、`/dev/cu.SLAB_USBtoUART`或其他`/dev/cu.*`名称，上位机会通过PySerial自动枚举。
 
 ## 2. 为什么需要在Mac上打包

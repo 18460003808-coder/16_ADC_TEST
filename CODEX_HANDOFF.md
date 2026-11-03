@@ -106,7 +106,7 @@ UDP uses FPGA MAC `02:00:00:00:79:53`, FPGA IP `192.168.1.50`, local UDP port 50
 
 - Main view: dynamically shows boards received in the current complete round.
 - AllChannels: one page; board 0 is global IV0–IV15, board 1 IV16–IV31, and so on.
-- Scope: selectable multiple IV channels with real-time traces; NET scope supports horizontal and vertical scale settings.
+- Scope: selectable multiple IV channels with real-time traces; the SLIDE Scope uses a scrollable checkbox list with per-channel toggles plus Select All/Clear, while NET scope supports horizontal and vertical scale settings.
 - FreeRun: periodic trigger thread does not wait for FPGA feedback; receive/parsing remains independent. Default interval is 100 ms and duration 0 means unlimited.
 - Raw frame payload is ADC channel order. Maintained projects use `IV_TO_CHANNEL = (14,12,10,8,13,15,9,11,5,7,1,3,6,4,2,0)` by default; the SLIDE hosts load the equivalent mapping from `channel_mapping.csv` and can change it through their mapping window.
 - `NEW/ADS7953_NBoard_UART` has a backward-compatible board-level SPI error flag in bit7 of the CH0 high byte (application byte 8): 1 means the 32-word bound was reached without a complete ordered sweep. Its Diagnostic host highlights all 16 values red. Other maintained projects still have no valid bit. The flag reports acquisition failure, not a definitive online/offline state.
@@ -120,6 +120,7 @@ UDP uses FPGA MAC `02:00:00:00:79:53`, FPGA IP `192.168.1.50`, local UDP port 50
 
 ## Verification history and current caution
 
+- On 2026-11-03 the SLIDE Scope channel selector changed from a multi-select list to a scrollable checkbox list with per-channel toggles and Select All/Clear. Python syntax, all 21 unit tests, 320-channel source GUI interaction checks in both the maintained and Mac-package copies, and the rebuilt Windows EXE startup smoke test passed. The Scope EXE is 13,670,414 bytes with SHA-256 `CBC26750283D8A7ACE8A427F1D2BE964197E212B30949D5B711FA54D45A6FA29`. No macOS `.app`, FPGA compile, ModelSim, or physical hardware test was performed for this change.
 - On 2026-11-03 the two SLIDE hosts added an in-application editor for both board-number and per-board IV-to-ADC mappings. Python syntax, 21 unit tests, both mapping-window GUI source checks, both Mac-package source checks, and both rebuilt Windows EXE startup smoke tests passed. Current Windows hashes are AllChannels `C967FEDB41B25E2A95B3141B3D4F08479B4DA4207A5FC9CB119B16FF6A7D3377` and Scope `534C22D87B8FD3D14845A4A851FC6F3F20A03198A608E40B34454E29B1611174`. No macOS `.app`, FPGA compile, ModelSim, or physical hardware test was performed for this change.
 - The four maintained projects completed full Quartus 13.1 compilation with zero errors after the bounded-scan RTL change, and their `output_files` contain SOF files.
 - Earlier ModelSim tests passed for one-board UART/NET readers and N-board UART/NET configurations including high board counts. After the later 32-frame no-board regression was added to the one-board testbenches, those revised simulations were not rerun because a new explicit permission was still required.

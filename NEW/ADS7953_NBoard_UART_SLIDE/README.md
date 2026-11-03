@@ -21,6 +21,8 @@ Quartus工程入口：`ADS7953_NBoard_UART_SLIDE.qpf`。
 
 两个上位机共同使用`board_mapping.csv`和`channel_mapping.csv`：前者配置“采集卡物理插口→实际逻辑子板”，后者配置每块板共用的“IV0～IV15→ADC CH0～CH15”。主界面“映射配置”可直接修改并保存两组一一对应关系，保存后立即生效；串口连接期间禁止修改。两类映射应用于IV显示、错误标红、Scope曲线、普通/联动Excel和后续灰度成像，说明见`docs/板卡映射配置说明.md`。
 
+Scope左侧使用带滚动条的通道勾选列表：鼠标滚轮浏览IV通道，单击复选框显示或隐藏对应曲线；“全选”和“清空”可一次勾选或取消当前实际板数范围内的全部通道。Scope Excel仅导出当前勾选的通道。
+
 macOS Apple Silicon M5版共用同一套Python源码，提供两个arm64 `.app`规格文件和`host/build_macos.sh`。需要发送到Mac的文件已单独整理在`macOS_M5_Package/`，复制该文件夹即可，不需要携带Windows EXE、FPGA工程或用户数据。Mac版首次启动会在`~/Library/Application Support/ADS7953_NBoard_UART_SLIDE/`生成两份映射文件，也可在界面直接修改；默认Excel目录为`~/Documents`。最终`.app`必须在Mac上构建，步骤见`docs/macOS版本使用与打包说明.md`。
 
 串口参数固定为115200、8-N-1。界面保留原来的单次采集、连续采集、动态板数、IV0～IV319显示、异常板标红和纵向Excel导出，并增加：

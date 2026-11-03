@@ -16,7 +16,7 @@ ADS7953_NBoard_UART_SLIDE最终工程说明
 保留两个程序：
 
 - host/dist/ADS7953_NBoard_AllChannels_UART_SLIDE.exe：全通道显示、采集、滑轨与灰度成像最终版。
-- host/dist/ADS7953_NBoard_Scope_UART.exe：保留的多通道示波器式显示版，不含滑轨操作界面。
+- host/dist/ADS7953_NBoard_Scope_UART.exe：保留的多通道示波器式显示版，不含滑轨操作界面；通道采用可滚动复选框选择，并提供“全选”和“清空”。
 
 两个程序共用两份配置：host/dist/board_mapping.csv负责采集卡物理插口1～20与实际逻辑子板1～20，host/dist/channel_mapping.csv负责每块板共用的IV0～IV15与ADC CH0～CH15。断开串口后可点击上位机“映射配置”直接修改，保存后立即生效；显示、标红、波形、Excel和灰度图均使用映射后的逻辑IV0～IV319。配置错误时禁止连接，但可在配置窗口修复，具体格式见docs/板卡映射配置说明.md。
 

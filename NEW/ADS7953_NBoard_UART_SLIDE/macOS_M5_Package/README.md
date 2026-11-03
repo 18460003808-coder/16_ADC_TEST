@@ -5,7 +5,7 @@
 - `ADS7953_NBoard_AllChannels_UART_SLIDE.app`
 - `ADS7953_NBoard_Scope_UART.app`
 
-两款应用保留Windows版的UART采集、动态板数、板卡序号映射、板内IV→ADC通道映射、错误标红和Excel导出；两类映射都可在上位机中直接修改。AllChannels还包含滑轨联动及灰度图预览/PNG导出，Scope保留多通道实时波形显示。
+两款应用保留Windows版的UART采集、动态板数、板卡序号映射、板内IV→ADC通道映射、错误标红和Excel导出；两类映射都可在上位机中直接修改。AllChannels还包含滑轨联动及灰度图预览/PNG导出。Scope左侧为可用鼠标滚轮浏览的通道复选框，可单独勾选曲线，也可点击“全选”或“清空”。
 
 ## 1. Mac准备
 

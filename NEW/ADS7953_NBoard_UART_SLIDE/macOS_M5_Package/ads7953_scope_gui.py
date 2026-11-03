@@ -28,6 +28,8 @@ class ScopeApp(Ads7953App):
         self.error_histories = [
             deque(maxlen=HISTORY_POINTS) for _ in range(MAX_BOARD_COUNT * 16)]
         self.sample_number = 0
+        self.channel_vars: list[tk.BooleanVar] = []
+        self.channel_checks: list[tk.Checkbutton] = []
         super().__init__(root)
         self.export_path = default_export_directory() / "ADS7953_Scope_data.xlsx"
 
@@ -80,15 +82,35 @@ class ScopeApp(Ads7953App):
         content.pack(fill=tk.BOTH, expand=True)
         selector = ttk.LabelFrame(content, text="接口通道（可多选）", padding=6)
         selector.pack(side=tk.LEFT, fill=tk.Y, padx=(0, 8))
-        self.channel_list = tk.Listbox(
-            selector, width=16, selectmode=tk.EXTENDED, exportselection=False)
-        channel_scroll = ttk.Scrollbar(selector, orient=tk.VERTICAL, command=self.channel_list.yview)
-        self.channel_list.configure(yscrollcommand=channel_scroll.set)
-        self.channel_list.pack(side=tk.LEFT, fill=tk.Y)
+        selector_buttons = ttk.Frame(selector)
+        selector_buttons.pack(fill=tk.X, pady=(0, 5))
+        ttk.Button(
+            selector_buttons, text="全选", width=6,
+            command=self._select_all_channels).pack(side=tk.LEFT, padx=(0, 4))
+        ttk.Button(
+            selector_buttons, text="清空", width=6,
+            command=self._clear_channel_selection).pack(side=tk.LEFT)
+
+        selector_list = ttk.Frame(selector)
+        selector_list.pack(fill=tk.BOTH, expand=True)
+        self.channel_selector_canvas = tk.Canvas(
+            selector_list, width=120, highlightthickness=0)
+        channel_scroll = ttk.Scrollbar(
+            selector_list, orient=tk.VERTICAL,
+            command=self.channel_selector_canvas.yview)
+        self.channel_selector_canvas.configure(yscrollcommand=channel_scroll.set)
+        self.channel_selector_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         channel_scroll.pack(side=tk.RIGHT, fill=tk.Y)
-        self.channel_list.insert(tk.END, "IV0")
-        self.channel_list.selection_set(0)
-        self.channel_list.bind("<<ListboxSelect>>", lambda _event: self._draw_scope())
+        self.channel_check_frame = tk.Frame(self.channel_selector_canvas)
+        self.channel_check_window = self.channel_selector_canvas.create_window(
+            (0, 0), window=self.channel_check_frame, anchor=tk.NW)
+        self.channel_check_frame.bind(
+            "<Configure>", self._update_channel_scroll_region)
+        self.channel_selector_canvas.bind(
+            "<Configure>", self._resize_channel_check_frame)
+        self._bind_channel_mousewheel(self.channel_selector_canvas)
+        self._bind_channel_mousewheel(self.channel_check_frame)
+        self._update_channel_list(1)
 
         self.canvas = tk.Canvas(content, background="#10151c", highlightthickness=0)
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -112,7 +134,7 @@ class ScopeApp(Ads7953App):
         if count_changed:
             highest_channel = (max(boards) + 1) * 16
             self._update_channel_list(highest_channel)
-        self._update_channel_error_colors(self.channel_list.size())
+        self._update_channel_error_colors(len(self.channel_checks))
         self.current_sequence = sequence
         self.sequence_text.set(f"采集序号：{sequence}")
         self._draw_scope()
@@ -131,24 +153,73 @@ class ScopeApp(Ads7953App):
             self.status.set(f"{mode}：{board_count}块板，{board_count * 16}路，全部正常{suffix}")
 
     def _update_channel_list(self, channel_count: int) -> None:
-        selected = set(self.channel_list.curselection())
-        self.channel_list.delete(0, tk.END)
-        for global_iv in range(channel_count):
-            self.channel_list.insert(tk.END, f"IV{global_iv}")
-        valid = sorted(index for index in selected if index < channel_count)
+        selected = {
+            index for index, variable in enumerate(self.channel_vars)
+            if variable.get()
+        }
+        for checkbutton in self.channel_checks:
+            checkbutton.destroy()
+        self.channel_vars.clear()
+        self.channel_checks.clear()
+        valid = {index for index in selected if index < channel_count}
         if not valid and channel_count:
-            valid = [0]
-        for index in valid:
-            self.channel_list.selection_set(index)
+            valid = {0}
+        for global_iv in range(channel_count):
+            variable = tk.BooleanVar(value=global_iv in valid)
+            checkbutton = tk.Checkbutton(
+                self.channel_check_frame, text=f"IV{global_iv}",
+                variable=variable, command=self._draw_scope,
+                anchor=tk.W, padx=2)
+            checkbutton.pack(fill=tk.X, anchor=tk.W)
+            self._bind_channel_mousewheel(checkbutton)
+            self.channel_vars.append(variable)
+            self.channel_checks.append(checkbutton)
+
+    def _update_channel_scroll_region(self, _event: tk.Event) -> None:
+        self.channel_selector_canvas.configure(
+            scrollregion=self.channel_selector_canvas.bbox("all"))
+
+    def _resize_channel_check_frame(self, event: tk.Event) -> None:
+        self.channel_selector_canvas.itemconfigure(
+            self.channel_check_window, width=event.width)
+
+    def _bind_channel_mousewheel(self, widget: tk.Misc) -> None:
+        widget.bind("<MouseWheel>", self._scroll_channel_list)
+        widget.bind("<Button-4>", self._scroll_channel_list)
+        widget.bind("<Button-5>", self._scroll_channel_list)
+
+    def _scroll_channel_list(self, event: tk.Event) -> str:
+        if getattr(event, "num", None) == 4 or getattr(event, "delta", 0) > 0:
+            units = -1
+        elif getattr(event, "num", None) == 5 or getattr(event, "delta", 0) < 0:
+            units = 1
+        else:
+            return "break"
+        self.channel_selector_canvas.yview_scroll(units, "units")
+        return "break"
+
+    def _select_all_channels(self) -> None:
+        for variable in self.channel_vars:
+            variable.set(True)
+        self._draw_scope()
+
+    def _clear_channel_selection(self) -> None:
+        for variable in self.channel_vars:
+            variable.set(False)
+        self._draw_scope()
 
     def _update_channel_error_colors(self, channel_count: int) -> None:
         for global_iv in range(channel_count):
             board = global_iv // 16
             color = "#C00000" if self.current_errors[board] else "#000000"
-            self.channel_list.itemconfig(global_iv, foreground=color)
+            self.channel_checks[global_iv].configure(
+                foreground=color, activeforeground=color)
 
     def _selected_channels(self) -> list[int]:
-        return list(self.channel_list.curselection())
+        return [
+            index for index, variable in enumerate(self.channel_vars)
+            if variable.get()
+        ]
 
     def _stop_continuous(self, update_status: bool = True) -> None:
         super()._stop_continuous(update_status)

@@ -1,5 +1,12 @@
 # 修改日志
 
+## 2026-11-03：SLIDE Scope改为通道复选框
+
+- Scope左侧通道选择由多选列表改为带滚动条的复选框列表，可用鼠标滚轮浏览并单击勾选需要显示的IV曲线。
+- 新增“全选”和“清空”，一次操作当前实际板数范围内的全部通道；错误标红、波形显示和Scope Excel仍只针对当前勾选通道。
+- Windows Scope正式EXE和Apple Silicon Mac独立发送包源码已同步；AllChannels、FPGA RTL、通信帧、约束和SOF未修改。
+- Python语法检查、21项单元测试、维护目录与Mac发送包的320通道GUI交互检查，以及Windows正式EXE启动检查通过；没有生成或运行macOS `.app`，也没有运行Quartus、ModelSim或实物硬件测试。
+
 ## 2026-11-03：SLIDE上位机内直接配置两级映射
 
 - AllChannels和Scope顶部新增“映射配置”，断开串口后可直接设置20个物理插口→逻辑子板，以及所有子板共用的IV0～IV15→ADC CH0～CH15；保存时校验一一对应并立即生效。
